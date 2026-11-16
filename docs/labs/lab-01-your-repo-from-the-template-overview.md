@@ -37,10 +37,19 @@ If you haven't set up the workbench yet, do
    mod ic102-d                          # every time, including the first
    ```
 
-   You should see the `ASIC-EDU: PDK=sky130A ...` banner and, at the end,
-   `cwd: /foss/designs/modules/ic102-d`.
+   You should see the `ASIC-EDU: PDK=sky130A ...` banner, then this from `mod add`:
 
-   <!-- RUN-TODO: the output of `mod add ic102-d` once github.com/uoftasic/ic102-d exists (add_module.sh's "Cloning ..." and "OK  module ready: ..." lines). Still open after the live test on Nov 16, 2026: uoftasic/ic102-d didn't exist yet (GitHub answered 404), so the live test used a clone of the course made by hand. The rest of Part 1 matched: make install took 4.7 s and 178 MB, and check-tools and selftest printed what this part quotes. -->
+   ```
+   Cloning https://github.com/uoftasic/ic102-d.git
+        into /foss/designs/modules/ic102-d
+   Cloning into '/foss/designs/modules/ic102-d'...
+   OK  module ready: /foss/designs/modules/ic102-d
+       run: mod ic102-d
+   cwd: /foss/designs/modules/ic102-d
+   ```
+
+   `mod add` leaves you in the course folder, and `mod ic102-d` prints the same `cwd:` line
+   again, at the end.
 
 3. Install the test job's tools. GitHub's runner tests your design with Icarus Verilog 12.0 and
    cocotb 2.1.0, and the workbench has 14.0 and 2.0.1, so the course installs the runner's

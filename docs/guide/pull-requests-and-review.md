@@ -21,12 +21,13 @@ find the discussion behind each one. Its pull request #33, "Event Decoder FSM", 
 be made from the description: `hart-1`'s pull request #5 begins with `Closes #2`, which closed
 issue #2 when it was merged.
 
-The link matters in both directions. An issue that never hears about the work done for it stays
-open, and the work is invisible to anyone who reads the issue. `dpll` has three issues, "PFD -
-Design", "DCO - Design" and "Freq. Divider - Design", open since Oct 24, 2025. Four commits for the
-frequency divider, dated Nov 1 and 2, 2025, sit on a branch called `frequency-divider`, the last
-one titled "integrated with main". No pull request was opened, so none of that work reached `main`,
-which still has only its first commit, and the issue still reads as if nothing had happened.
+The link matters the other way round too. If an issue is never linked to the work done for it, it
+stays open, and anyone who reads the issue can't see that the work exists. `dpll` has three
+issues, "PFD - Design", "DCO - Design" and "Freq. Divider - Design", open since Oct 24, 2025. Four
+commits for the frequency divider, dated Nov 1 and 2, 2025, sit on a branch called
+`frequency-divider`, the last one titled "integrated with main". No pull request was opened, so
+none of that work reached `main`, which still has only its first commit, and the issue still reads
+as if nothing had happened.
 
 ## What review is for
 
@@ -41,19 +42,19 @@ of the team's repositories on Nov 15, 2026:
 | `hart-1` | 1 | 0 | 0 |
 | `sentry` | 10 | 2 | 2 |
 
-Seventeen of the twenty were merged without anyone else reading them. That's common in small teams
-moving quickly, and the workflows did catch some problems along the way. The workflows can't judge
-whether the design is right, though, and that judgment is what a reviewer adds. `sentry`'s pull request #33 had thirteen
-reviews, and an early round shows what they were for:
+Seventeen of the twenty were merged without a review. That's common in small teams moving quickly,
+and the workflows did catch some problems along the way. The workflows can't judge whether the
+design is right, though, and that judgment is what a reviewer adds. `sentry`'s pull request #33 had
+thirteen reviews, and an early round shows what they were for:
 
 ![One round of review on sentry's pull request #33. Names are replaced with roles, and avatars with grey discs.](../assets/img/ic102-pr-review-cycle.png){width=760 fig-alt="A pull request timeline. The reviewer requested changes, with two resolved comment threads on src/input_receiver.sv, then commented: make it use the bidirectional pins as well (make the data_in 16 bits); the timestamp_delta should get the time between events, not the time it takes to read in an event; don't make data_valid a dedicated input, make it a special byte on the inputs during opcode stage. The author then added three commits, Updated to 16 bit input, fix formatting and Update input_receiver.sv, and requested a review from the reviewer."}
 
 The reviewer asked for three changes: use the bidirectional pins as well, which makes `data_in` 16
 bits wide; have `timestamp_delta` measure the time between events, not the time it takes to read
 one; and signal `data_valid` with a special byte on the inputs during the opcode stage, instead of
-a dedicated input. None of those three requests could come from a workflow. Each is a decision about what the design
-should do, made by someone who knew what it was for, and each is easier to settle before a merge
-than after other blocks depend on it.
+a dedicated input. None of those three requests could come from a workflow. Each is a decision
+about what the design should do, made by someone who knew what it was for, and each is easier to
+settle before a merge than after other blocks depend on it.
 
 ## Writing a pull request someone can review
 
@@ -100,8 +101,8 @@ integer, so `clock_hz: 50` passes. `protocol-emulator`'s pull request #2 points 
 probably be `50000000`", which is a factor of a million that no workflow would notice.
 
 **Pins that the tests don't look at.** A design can read a pin as an input and drive the same pin
-as an output, with `uio_oe` set, and every workflow will pass, because nothing in them knows what
-the pins are for. `protocol-emulator`'s `uio[0]` problem was found only because someone wrote a test
+as an output, with `uio_oe` set, and every workflow will pass, because none of them checks what the
+pins are for. `protocol-emulator`'s `uio[0]` problem was found only because someone wrote a test
 specifically for pin directions.
 
 **Tests that no longer test anything.** A deleted or commented-out assertion makes a red test green
@@ -143,7 +144,7 @@ in this course, and the team's repositories already have pull requests written t
 favour of #5), and `ttsky-verilog-tinyCGRA`'s #3 was opened by the Copilot coding agent (it happens
 to be the only one of that repository's pull requests with a review).
 
-Two rules make that work. First, the person who opens a pull request answers for every line in it,
+Two rules apply when you do. First, the person who opens a pull request answers for every line in it,
 however it was written. Say in the description which parts a tool wrote and what you checked
 yourself, so a reviewer knows where to look hardest. Second, as a reviewer, treat what a
 description says as claims to check. Pull request #2 says, for example, that "Icarus rejected the

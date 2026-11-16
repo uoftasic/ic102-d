@@ -5,8 +5,8 @@ start from Tiny Tapeout's Verilog template, as every project on the team does, a
 the course you'll have a repository of your own with every workflow green, a pull request that a
 classmate reviewed and approved, and a revert you found with `git bisect` and got through every
 check. The Verilog comes with each lab, so you don't need to know any. This page says how the
-course is laid out, what you need before Lab 01, and where you'll type git commands, which is
-less obvious than it sounds.
+course is laid out and what you need before Lab 01, and it explains why you'll type every git
+command in the workbench rather than on your laptop.
 
 ## How the course is laid out
 
@@ -24,7 +24,7 @@ of it with `mod add ic102-d` in Lab 01, Part 1.
 
 Five labs take about eight hours, and a good part of that is waiting: a `gds` run takes around
 five minutes, and a lab may need three or four of them. Each lab says when you can read ahead
-while a run works.
+while a run is going.
 
 ## What you need
 
@@ -57,9 +57,9 @@ with git on the laptop and running the tests in the workbench, runs into two pro
 - Lab 05's `git bisect run` checks out one old commit after another and runs the test at each, so
   git and the test have to run on the same machine.
 
-Two habits follow from working in a container. First, anything outside `/foss/designs` is
-deleted when the container is replaced, and that includes the file where `git config --global`
-saves your settings. So the labs have you set your name, email address and credential cache with
+Working in a container changes two things about how you use git. First, anything outside
+`/foss/designs` is deleted when the container is replaced, and that includes the file where
+`git config --global` saves your settings. So the labs have you set your name, email address and credential cache with
 plain `git config` inside each clone, which saves them in that clone's `.git/config`, on your own
 disk. Second, git asks for your token on the first push after each restart, because the cache
 that remembers it for 8 hours lives in the container's memory.
@@ -68,7 +68,7 @@ The token is a fine-grained personal access token for your own account, with acc
 your repositories and two permissions, both "Read and write":
 
 - **Contents**, which is what pushing commits needs.
-- **Workflows**, because GitHub refuses a push that adds or changes a file under
+- **Workflows**, because GitHub rejects a push that adds or changes a file under
   `.github/workflows/` from a token without it. You won't edit a workflow in this course, but two
   of your pushes carry workflow files: the first push of your Lab 04 review repository, and the
   first push of Lab 05's history.

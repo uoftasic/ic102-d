@@ -86,7 +86,7 @@ def main():
         problems.append("revert the first bad commit (Part 3)")
     else:
         print("  no commit made by git revert on this branch yet")
-        problems.append("revert the first bad commit on a branch (Part 4)")
+        problems.append("revert the first bad commit on a branch (Part 3)")
 
     if right and not offline:
         owner, name = ic102.github_slug(root)

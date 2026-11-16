@@ -60,7 +60,7 @@ What does it take to turn the course's folder into a repository with rules on it
    git push -u origin main
    ```
 
-   You should see `50 files changed, 1495 insertions(+)` from the commit, and the push end with
+   You should see `50 files changed, 1497 insertions(+)` from the commit, and the push end with
    `* [new branch]      main -> main` and `branch 'main' set up to track 'origin/main'.`
 
    <!-- RUN-TODO: GitHub's message when the token has no Workflows permission (the push of .github/workflows/ refused), to quote here. On Nov 16, 2026 no fine-grained token could be made (the live test wasn't allowed to, and a later attempt stopped at GitHub's sudo prompt on the new-token page), so this is still open; the push itself, with gh's OAuth token (scope workflow), ended as quoted above. -->

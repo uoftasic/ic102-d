@@ -29,9 +29,13 @@ python3 $L/bug.py apply | undo | commit
 | `check.py` | Checks that the five names agree, finds the bug commit and its fix, and (without `--offline`) asks GitHub for the test job on the bug and every job on the fix |
 | `solutions/test_load.py` | A test that catches the bug |
 
-What was checked locally, in the course image: the counter and starter test pass under Icarus
-12.0, 13.0 and 14.0 with the same simulated times; the starter tests pass with the bug and
-`solutions/test_load.py` fails on it; and the three tests pass on a gate-level netlist that Yosys
-made from `counter.v` with the sky130 cells (not LibreLane's), under Icarus 13.0, while a
-version with an `initial` statement in place of the reset passes at RTL and fails two tests at
-gate level. Hardening on the runner hasn't been tried yet.
+What was checked locally, in the course image:
+
+- The counter and its starter test pass under Icarus 12.0, 13.0 and 14.0, with the same
+  simulated times.
+- The starter tests pass with the bug in, and `solutions/test_load.py` fails on it.
+- Under Icarus 13.0, the three tests pass on a gate-level netlist that Yosys made from
+  `counter.v` with the sky130 cells (not LibreLane's netlist). A version with an `initial`
+  statement in place of the reset passes at RTL and fails two tests at gate level.
+
+Hardening on the runner hasn't been tried yet.

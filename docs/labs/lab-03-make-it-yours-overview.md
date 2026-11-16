@@ -1,11 +1,11 @@
 # Lab 03: Make it yours
 
-You'll replace the template's adder with an 8-bit counter the course supplies, which means
-changing the five places that name a design and getting all of them to agree. Then you'll write a
+You'll replace the template's adder with an 8-bit counter that the course supplies. That means
+changing the five places that name a design, and getting all five to agree. Then you'll write a
 cocotb test that catches a one-line bug in the counter, run it with the test job's own tools in
 the workbench, and push the bug and its fix so the runner shows you the same failure and the same
-recovery. Last, you'll find where the `gds` job's routing numbers come from in the files it
-uploads.
+recovery. Last, you'll find where the `gds` job's routing numbers come from, in the files that
+the job uploads.
 
 Package: [`labs/lab-03-make-it-yours/`](https://github.com/uoftasic/ic102-d/tree/main/labs/lab-03-make-it-yours)
 
@@ -77,8 +77,8 @@ Which files name your design, and what happens when one of them disagrees?
    ```
 
    followed by a History section with no bug commit yet, a `todo:` line about it, and
-   `VERDICT: not yet`. That's expected at this stage: Part 3 makes those commits. If a name
-   disagrees, the check says which, in another `todo:` line.
+   `VERDICT: not yet`. That's expected at this stage, because you make those commits in Part 3.
+   If a name disagrees, the check says which one, in another `todo:` line.
 
 5. Run the test the way the test job runs it:
 
@@ -95,7 +95,8 @@ Which files name your design, and what happens when one of them disagrees?
    ** TESTS=2 PASS=2 FAIL=0 SKIP=0               1900.00           0.00     916311.41  **
    ```
 
-   The `SIM TIME` column is exact; the other two measure your computer.
+   The `SIM TIME` column is time inside the simulation, so yours should match it exactly. The
+   other two columns depend on how fast your computer is.
 
 6. Commit and push, then predict which jobs will pass before you open the Actions tab:
 
@@ -260,7 +261,7 @@ Does the runner's test job see what your workbench saw?
    ```
 
    `gl_test` printed the same three lines, with `Running on Icarus Verilog version 13.0
-   (stable)` and its own two REAL TIME columns.
+   (stable)` and its own numbers in the last two columns.
 
    </details>
 
@@ -351,15 +352,13 @@ Where do the numbers on the run's summary page come from?
    In `sentry`'s green run
    [43796948508](https://github.com/uoftasic/sentry/actions/runs/43796948508), a 2x2 design at
    the time, they were `0.628 %` and `919`. Yours should match the two numbers you wrote down in
-   step 1. The action's
-   "Routing summary" step reads exactly these two places (`print_stats` in tt-support-tools'
-   `project.py`).
+   step 1, because the action's "Routing summary" step reads its numbers from these same two
+   places (`print_stats` in tt-support-tools' `project.py`).
 
 4. While you're in the run folder, read
    `runs/wokwi/*-misc-reportmanufacturability/manufacturability.rpt` (step 72, in `sentry`'s run
-   and in the practice counter's).
-   There it says `Passed` under Antenna, LVS and DRC. The `gds` job checks its own
-   layout before `precheck` checks it again.
+   and in the practice counter's). It says `Passed` under Antenna, LVS and DRC: the `gds` job
+   checks its own layout before `precheck` checks it again.
 
 5. Add a short "Numbers" section to your `README.md` with the two values, the run they came from,
    and the two file paths. Commit and push it.
@@ -406,8 +405,8 @@ reset." Find out what happens if you ignore that.
    ** TESTS=3 PASS=1 FAIL=2 SKIP=0               2450.00           0.02     154991.26  **
    ```
 
-   This is the pattern in `ttsky-verilog-tinyCGRA`'s history from May 2026, where the
-   gate-level test failed and commits titled "comment all user_project asserts" followed.
+   `ttsky-verilog-tinyCGRA`'s history from May 2026 shows the same pattern: its gate-level test
+   failed, and commits titled "comment all user_project asserts" followed.
 
    </details>
 
@@ -429,8 +428,8 @@ Questions:
    <summary>Answer</summary>
 
    Only the specification in the comment at the top of `counter.v`: `LOAD` loads the value on
-   `uio_in`. A test of every behaviour the specification promises would have included it, and
-   would have caught the bug the moment it was committed. Writing tests from the specification,
+   `uio_in`. A test of every behaviour in the specification would have included it, and would
+   have caught the bug the moment it was committed. Writing tests from the specification,
    rather than from the bugs you know about, is what DD104 is about.
 
    </details>

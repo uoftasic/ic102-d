@@ -63,7 +63,7 @@ What does it take to turn the course's folder into a repository with rules on it
    You should see `50 files changed, 1497 insertions(+)` from the commit, and the push end with
    `* [new branch]      main -> main` and `branch 'main' set up to track 'origin/main'.`
 
-   <!-- RUN-TODO: GitHub's message when the token has no Workflows permission (the push of .github/workflows/ refused), to quote here. On Nov 16, 2026 no fine-grained token could be made (the live test wasn't allowed to, and a later attempt stopped at GitHub's sudo prompt on the new-token page), so this is still open; the push itself, with gh's OAuth token (scope workflow), ended as quoted above. -->
+   <!-- RUN-TODO: GitHub's message when the token has no Workflows permission (the push of .github/workflows/ refused), to quote here. Still open on Nov 16, 2026, because no fine-grained token was made: the live test wasn't allowed to, a second attempt stopped at GitHub's sudo prompt on the new-token page, and a third filled the form but the agent session's permission system refused the command that would have pressed Generate token. The push itself, with gh's OAuth token (scope workflow), ended as quoted above. -->
 
 3. The push starts the sandbox's three workflows, and `viewer` fails with the 404 from Lab 01,
    because Pages is off in a new repository. Turn Pages on as in
@@ -115,11 +115,15 @@ refused.
 What does a pull request need for your partner to review it in five minutes?
 
 1. Fork your partner's repository: open `https://github.com/PARTNER-USERNAME/ttsky-ic102-d-review`
-   and press **Fork**, at the top right. On the page that opens, set **Owner** to your own
-   account. **Repository name** starts out as the name of the repository you're forking, and you
-   already have a `ttsky-ic102-d-review`, so change it to `ttsky-ic102-d-review-fork`. Then press
-   **Create fork** ([forking a repository](https://docs.github.com/en/pull-requests/how-tos/work-with-forks/fork-a-repo)).
+   and press **Fork**, at the top right. On the **Create a new fork** page that opens, **Owner**
+   starts out as your own account; check that it is. **Repository name** starts out as the name
+   of the repository you're forking, and you already have a `ttsky-ic102-d-review`, so change it
+   to `ttsky-ic102-d-review-fork`, and wait for GitHub to say the name is available. Leave **Copy
+   the `main` branch only** ticked, as it starts, and press **Create fork**
+   ([forking a repository](https://docs.github.com/en/pull-requests/how-tos/work-with-forks/fork-a-repo)).
    The fork is yours to push to; your partner's `main` changes only through pull requests.
+
+   ![Forking your partner's repository, in the course's practice run on Nov 16, 2026, where the uoftasic organization's repository ic102-partner-sandbox-d stood in for your partner's. Owner and Copy the main branch only are as the page started; the name has been changed to end in -fork.](../assets/img/ic102-d-fork-page.png){width=640 fig-alt="GitHub's Create a new fork page, opened from uoftasic/ic102-partner-sandbox-d. Owner is vproHacks and Repository name is ic102-partner-sandbox-d-fork, with the note ic102-partner-sandbox-d-fork is available. Under them: By default, forks are named the same as their upstream repository. You can customize the name to distinguish it further. The Description box reads Temporary IC102 screenshot sandbox, deleted after use. Copy the main branch only is ticked, with the note Contribute back to uoftasic/ic102-partner-sandbox-d by adding your own branch. A note reads You are creating a fork in your personal account, and the Create fork button is at the bottom right."}
 
 2. Clone your fork, and add your partner's repository as a second remote called `upstream`, so
    you can fetch what they merge:
@@ -203,6 +207,14 @@ What does a pull request need for your partner to review it in five minutes?
    and by default GitHub holds a first-time contributor's workflow runs until someone with write
    access approves them
    ([workflows from forks](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#controlling-changes-from-forks-to-workflows-in-public-repositories)).
+
+   ![A pull request from a fork as its author sees it, in the course's practice run, where the uoftasic organization's repository ic102-partner-sandbox-d stood in for your partner's. The line under the title says where it goes, uoftasic:main, and where it comes from, the fork's claim-uo3-parity branch. The merge box gives both reasons it can't merge: "Review required" and "Merging is blocked".](../assets/img/ic102-d-fork-pr-author.png){width=760 fig-alt="The pull request Claim uo[3] for a parity block #1 on uoftasic/ic102-partner-sandbox-d, marked Open, with the line vproHacks wants to merge 1 commit into uoftasic:main from vproHacks:claim-uo3-parity, and a Merge status button at the top right. The tabs show Conversation 0, Commits 1, Checks 6 and Files changed 4. The merge box reads Review required, At least 1 approving review is required by reviewers with write access; All checks have passed, 1 skipped, 5 successful checks, with gds / viewer skipped and docs, gds, gl_test, precheck and test successful, each marked Required; Merging is blocked, New changes require approval from someone other than the last pusher; and Copilot cannot watch this pull request, Agent Merge is not supported for pull requests from forks. At the bottom are an unticked box, Merge without waiting for requirements to be met (bypass rules), and a greyed-out Merge pull request button."}
+
+   The account that opened that pull request owns the organization, so its checks ran without
+   waiting for anyone, and GitHub offered it the bypass box at the bottom. On your partner's
+   repository you'll see neither: your checks wait for your partner, and you're not on their
+   bypass list. The row "Copilot cannot watch this pull request" is there because Copilot's Agent
+   Merge doesn't work on pull requests from forks, and you can ignore it.
 
    </details>
 
@@ -330,7 +342,11 @@ What happens to an approval when you push again?
    the practice sandbox, this push started no runs at all.)
 
 2. When your partner approves, the pull request still can't merge, because of the conflict from
-   Part 3. Bring your partner's `main` into your branch:
+   Part 3.
+
+   ![Your pull request on your partner's repository once their claim on the next pin has been merged, in the course's practice run, where the uoftasic organization's repository ic102-partner-sandbox-d stood in for your partner's. The box lists the two files that conflict, and Merge pull request stays greyed out until they're resolved.](../assets/img/ic102-d-fork-pr-conflict.png){width=760 fig-alt="The merge box of the pull request from the fork. It reads Checks awaiting conflict resolution, 1 skipped, 5 successful checks, listing gds / viewer as skipped and docs, gds, gl_test, precheck and test as successful, each marked Required; This branch has conflicts that must be resolved, Use the web editor or the command line to resolve conflicts before continuing, with a Resolve conflicts button and the files docs/info.md and info.yaml; and Copilot cannot watch this pull request, Agent Merge is not supported for pull requests from forks. At the bottom the Merge pull request button is greyed out, and there is no bypass box."}
+
+   Bring your partner's `main` into your branch:
 
    ```bash
    git fetch upstream
@@ -385,6 +401,8 @@ What happens to an approval when you push again?
    the last push to be approved by someone other than the person who pushed it. Ask your partner
    to approve the runs and the pull request again.
 
+   ![The pull request from the fork after its merge commit was pushed, in the course's practice run on the stand-in for your partner's repository. The conflict is gone and the five required checks passed on the merge commit, but the box still says "Review required" and "Merging is blocked". Nobody had approved this pull request, so the picture can't show an approval being dismissed, and the bypass box is there only because the account that opened it owns the organization.](../assets/img/ic102-d-fork-pr-resolved.png){width=760 fig-alt="The pull request after two commits, Claim uo[3] for a parity block (9d1d979) and Merge remote-tracking branch 'upstream/main' into claim-uo3-parity (4b5a203), both with green ticks. The merge box reads Review required, At least 1 approving review is required by reviewers with write access; All checks have passed, 1 skipped, 5 successful checks, with gds / viewer skipped and docs, gds, gl_test, precheck and test successful, each marked Required; Merging is blocked, New changes require approval from someone other than the last pusher; and Copilot cannot watch this pull request. At the bottom are an unticked box, Merge without waiting for requirements to be met (bypass rules), and a greyed-out Merge pull request button."}
+
    </details>
 
 5. Your partner merges it, since only they can. Then run the check on your own work, with your
@@ -398,16 +416,19 @@ What happens to an approval when you push again?
    merged, with an approval from someone other than you that came before the merge, and that on
    the one you reviewed you requested changes and its author pushed at least one commit after
    that. It prints a `todo:` line for each one that isn't done yet, and `VERDICT: PASS` only when
-   there are none. In the course's practice sandbox, where one account opened both pull requests
-   and so could neither approve the first nor request changes on the second, it printed:
+   there are none. In the course's practice run, the `uoftasic` organization's repository
+   `ic102-partner-sandbox-d` stood in for your partner's. One account opened both of its pull
+   requests, #1 from a fork and #2 from a branch of the repository itself, so it could neither
+   approve the first nor request changes on the second. With no pull request of its own to review,
+   it gave the check #1 and #2 of that repository, and the check printed:
 
    ```
-   vproHacks/ic102-review-sandbox-d #1: Claim uo[3] for a parity block
+   uoftasic/ic102-partner-sandbox-d #1: Claim uo[3] for a parity block
      author        vproHacks
-     merged        2026-11-16T08:42:25Z
+     merged        2026-11-16T23:27:34Z
      approved by   nobody yet
 
-   vproHacks/ic102-review-sandbox-d #2: Claim uo[4] for a majority block
+   uoftasic/ic102-partner-sandbox-d #2: Claim uo[4] for a majority block
      author        vproHacks
      vproHacks hasn't requested changes on it
 

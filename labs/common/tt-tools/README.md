@@ -16,7 +16,7 @@ cd labs/common/tt-tools
 make install
 ```
 
-`make install` took 5 s on one CPU core with a fast connection and leaves 177 MB in `.local/`: Python 3.11 (90 MB), a venv with cocotb and pytest (23 MB), Icarus 12.0 (6.7 MB) and Icarus 13.0 (58 MB). `.local/` is on your own disk (the workspace folder is mounted at `/foss/designs`), so it survives a container restart and you install once. If a download fails partway, run `make install` again: it skips the parts that finished.
+`make install` took 4.7 s on one CPU core with a fast connection and leaves 178 MB in `.local/`: Python 3.11 (90 MB), a venv with cocotb and pytest (23 MB), Icarus 12.0 (6.7 MB) and Icarus 13.0 (58 MB). `.local/` is on your own disk (the workspace folder is mounted at `/foss/designs`), so it survives a container restart and you install once. If a download fails partway, run `make install` again: it skips the parts that finished.
 
 Then check what you got:
 
@@ -134,7 +134,7 @@ This copies the netlist to `test/gate_level_netlist.v` and runs `GATES=yes make`
 
 | Target | What it does | Time (one core) |
 |---|---|---|
-| `make install` | Python 3.11 with cocotb and pytest, Icarus 12.0 and 13.0, into `.local/` | 5 s |
+| `make install` | Python 3.11 with cocotb and pytest, Icarus 12.0 and 13.0, into `.local/` | 4.7 s |
 | `make install-gl` | The `sky130_fd_sc_hd` models for `make gl-test` | 7 s |
 | `make check-tools` | Print each version next to the pin and the workbench's | instant |
 | `make selftest` | The template's own test, as the test job runs it | 3 s |

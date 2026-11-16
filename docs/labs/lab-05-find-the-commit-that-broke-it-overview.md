@@ -62,9 +62,9 @@ What does the test say now, and what did it say at `v1.0`?
    You should see `36`, then `27`, then:
 
    ```
-   d79cae5 test: name the LED's pin in failure messages
-   5e4eac6 info.yaml: a longer description
-   881ab8e test: run fade mode for 100 steps
+   00c3d87 test: name the LED's pin in failure messages
+   35f4b2e info.yaml: a longer description
+   14d59b6 test: run fade mode for 100 steps
    ```
 
    Every hash in this lab is exact, because the course built each commit with a fixed author,
@@ -127,10 +127,10 @@ What should the script say about a commit whose design doesn't compile?
    `bisect.sh` isn't tracked by git, so checking out old commits leaves it alone.
 
 2. Why can't the script simply exit with `run-test.sh`'s status? Try it on `main`, where a test
-   fails, and on `18bb2c3`, a commit from the middle of the history:
+   fails, and on `cbba6a3`, a commit from the middle of the history:
 
    ```bash
-   for c in main 18bb2c3; do
+   for c in main cbba6a3; do
      git checkout -q $c; rm -f test/results.xml
      "$TT/run-test.sh" . > /dev/null 2>&1
      echo "$c: exit $?; $(ls test/results.xml 2>&1)"
@@ -142,7 +142,7 @@ What should the script say about a commit whose design doesn't compile?
 
    ```
    main: exit 2; test/results.xml
-   18bb2c3: exit 2; ls: cannot access 'test/results.xml': No such file or directory
+   cbba6a3: exit 2; ls: cannot access 'test/results.xml': No such file or directory
    ```
 
    Both exit with 2. With cocotb 2.x, `make` runs cocotb's own results check at the end of the
@@ -176,8 +176,8 @@ What should the script say about a commit whose design doesn't compile?
    It takes about ten seconds. You should see it test five commits and end with:
 
    ```
-   fc5cc5a476c68cbb622e46b8add1001daba389ab is the first bad commit
-   commit fc5cc5a476c68cbb622e46b8add1001daba389ab
+   85133d69064177106e14d05cf0e7b97a7add19f5 is the first bad commit
+   commit 85133d69064177106e14d05cf0e7b97a7add19f5
    Author: Sam Rivera <sam.rivera@example.com>
    Date:   Thu Oct 15 20:25:00 2026 -0400
 
@@ -191,12 +191,12 @@ What should the script say about a commit whose design doesn't compile?
    bisect found first bad commit
    ```
 
-5. Is `fc5cc5a` the commit that broke the PWM? The script kept a log of each commit it tested;
+5. Is `85133d6` the commit that broke the PWM? The script kept a log of each commit it tested;
    read this one, and the next commit's message:
 
    ```bash
-   grep error /tmp/bisect-fc5cc5a.log
-   git log --oneline -1 d139224
+   grep error /tmp/bisect-85133d6.log
+   git log --oneline -1 ae2c625
    ```
 
    <details>
@@ -205,7 +205,7 @@ What should the script say about a commit whose design doesn't compile?
    No. The log has a line ending in `src/seg7.v:15: error: Unknown module type: seg7_table`: the
    commit added a
    new file to `info.yaml` but not to `PROJECT_SOURCES` in `test/Makefile`, so the design didn't
-   compile and the test never ran. The very next commit, `d139224 test/Makefile: add
+   compile and the test never ran. The very next commit, `ae2c625 test/Makefile: add
    seg7_table.v to PROJECT_SOURCES`, fixed that, and nothing about the PWM changed. The script
    called a commit bad that couldn't be tested at all, and `git bisect` believed it.
 
@@ -225,30 +225,28 @@ What should the script say about a commit whose design doesn't compile?
    git bisect log
    ```
 
-   You should see the first commit it checks out, `18bb2c3 WIP: preset brightness levels on
-   uio_in[2:1]`, reported as skipped in the log, six commits tested in all, and a different first
+   You should see the first commit it checks out, `cbba6a3 WIP: preset brightness levels on
+   uio_in[2:1]`, reported as skipped in the log, five commits tested in all, and a different first
    bad commit. Write down its hash and message before you open the answer.
 
    <details>
    <summary>Answer: the bisect, from <code>git bisect log</code></summary>
 
    ```
-   # bad: [d79cae577f82c23a00bd6b0e0ded14e2978ec07f] test: name the LED's pin in failure messages
-   # good: [d4d038ba667d42a39ddb955b82267b263b25aa56] docs: say how the dimmer works
+   # bad: [00c3d87894d0c8bce7a127e029cd9f6cbbb36da2] test: name the LED's pin in failure messages
+   # good: [4e04d775e153a5c2526f9687f9ef83a185f62b7d] docs: say how the dimmer works
    git bisect start 'main' 'v1.0'
-   # skip: [18bb2c3886dabbc0d52c37b69df06162904c424b] WIP: preset brightness levels on uio_in[2:1]
-   git bisect skip 18bb2c3886dabbc0d52c37b69df06162904c424b
-   # good: [93f6c9b3054e94dc368f29375b4132a15b567d2a] prescaler: make the divide ratio a parameter
-   git bisect good 93f6c9b3054e94dc368f29375b4132a15b567d2a
-   # good: [8fe18a97d47bc988f0c411d085ec373aaf9a21fd] info.yaml: describe uio[1] and uio[2]
-   git bisect good 8fe18a97d47bc988f0c411d085ec373aaf9a21fd
-   # bad: [529a940503d3d8a5cbd9fdc2429e2347480836af] test: check that every uio pin is an input
-   git bisect bad 529a940503d3d8a5cbd9fdc2429e2347480836af
-   # bad: [65dcd89cd6b967a95b608cf3265ca8d11d8093e2] pwm: tidy up the comparator and its comments
-   git bisect bad 65dcd89cd6b967a95b608cf3265ca8d11d8093e2
-   # good: [f79e8d0b394eaede2f0ff239f58ffb0100f5f173] test: run the testbench clock at 10 MHz, to match clock_hz
-   git bisect good f79e8d0b394eaede2f0ff239f58ffb0100f5f173
-   # first bad commit: [65dcd89cd6b967a95b608cf3265ca8d11d8093e2] pwm: tidy up the comparator and its comments
+   # skip: [cbba6a3831a677c6552cf449fd3ae56728bf2565] WIP: preset brightness levels on uio_in[2:1]
+   git bisect skip cbba6a3831a677c6552cf449fd3ae56728bf2565
+   # good: [921b40562b8fbf021b317bc475c61ee5f525c1b7] presets: finish the case statement
+   git bisect good 921b40562b8fbf021b317bc475c61ee5f525c1b7
+   # bad: [d18e3169a759beec08f58e0f6327310941a607de] pwm: tidy up the comparator and its comments
+   git bisect bad d18e3169a759beec08f58e0f6327310941a607de
+   # good: [3ad66712b887c83d196dd5e4038357ec66c468b8] test: the three presets
+   git bisect good 3ad66712b887c83d196dd5e4038357ec66c468b8
+   # good: [60651505fa672660194fbb3cb412ff63d39e56f9] test: run the testbench clock at 10 MHz, to match clock_hz
+   git bisect good 60651505fa672660194fbb3cb412ff63d39e56f9
+   # first bad commit: [d18e3169a759beec08f58e0f6327310941a607de] pwm: tidy up the comparator and its comments
    ```
 
    </details>
@@ -281,13 +279,13 @@ What should the script say about a commit whose design doesn't compile?
    python3 $L/check.py --offline
    ```
 
-   You should see, after about a minute:
+   You should see, after a few seconds (5 s in our run):
 
    ```
-   Your bisect.sh, run at three commits (about a minute)
-     d4d038b  v1.0, test passes            exit 0    ok
-     18bb2c3  preset WIP, doesn't compile  exit 125  ok
-     d79cae5  last commit, test fails      exit 1    ok
+   Your bisect.sh, run at three commits
+     4e04d77  v1.0, test passes            exit 0    ok
+     cbba6a3  preset WIP, doesn't compile  exit 125  ok
+     00c3d87  last commit, test fails      exit 1    ok
    ```
 
    followed by `no commit made by git revert on this branch yet`, which Part 3 fixes.
@@ -372,7 +370,7 @@ Does GitHub's runner agree with your workbench?
 
    </details>
 
-   <!-- RUN-TODO: the six job results of the first push of the Lab 05 history (main at d79cae5) to a new public repository, and the first error line of test, gl_test and viewer. -->
+   <!-- RUN-TODO: the six job results of the first push of the Lab 05 history (main at 00c3d87) to a new public repository, and the first error line of test, gl_test and viewer. -->
 
 4. Turn Pages on for `ttsky-ic102-d-bisect` the way you did in Lab 01, Part 5. You don't need
    **Run workflow** this time, because the push in the next step starts a new run.
@@ -451,7 +449,7 @@ Questions:
    <summary>Answer</summary>
 
    They weren't looking at their runs. On GitHub, the `test` workflow would have gone red on the
-   push that included `65dcd89`, and every push after it. A red cross that stays red for a week
+   push that included `d18e316`, and every push after it. A red cross that stays red for a week
    is one nobody is reading, which is how `hart-1`'s `docs` and `gds` stayed red for four weeks.
 
    </details>
@@ -469,8 +467,8 @@ git log --oneline -G "phase <" -- src/pwm.v
 ```
 
 ```
-65dcd89 pwm: tidy up the comparator and its comments
-aff17a4 Add an 8-bit PWM
+d18e316 pwm: tidy up the comparator and its comments
+c6218cc Add an 8-bit PWM
 ```
 
 That's the commit that wrote the comparison and the commit that changed it. `git bisect` is for

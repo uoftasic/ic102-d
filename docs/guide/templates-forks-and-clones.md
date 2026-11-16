@@ -37,7 +37,8 @@ own.
 
 A **fork** is a copy that stays linked to the original. It keeps the history, and because GitHub
 remembers the link, you can open a pull request from your fork back to the original repository.
-That's how you contribute to a project you can't push to, such as Tiny Tapeout's own template.
+That's how you contribute to a project you can't push to, such as Tiny Tapeout's own template,
+or, in Lab 04, your partner's repository.
 Forks have one surprise for this course: "Workflows don't run in forked repositories by default"
 ([events that trigger workflows](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)),
 so a fork of a Tiny Tapeout repository won't check anything until you turn Actions on in it.
@@ -187,7 +188,8 @@ has no such link.
 <summary>Answer</summary>
 
 It deploys to GitHub Pages, and Pages is a repository setting. The template passes on its files but
-not its settings, so Pages is off in the new repository until you turn it on.
+not its settings, so Pages is off in the new repository until you turn it on, and the job passes
+only in a run started after that.
 
 </details>
 

@@ -8,7 +8,7 @@ the change as a diff, shows the workflow runs on the branch's latest commit, and
 place to discuss it before anything on `main` changes. Review is the discussion part: another
 person reads the change and either approves it or asks for changes. In
 [Lab 04](../labs/lab-04-a-change-through-review-overview.md) you'll take a change of your own
-through review in a shared repository and review a classmate's.
+through review in your partner's repository, and review the one your partner opens in yours.
 
 ## Issues, branches and pull requests
 

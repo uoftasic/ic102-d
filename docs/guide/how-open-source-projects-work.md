@@ -86,7 +86,8 @@ line, a link to the run, and the tag and commit you're on, so that someone can r
 
 If you find something to fix upstream, the route is the one from
 [Templates, forks and clones](templates-forks-and-clones.md): fork the repository, make the change
-on a branch, and open a pull request back to it. Follow the project's own conventions. Tiny
+on a branch, and open a pull request back to it. It's also the route you'll take into your
+partner's repository in Lab 04. Follow the project's own conventions. Tiny
 Tapeout's commit messages, for instance, start with a type and the part they touch, as in
 `fix(viewer): …`, `fix(custom_gds): …` or `feat: ihp-sg13cmos5l PDK support`, and a pull request
 that looks like the project's own work is easier for its maintainers to accept. Keep it small, and

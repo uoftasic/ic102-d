@@ -70,14 +70,15 @@ nobody else is available to review it. The same repository has a second ruleset,
 Rules like these are easy to end up with, because a ruleset with a reassuring name and a few rules
 looks as if it's doing its job. Reading each of its five parts, as above, is how you check one.
 
-## What your organization membership allows
+## What write access allows {#what-your-organization-membership-allows}
 
 When we checked on Nov 15, 2026, the `uoftasic` organization's base permission for members was
 `write`: every member can push to every one of the organization's repositories, to any branch that
-no rule protects. You'll become a member of the organization, and that means that in most of the
-team's project repositories, the only thing between your laptop and their `main` is your own
-judgment. Use your access the way you'd want others to use theirs: push to your own branch, open a
-pull request, and leave `main` to the project's own process.
+no rule protects. This course doesn't use the organization, and everything you do in it happens in
+your own account. If you later join one of the team's projects as a member, though, in most of its
+repositories the only thing between your laptop and their `main` will be your own judgment. Use
+that access the way you'd want others to use theirs: push to your own branch, open a pull request,
+and leave `main` to the project's own process.
 
 ## Rules that do what they say
 
@@ -93,16 +94,18 @@ For a shared repository such as a team project, a ruleset that matches its name 
 The status checks are named after jobs (`docs`, `test`, `gds`, `precheck`, `gl_test`, `viewer` in
 the digital template; `docs`, `gds`, `precheck` and `viewer` in the analog one). Tiny Tapeout's
 workflows run on every push, so a pull request from a branch in the same repository gets runs on
-its latest commit, and those are the results the rule checks. A bypass "For pull requests only"
-keeps a way for a project lead to merge an urgent fix without an approval, while still putting that
-fix through a pull request where everyone can see it.
+its latest commit, and those are the results the rule checks. A pull request from a fork is
+different: its commits are pushed to the fork, not to the repository it's aimed at, so that
+repository's workflows have to run on `pull_request` as well, or the required checks never report.
+A bypass "For pull requests only" keeps a way for a project lead to merge an urgent fix without an
+approval, while still putting that fix through a pull request where everyone can see it.
 
 <!-- SCREENSHOT-TODO: The ruleset editor (Settings > Rules > Rulesets > New branch ruleset) of a repository you own, signed in, scrolled to "Bypass list" with a role added and its menu open, showing "Always allow" and "For pull requests only". -->
 ![A ruleset's bypass list, where each entry is either "Always allow" or "For pull requests only".](../assets/img/ic102-ruleset-bypass-list.png){width=640}
 
-In [Lab 04](../labs/lab-04-a-change-through-review-overview.md) you'll work in a shared repository
-with rules like these, and you'll see a pull request wait until it has both an approval and green
-checks.
+In [Lab 04](../labs/lab-04-a-change-through-review-overview.md) you'll put rules like these on a
+repository of your own, with yourself on the bypass list "For pull requests only", and you'll see
+your partner's pull request wait until it has both your approval and green checks.
 
 ## Check yourself
 

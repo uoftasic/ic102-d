@@ -1,0 +1,21 @@
+# ciel, the PDK installer, as TinyTapeout/ciel-action@v1 installs it on the
+# runner (ciel_version 3.2.0), with the dependencies it pulled in on
+# 2026-11-09 (erik1567/ttsky26d-VCO run 42570954316, precheck job) plus the
+# two it found already installed there (click, pyyaml; versions from the same
+# job). Only `./install.sh gl-pdk` uses this file.
+ciel==3.2.0
+anyio==4.16.0
+certifi==2026.10.23
+click==8.3.1
+h11==0.16.0
+httpcore==1.0.9
+httpx==0.28.1
+idna==3.20
+markdown-it-py==4.2.0
+mdurl==0.1.2
+pcpp==1.30
+pygments==2.21.0
+pyyaml==6.0.1
+rich==15.0.0
+typing_extensions==4.16.0
+zstandard==0.25.0

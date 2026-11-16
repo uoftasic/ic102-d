@@ -1,69 +1,154 @@
 # Getting started
 
-<!--
-  Template sample of a guide page. Guide pages are for reading: concepts,
-  figures, worked examples and the reasoning behind them. They have no
-  commands the student must run. When a page needs the student to run or
-  build something, put that in a lab writeup as a numbered step and leave a
-  one-line pointer here. Replace this page with your course's first reading.
--->
+IC102-D is about everything around a digital Tiny Tapeout design except the design itself. You
+start from Tiny Tapeout's Verilog template, as every project on the team does, and by the end of
+the course you'll have a repository of your own with every workflow green, a pull request that a
+classmate reviewed and approved, and a revert you found with `git bisect` and got through every
+check. The Verilog comes with each lab, so you don't need to know any. This page says how the
+course is laid out, what you need before Lab 01, and where you'll type git commands, which is
+less obvious than it sounds.
 
-This page explains how the course is laid out and how its pages show math and figures. Read it before [Lab 01: Starter script](../labs/lab-01-overview.md).
+## How the course is laid out
 
-## Course layout
+The [Course path](../index.md#course-path) on the home page alternates Read rows and Do rows.
+A Read row is one or more guide pages like this one. They explain, show real output from the
+team's repositories and from Tiny Tapeout's, and never ask you to run anything; a "Check
+yourself" block at the end of a page asks a few questions you can answer on paper. A Do row is a
+lab writeup, and every command in the course is in one of those. Each lab is split into parts,
+each part opens with the question it answers and ends with what you should see, and each lab
+ends with a "You're done when" line that you check against your own repository.
 
-The [course path](../index.md#course-path) on the home page lists all the pages in the order you should work through them. Each row is one of two kinds:
+The files a lab runs (scripts, a design, a test, a checker) are in the course repository under
+`labs/`, one folder per lab, and the test job's tools are in `labs/common/tt-tools`. You get all
+of it with `mod add ic102-d` in Lab 01, Part 1.
 
-- A Read row points to guide pages like this one, which explain the ideas with figures and worked examples. You don't need a terminal open to read them.
-- A Do row points to a lab writeup, and the labs are where you run things.
+Five labs take about eight hours, and a good part of that is waiting: a `gds` run takes around
+five minutes, and a lab may need three or four of them. Each lab says when you can read ahead
+while a run works.
 
-The files a lab runs (code, data, and any scripts that check your results) are in the course's [GitHub repo](https://github.com/uoftasic/ic102-d) under `labs/`, and this site has only the writeups. You'll run your first script, `labs/lab-01/src/main.py`, in [Lab 01](../labs/lab-01-overview.md), Part 2.
+## What you need
 
-## Lab structure
+- **The workbench from IC101.** You'll run the course's tools in it, and every git command too,
+  for reasons given in the next section. If you haven't set it up, do
+  [IC101 Lab 03](https://uoftasic.com/ic101/labs/lab-03-launch-the-workbench-overview.html) first.
+- **A GitHub account of your own.** Your project repository goes on it, as a public repository,
+  for three reasons: GitHub's standard runners are free and unlimited on public repositories,
+  Pages (which the `viewer` job needs) is available on a free account only for public ones, and
+  so are branch rules. You don't need a paid plan or the organization's seat.
+- **Membership of the `uoftasic` organization, from Lab 04 on.** Lab 04 happens in a repository
+  the whole cohort shares, which belongs to the organization, and members can push branches to
+  it. You'll be invited; accept the invitation before Lab 04.
+- **A token for git**, which Lab 01, Part 2 has you make. GitHub doesn't accept your password
+  from git.
 
-Each lab is split into numbered parts with numbered steps. Most parts open with the question they answer, and the steps then work out the answer. Each part has a "You should see" check, which tells you whether what you did worked. In at least one part you make something yourself, such as editing a file, writing a test, or working out a number before a script or tool prints it.
+## Where you run git
 
-Some steps ask you to write down what you expect before you run something, so that you have a prediction of your own to compare the result with.
+You'll type every git command in a terminal on the workbench desktop, in a clone under
+`/foss/designs/modules/`, next to the course. That's the folder the workbench shares with your
+laptop, so your clones survive when the container stops, and you can open the files in an editor
+on your laptop if you prefer one. (On Windows, set that editor to save shell scripts with Unix
+line endings, because bash can't run a script whose lines end in the Windows way.) The
+alternative, cloning with git on the laptop and running the tests in the workbench, runs into two
+problems:
 
-When a step asks a question, its answer is in a collapsed block right under it. Try to answer the question yourself first, and then click "Answer" to open the block. (In the PDF version of a page, the answers are collected at the end of the page instead, and a short note marks where each one was.) The questions in Check yourself at the end of this page work the same way.
+- On a Linux laptop whose user ID isn't 1000, the container's user doesn't own a clone your
+  laptop made, and git in the container refuses to touch it with
+  `fatal: detected dubious ownership in repository`.
+- Lab 05's `git bisect run` checks out one old commit after another and runs the test at each, so
+  git and the test have to run on the same machine.
 
-A part marked "(optional)" comes after all the required parts. No later part needs it, so you can skip it, and the lab's time estimate doesn't include it.
+Two habits follow from working in a container. First, anything outside `/foss/designs` is
+deleted when the container is replaced, and that includes the file where `git config --global`
+saves your settings. So the labs have you set your name, email address and credential cache with
+plain `git config` inside each clone, which saves them in that clone's `.git/config`, on your own
+disk. Second, git asks for your token on the first push after each restart, because the cache
+that remembers it lives in the container's memory.
 
-Every lab ends with a Finishing section. It tells you how you'll know you're done, asks any questions that you can answer from your own work, and says what to submit, if anything. The last line of each lab points to the next row on the course path.
+The token is a classic personal access token with two scopes, `public_repo` and `workflow`.
+`public_repo` lets it push to public repositories you have access to, your own and the cohort's.
+`workflow` is what GitHub requires for a push that adds or changes anything under
+`.github/workflows/`, which Lab 05's first push does. A fine-grained token would work for your
+own repositories, but each one is limited to the repositories of one account or one
+organization, so it couldn't also push to the cohort's.
 
-## Math and figures
+## Public repositories
 
-<!--
-  Template sample: shows that MathJax and images render. Images live in
-  docs/assets/img/. Replace this section with your own content.
--->
+Everything you push to a public repository can be read by anyone: your code, your commit
+messages, the name and email address on every commit, and the `author` field in `info.yaml`,
+which also goes into the datasheet. Lab 01 has you set your commit address to the no-reply
+address GitHub gives every account, before your first commit, because a commit can't be changed
+later without changing its hash and the hash of every commit after it.
+[How open-source projects work](how-open-source-projects-work.md#working-in-public) says more.
 
-Math on these pages is typeset with MathJax on the website and by Typst in the PDFs. Inline math sits inside the sentence, like $y[n] = x[n] * h[n]$ for discrete convolution, and display math gets a line of its own:
+## Your tools and the runner's
 
-$$
-y[n] = x[n] * h[n] = \sum_{k=-\infty}^{\infty} x[k]\, h[n-k]
-$$
+The workbench has its own versions of the simulation tools, and GitHub's runner installs the
+versions Tiny Tapeout's workflows ask for. They differ: the runner's `test` job uses Icarus
+Verilog 12.0 and cocotb 2.1.0, and the workbench has 14.0 and 2.0.1. Lab 01 installs the runner's
+versions next to the workbench's, and `make test` runs your test with them, so a test that
+passes there passes on the runner. [Your tools and the runner's tools](your-tools-and-the-runners-tools.md)
+explains what that covers and what it doesn't.
 
-Figures look like this:
+## AI tools
 
-![Sample figure](../assets/img/sample-figure.png)
+You may use AI tools such as Claude, ChatGPT or Copilot in this course: to explain an error, to
+draft a test, or to help with a pull request description. You answer for everything you push,
+however it was written, so check what a tool gives you, and say where you used one. A pull
+request description is the place for that, and
+[Pull requests and review](pull-requests-and-review.md#pull-requests-written-with-ai-tools)
+explains why it matters to your reviewer. Lab 04 has an optional part where you review a pull
+request an AI tool wrote.
+
+## What the course doesn't cover
+
+Tiny Tapeout puts designs on real chips, a few times a year, in shuttles with a deadline and a
+price per tile. This course stops just before that. You'll get a project to the state Tiny
+Tapeout asks for at submission, with every check green, but you won't create a project on
+Tiny Tapeout's site, pay for tiles or use a coupon. Hardening a design on your own machine, the
+FPGA workflow (which the template switches off) and writing workflows of your own are also left
+out.
+
+## Getting help
+
+Ask in the [team Discord](https://discord.gg/hrJnP5UsGz). A question about a red cross gets
+answered fastest when it includes the link to the run, the job and step that failed, and the
+first error line copied as text, not as a picture, followed by what you've already tried. Logs on
+GitHub are deleted after 90 days at most, so text pasted into a message also lasts longer than a
+link to the log.
 
 ## Check yourself
 
-1. Which kind of course path row has you run commands?
+1. Why does the course have you run `git config user.email ...` in every clone, instead of once
+   with `--global`?
 
-   <details>
-   <summary>Answer</summary>
+<details>
+<summary>Answer</summary>
 
-   A Do row, which points to a lab writeup. The labs are where you run things.
+Because `--global` saves the setting in your home folder inside the container, and the container
+is replaced, with everything outside `/foss/designs`, each time you start it. Without `--global`
+the setting goes in the clone's own `.git/config`, which is on your disk.
 
-   </details>
+</details>
 
-2. Where are the files that a lab runs?
+2. Your project repository is private on a free account. Which parts of this course stop working?
 
-   <details>
-   <summary>Answer</summary>
+<details>
+<summary>Answer</summary>
 
-   They're in the course's GitHub repo, under `labs/`. This site has only the writeups.
+The runners are no longer free and unlimited (a private repository draws on a monthly allowance),
+Pages isn't available, so the `viewer` job can't pass, and branch rules aren't available either.
+That's why the course uses public repositories.
 
-   </details>
+</details>
+
+3. A classmate's token was made as a fine-grained token for their own account. Which lab will it
+   fail in, and why?
+
+<details>
+<summary>Answer</summary>
+
+Lab 04. The cohort's sandbox belongs to the `uoftasic` organization, and a fine-grained token
+works only for the repositories of the one account or organization it was made for. A classic
+token with `public_repo` works for any public repository the account can push to.
+
+</details>

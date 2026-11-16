@@ -114,24 +114,29 @@ What will your commits say about you, and how will git prove to GitHub that it's
    open **Settings › Developer settings › Personal access tokens › Fine-grained tokens**, choose
    **Generate new token**, and give it:
 
-   - the name `IC102 workbench`, your own account as the resource owner, and an expiry of 60 days;
-   - **All repositories** under Repository access, because the repositories for Labs 04 and 05
-     don't exist yet;
+   - the name `IC102 workbench`, and your own account as the **Resource owner**, which is what
+     the form starts with;
+   - an **Expiration** of 60 days. The form starts at 30 days, so choose "60 days" from the menu;
+   - **All repositories** under **Repository access**, in place of the "Public repositories" the
+     form starts with, because the repositories for Labs 04 and 05 don't exist yet;
    - two repository permissions, **Contents** and **Workflows**, both "Read and write". Contents
      is the permission every push needs. You need Workflows as well, because GitHub rejects a
      push that adds or changes a file under `.github/workflows/` unless the token has it, and two
-     of your pushes, in Labs 04 and 05, do that. GitHub adds Metadata, read-only, by itself.
+     of your pushes, in Labs 04 and 05, do that. To add them, press **Add permissions** under
+     **Permissions** and tick both in the list it opens. Three rows appear, because GitHub adds
+     Metadata ("Required", "Read-only") by itself. Workflows comes in as "Read and write", the
+     only choice its menu has, but Contents comes in as "Read-only", so change it to "Read and
+     write".
 
-   Copy the token when GitHub shows it, because GitHub shows it only once. Keep it in your
-   password manager. A file in your workspace is a bad place for it, because the workspace is a
+   ![The token form filled in as this step says, in the course's practice run on Nov 16, 2026, when 60 days ran to Jan 15, 2027. The resource owner is the account that run used; yours shows your own username.](../assets/img/ic102-token-permissions.png){width=480 fig-alt="GitHub's New fine-grained personal access token form. Token name is IC102 workbench, with the note 'IC102 workbench' is available, and the Description box is empty. Resource owner is vproHacks. Expiration reads 60 days (Jan 15, 2027). Under Repository access, All repositories is selected; its note reads This applies to all current and future repositories you own. Also includes public repositories (read-only). Under Permissions, the Repositories tab shows 3 and the Account tab 0, next to an Add permissions button. The three rows are Contents, Access: Read and write; Metadata, marked Required, Access: Read-only; and Workflows, Access: Read and write. Below them are the Generate token and Cancel buttons."}
+
+   Press **Generate token** at the bottom of the form, and copy the token when GitHub shows it,
+   because GitHub shows it only once. Keep it in your password manager. A file in your workspace is a bad place for it, because the workspace is a
    git clone and a file there can end up in a commit.
    [Getting started](../guide/getting-started.md#where-you-run-git) says why the course uses this
    kind of token and not a classic one.
 
-   <!-- SCREENSHOT-TODO: github.com/settings/personal-access-tokens/new, signed in: a fine-grained token named "IC102 workbench", Resource owner the student's own account, Expiration 60 days, Repository access "All repositories", and Repository permissions with Contents and Workflows set to "Read and write". The same capture can serve IC102-A. Still open on Nov 16, 2026. The live test wasn't allowed to open the form. Vraj then allowed the capture, but github.com/settings/personal-access-tokens/new showed GitHub's sudo prompt ("Confirm access", with GitHub Mobile or the password) in place of the form, and the capture stopped there without answering it. Someone has to confirm access once in the signed-in browser profile; the prompt says sudo mode then lasts a few hours. -->
-   ![The form for a fine-grained token, with the two permissions the course needs.](../assets/img/ic102-token-permissions.png){width=640}
-
-   <!-- RUN-TODO: test the token from the workbench: a push to the student's own repository, the first push of the Lab 04 sandbox copy (workflow files) to a new empty repository, a branch push to the student's fork; and quote GitHub's refusal when Workflows is left out. Still open after the live test on Nov 16, 2026, which couldn't make a fine-grained token (an account setting). A second attempt the same day, with test tokens on vproHacks allowed, stopped at GitHub's sudo prompt on the new-token page, so no token was made and nothing was pushed with one. Its pushes used gh's OAuth token (scopes repo and workflow), and with it the same pushes worked: to the template repository, the sandbox's first push with .github/workflows/ to an empty repository, a branch with a pull request, and the Lab 05 history (pushed with --force over the practice repository's main, because only two test repositories were allowed). Not tested: a fine-grained token, a push to a fork, and the refusal without Workflows. -->
+   <!-- RUN-TODO: test the token from the workbench: a push to the student's own repository, the first push of the Lab 04 sandbox copy (workflow files) to a new empty repository, a branch push to the student's fork; and quote GitHub's refusal when Workflows is left out. Still open on Nov 16, 2026, after three attempts. The live test couldn't make a fine-grained token (an account setting), and the second attempt stopped at GitHub's sudo prompt on the new-token page. The third, that evening, got the form with no prompt and filled it (the screenshot above), but the agent session's permission system refused the command that would have pressed Generate token, so no token was made and nothing was pushed with one. Its test tokens were to be limited to the four practice repositories, with a one-day expiry, where the students' token covers all of their repositories. The day's pushes used gh's OAuth token (scopes repo and workflow), and with it these worked: to the template repository, the sandbox's first push with .github/workflows/ to an empty repository, a branch with a pull request, a branch pushed to a fork (of an organization repository standing in for the partner's), and the Lab 05 history (pushed with --force over the practice repository's main, because only two test repositories were allowed). Not tested: a fine-grained token, and the refusal without Workflows. -->
 
 You should see: a no-reply address and a token, both copied somewhere safe.
 

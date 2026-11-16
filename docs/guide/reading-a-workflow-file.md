@@ -4,9 +4,8 @@ This page answers: *what does a workflow file tell GitHub to do, and when a run 
 you find the one line that says why?*
 
 You won't need to write a workflow from scratch in this course, because Tiny Tapeout has written
-them for you. You will read
-them, though, and read the runs they produce, because a red cross on its own tells you only that
-something failed. The workflow file tells you what was supposed to happen, and the run's log tells
+them for you. You will read them, though, and read the runs they produce, because a red cross on its
+own tells you only that something failed. The workflow file tells you what was supposed to happen, and the run's log tells
 you where it stopped. With both, most failures take a minute to explain. You'll practise this on
 five broken commits in [Lab 02](../labs/lab-02-read-the-red-x-overview.md).
 
@@ -121,9 +120,11 @@ whether it passed:
           python -m cocotb_tools.check_results results.xml
 ```
 
-A `run:` step fails when its last command exits with a non-zero status, and that's all GitHub
-looks at. cocotb's `make` exits with status 0 even when a test fails, as the comment says, so the
-template adds a second command that reads the results file and exits non-zero if any test failed.
+GitHub runs these lines with `bash -e` (the log prints `shell: /usr/bin/bash -e {0}` above the
+step), so the step stops and fails as soon as any command exits with a non-zero status, and passes
+if none does. That exit status is all GitHub looks at. cocotb's `make` exits with status 0 even
+when a test fails, as the comment says, so the template adds a last command that reads the results
+file and exits non-zero if any test failed.
 Without that line the `test` workflow would be green whatever your tests found. You'll need the
 same idea in [Lab 05](../labs/lab-05-find-the-commit-that-broke-it-overview.md), where a script has
 to tell git whether a commit passed.
@@ -247,8 +248,7 @@ artifacts:
 ![A fully green sentry gds run and its six artifacts. The person who pushed is shown as a team member.](../assets/img/ic102-run-all-green.png){width=760 fig-alt="A workflow run summary for gds.yaml with status Success and total duration 5m 59s. gds took 3m 50s, precheck 2m 4s, gl_test 56s and viewer 17s, all green. The Artifacts table lists GDS_logs 17.2 MB, gatelevel_test_results 77.2 KB, gds_render 306 KB, github-pages 809 KB, precheck_reports 7.08 KB and tt_submission 921 KB."}
 
 `GDS_logs` holds your `src` folder and LibreLane's whole run folder, which is where the summary
-numbers come from.
-`tt_submission` is what the later jobs download to check and publish. `precheck_reports` and
+numbers come from. `tt_submission` is what the later jobs download to check and publish. `precheck_reports` and
 `gatelevel_test_results` are the evidence from those two jobs, and `gds_render` is a PNG picture of
 the layout. The `test` workflow uploads one more, `test-results`, with the waveform and the results
 file. Artifacts are deleted after 90 days by default, so download the ones you want to keep.

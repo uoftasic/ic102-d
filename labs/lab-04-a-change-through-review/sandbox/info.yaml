@@ -1,6 +1,6 @@
 # Tiny Tapeout project information
 project:
-  title:        "IC102-D cohort sandbox"      # Project title
+  title:        "IC102-D review sandbox"      # Project title
   author:       "IC102-D students"      # Your name
   discord:      ""      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
   description:  "Sixteen small blocks, one per output pin, each added by a student in a reviewed pull request"      # One line description of what your project does

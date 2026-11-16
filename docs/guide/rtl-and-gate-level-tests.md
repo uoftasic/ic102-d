@@ -39,7 +39,7 @@ and `rst_n` reads the same pins in both.
 **Sample away from the clock edge.** With unit delays, a flip-flop's output changes about 1 ns
 after the rising edge, and the logic after it settles a few nanoseconds later. A test that changes
 inputs and reads outputs on the falling edge, half a clock period away, gives the same answers in
-both simulations. Lab 03's starter test does that, and so does the cohort sandbox's in Lab 04.
+both simulations. Lab 03's starter test does that, and so does the review sandbox's in Lab 04.
 
 ## Where they disagree
 

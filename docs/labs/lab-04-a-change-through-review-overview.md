@@ -305,14 +305,16 @@ What can you find in your partner's change that no check can?
    (Use your partner's slot and block in place of these. For another block, think about which
    inputs its two test values never exercise.)
 
-3. Write your review. On **Files changed**, press **Submit review**, choose **Request changes**,
-   and say what to add and why: which input values, and which wrong block they would catch. Add
-   comments on any line where you found something else.
+3. Write your review. First add a comment on any line where you found something else. Line
+   comments stay pending, and only you can see them, until you submit the review. Then, on
+   **Files changed**, press **Submit review**. It opens the **Finish your review** dialog you saw
+   on your own pull request in Part 3, where **Approve** and **Request changes** were greyed out
+   because you were the author. Type a comment that says what to add and why: which input values,
+   and which wrong block they would catch. Select **Request changes**, and press **Submit review**
+   in the dialog
+   ([submitting your review](https://docs.github.com/en/pull-requests/how-tos/review-pull-requests/reviewing-proposed-changes-in-a-pull-request#submitting-your-review)).
 
-   <!-- SCREENSHOT-TODO: the "Finish your review" dialog (opened with "Submit review") on a pull request's Files changed tab in a student's ttsky-ic102-d-review, signed in as the owner reviewing a partner's pull request, with a short comment typed and "Request changes" selected. Needs two accounts: GitHub doesn't let a pull request's author request changes on it, so the one-account live test on Nov 16, 2026 could show only the author's side (the picture in Part 3). -->
-   ![Requesting changes on a pull request.](../assets/img/ic102-d-review-request-changes.png){width=640}
-
-You should see: your review on your partner's pull request, marked "requested changes".
+You should see: your review on your partner's pull request, requesting changes.
 
 ## Part 5: Answer the review and resolve the conflict
 

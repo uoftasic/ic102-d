@@ -114,11 +114,11 @@ What will your commits say about you, and how will git prove to GitHub that it's
    open **Settings › Developer settings › Personal access tokens › Fine-grained tokens**, choose
    **Generate new token**, and give it:
 
-   - the name `IC102 workbench`, and your own account as the **Resource owner**, which is what
-     the form starts with;
-   - an **Expiration** of 60 days. The form starts at 30 days, so choose "60 days" from the menu;
-   - **All repositories** under **Repository access**, in place of the "Public repositories" the
-     form starts with, because the repositories for Labs 04 and 05 don't exist yet;
+   - the name `IC102 workbench`, and your own account as the **Resource owner**, which the form
+     has already chosen.
+   - an **Expiration** of 60 days. The menu starts at 30 days, so choose "60 days" in it.
+   - **All repositories** under **Repository access**, because the repositories for Labs 04 and
+     05 don't exist yet. The form starts on "Public repositories", so you have to change it.
    - two repository permissions, **Contents** and **Workflows**, both "Read and write". Contents
      is the permission every push needs. You need Workflows as well, because GitHub rejects a
      push that adds or changes a file under `.github/workflows/` unless the token has it, and two
@@ -128,11 +128,12 @@ What will your commits say about you, and how will git prove to GitHub that it's
      only choice its menu has, but Contents comes in as "Read-only", so change it to "Read and
      write".
 
-   ![The token form filled in as this step says, in the course's practice run on Nov 16, 2026, when 60 days ran to Jan 15, 2027. The resource owner is the account that run used; yours shows your own username.](../assets/img/ic102-token-permissions.png){width=480 fig-alt="GitHub's New fine-grained personal access token form. Token name is IC102 workbench, with the note 'IC102 workbench' is available, and the Description box is empty. Resource owner is vproHacks. Expiration reads 60 days (Jan 15, 2027). Under Repository access, All repositories is selected; its note reads This applies to all current and future repositories you own. Also includes public repositories (read-only). Under Permissions, the Repositories tab shows 3 and the Account tab 0, next to an Add permissions button. The three rows are Contents, Access: Read and write; Metadata, marked Required, Access: Read-only; and Workflows, Access: Read and write. Below them are the Generate token and Cancel buttons."}
+   ![The token form filled in as this step says, in the course's practice run on Nov 16, 2026, when the 60-day expiry fell on Jan 15, 2027. The resource owner is the account that run used; yours shows your own username.](../assets/img/ic102-token-permissions.png){width=480 fig-alt="GitHub's New fine-grained personal access token form. Token name is IC102 workbench, with the note 'IC102 workbench' is available, and the Description box is empty. Resource owner is vproHacks. Expiration reads 60 days (Jan 15, 2027). Under Repository access, All repositories is selected; its note reads This applies to all current and future repositories you own. Also includes public repositories (read-only). Under Permissions, the Repositories tab shows 3 and the Account tab 0, next to an Add permissions button. The three rows are Contents, Access: Read and write; Metadata, marked Required, Access: Read-only; and Workflows, Access: Read and write. Below them are the Generate token and Cancel buttons."}
 
    Press **Generate token** at the bottom of the form, and copy the token when GitHub shows it,
-   because GitHub shows it only once. Keep it in your password manager. A file in your workspace is a bad place for it, because the workspace is a
-   git clone and a file there can end up in a commit.
+   because GitHub shows it only once. Keep it in your password manager. A file in your workspace
+   is a bad place for it, because the workspace is a git clone and a file there can end up in a
+   commit.
    [Getting started](../guide/getting-started.md#where-you-run-git) says why the course uses this
    kind of token and not a classic one.
 

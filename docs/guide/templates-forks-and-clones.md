@@ -24,8 +24,7 @@ from a template starts with a single commit", with a history unrelated to the te
 That single commit is the whole of your project's past, and nothing in your repository's history
 connects it to the template's.
 
-<!-- SCREENSHOT-TODO: The "Create a new repository" page reached from "Use this template" on TinyTapeout/ttsky-verilog-template, signed in, with Owner set to a personal account, "Include all branches" unticked and Public selected. -->
-![Creating a repository from the template. "Include all branches" is unticked by default, and the course uses a public repository.](../assets/img/ic102-create-from-template.png){width=640}
+![Creating a repository from the template. "Include all branches" is off by default, and the course uses a public repository.](../assets/img/ic102-create-from-template.png){width=640}
 
 The template itself has a much longer past. This is Tiny Tapeout's digital template on Nov 15,
 2026, seen without signing in:

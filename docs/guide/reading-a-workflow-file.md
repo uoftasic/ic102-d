@@ -177,8 +177,7 @@ because each `needs: gds`. The **annotations** box lists the errors GitHub picke
 but here both just say `Process completed with exit code 1.` They tell you that two steps failed,
 and not why. For that you need the log itself, which GitHub shows only when you're signed in.
 
-<!-- SCREENSHOT-TODO: hart-1 gds run 43752267356, gds job log, signed in, with the failed "Build GDS" step expanded and scrolled to the line "Error loading /home/runner/work/hart-1/hart-1/info.yaml: Project title cannot be empty, ...". -->
-![The failed step expanded in the log of the same job.](../assets/img/ic102-job-log-failed-step.png){width=760}
+![The same failure in the course's practice repository, where only the title was empty: the failed "Build GDS" step opens by itself, with its two failed sections, "Fetch verilog and build config" and "Linter output", expanded.](../assets/img/ic102-job-log-failed-step.png){width=760}
 
 Inside "Build GDS", the step "Fetch verilog and build config" stops with this, which is the cause:
 
@@ -240,8 +239,7 @@ The GDS action uses this for its linter output, Yosys warnings, a routing summar
 summary, so the numbers you're most likely to want after a build are on the summary page without
 opening any logs.
 
-<!-- SCREENSHOT-TODO: sentry gds run 43796948508, signed in, Summary page scrolled down to the gds job's summary showing the "Routing summary" and "Cell usage summary" sections. -->
-![The gds job's summary on a run's Summary page.](../assets/img/ic102-job-summary.png){width=760}
+![The gds job's summary on a run's Summary page, from the course's practice repository: the linter's result, the routing stats and the cell usage.](../assets/img/ic102-job-summary.png){width=760}
 
 Everything else a job wants to keep, it uploads as an **artifact**: a zip file attached to the run.
 Here is a fully green `gds` run from `sentry` on Nov 15, 2026
@@ -266,7 +264,6 @@ So a re-run can't pick up a fix you've committed since; for that you push, or st
 the **Run workflow** button. A re-run is for failures that had nothing to do with your files, such
 as a fault on GitHub's side or a repository setting you've since changed.
 
-<!-- SCREENSHOT-TODO: A failed run in a repository you own, signed in, with the "Re-run jobs" menu open showing "Re-run failed jobs" and "Re-run all jobs". -->
 ![The Re-run jobs menu on a failed run.](../assets/img/ic102-rerun-menu.png){width=640}
 
 There's a trap here for the `viewer` job, and `sentry` fell into it on Nov 6, 2026
@@ -336,7 +333,6 @@ Failed to deploy to GitHub Pages, please follow the link to troubleshoot: https:
 
 That FAQ entry says to change the Pages "Source from Deploy from a branch to GitHub Actions".
 
-<!-- SCREENSHOT-TODO: Settings > Pages of a repository you own, signed in, with Build and deployment > Source set to "GitHub Actions". -->
 ![Settings › Pages, with the source set to GitHub Actions.](../assets/img/ic102-settings-pages-source.png){width=640}
 
 On GitHub's Free plan, Pages works only in public repositories

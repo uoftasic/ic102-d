@@ -342,9 +342,10 @@ That FAQ entry says to change the Pages "Source from Deploy from a branch to Git
 On GitHub's Free plan, Pages works only in public repositories
 ([custom workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)),
 which is one more reason the course has you make yours public. In this course a workflow counts as
-passing only when every one of its jobs is green, `viewer` included, so turning Pages on is part of
-getting your repository working, and you'll do it in
-[Lab 01](../labs/lab-01-your-repo-from-the-template-overview.md).
+passing only when every one of its jobs is green, `viewer` included, so turning Pages on, and then
+starting a new run as the section above explains, is part of getting a repository working. You'll
+do it first in [Lab 01](../labs/lab-01-your-repo-from-the-template-overview.md), and again for
+every repository you make in this course.
 
 ## Check yourself
 

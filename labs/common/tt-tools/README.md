@@ -103,7 +103,6 @@ make install-gl
 
 That took 7 s and adds 420 MB: the `sky130_fd_sc_hd` library at `8afc8346` (383 MB), which is the only part of the PDK `gl_test` reads, and the PDK installer `ciel` (37 MB). Then download the `tt_submission` artifact from your gds run's summary page on GitHub (you have to be signed in to see it), unzip it into your workspace, and point `SUBMISSION` at the `tt_submission` folder inside it:
 
-<!-- SCREENSHOT-TODO: github.com, signed in: a student's repository → Actions → a green gds run → its Summary page, scrolled to the Artifacts section, with the tt_submission artifact's download link highlighted -->
 ![The Artifacts section of a gds run's summary page, with tt_submission highlighted](../../../docs/assets/img/ic102-d-gds-artifact-download.png)
 
 ```bash

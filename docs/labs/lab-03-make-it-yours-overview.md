@@ -95,8 +95,8 @@ Which files name your design, and what happens when one of them disagrees?
    ** TESTS=2 PASS=2 FAIL=0 SKIP=0               1900.00           0.00     916311.41  **
    ```
 
-   The `SIM TIME` column is time inside the simulation, so yours should match it exactly. The
-   other two columns depend on how fast your computer is.
+   The `SIM TIME` column is time inside the simulation, so your numbers in it should match ours
+   exactly. The other two columns depend on how fast your computer is.
 
 6. Commit and push, then predict which jobs will pass before you open the Actions tab:
 

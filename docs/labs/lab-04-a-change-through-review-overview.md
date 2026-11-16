@@ -394,7 +394,27 @@ What happens to an approval when you push again?
    python3 $L/check-pr.py PARTNER-USERNAME/ttsky-ic102-d-review#N YOUR-USERNAME/ttsky-ic102-d-review#N
    ```
 
-   <!-- RUN-TODO: check-pr.py's output for a pull request from a fork that was merged after the owner approved it, and a reviewed one whose author pushed after a change request. Needs two accounts. In the one-account live test it read both real pull requests (vproHacks/ic102-review-sandbox-d#1 and #2) and printed "approved by   nobody yet", "vproHacks hasn't requested changes on it" and VERDICT: not yet, as it should. -->
+   It reads both pull requests from GitHub's public API and checks two things: that yours was
+   merged, with an approval from someone other than you that came before the merge, and that on
+   the one you reviewed you requested changes and its author pushed at least one commit after
+   that. It prints a `todo:` line for each one that isn't done yet, and `VERDICT: PASS` only when
+   there are none. In the course's practice sandbox, where one account opened both pull requests
+   and so could neither approve the first nor request changes on the second, it printed:
+
+   ```
+   vproHacks/ic102-review-sandbox-d #1: Claim uo[3] for a parity block
+     author        vproHacks
+     merged        2026-11-16T08:42:25Z
+     approved by   nobody yet
+
+   vproHacks/ic102-review-sandbox-d #2: Claim uo[4] for a majority block
+     author        vproHacks
+     vproHacks hasn't requested changes on it
+
+   todo: #1 has no approval from someone else that came before the merge
+   todo: request a change on #2 (Part 4)
+   VERDICT: not yet
+   ```
 
 You should see: your pull request merged, and both pins' rows filled in on your partner's
 `main`.

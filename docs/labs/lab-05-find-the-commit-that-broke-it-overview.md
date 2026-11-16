@@ -30,7 +30,7 @@ went wrong.
 
 This lab takes about 45 minutes, plus the 5 to 10 minutes each push takes on GitHub's runners.
 
-## Part 1: The history you're given
+## Part 1: Clone the history
 
 What does the test say now, and what did it say at `v1.0`?
 
@@ -107,7 +107,7 @@ What does the test say now, and what did it say at `v1.0`?
 
 You should see: three PWM failures on `main`, and a pass at `v1.0`.
 
-## Part 2: A script `git bisect run` can trust
+## Part 2: The bisect script
 
 What should the script say about a commit whose design doesn't compile?
 

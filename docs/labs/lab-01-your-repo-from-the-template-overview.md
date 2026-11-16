@@ -12,8 +12,8 @@ Package: [`labs/lab-01-your-repo-from-the-template/`](https://github.com/uoftasi
 
 - Read [Getting started](../guide/getting-started.md), [Git in one page](../guide/git-in-one-page.md)
   and [Templates, forks and clones](../guide/templates-forks-and-clones.md).
-- You need a GitHub account. Any account works, and you don't need to be in the `uoftasic`
-  organization until Lab 04.
+- You need a GitHub account of your own. Any account works; the course doesn't use the team's
+  GitHub organization.
 - You need the workbench from [IC101](https://uoftasic.com/ic101/). Every command in this course
   runs in a terminal on its desktop, git included; [Getting started](../guide/getting-started.md#where-you-run-git)
   explains why.
@@ -101,25 +101,27 @@ What will your commits say about you, and how will git prove to GitHub that it's
    address keeps yours out. You'll set it in each repository you clone, in Part 3.
 
 2. Make a token for git to push with. GitHub doesn't accept your password from git, so on GitHub
-   open **Settings › Developer settings › Personal access tokens › Tokens (classic)**, choose
-   **Generate new token (classic)**, and give it:
+   open **Settings › Developer settings › Personal access tokens › Fine-grained tokens**, choose
+   **Generate new token**, and give it:
 
-   - a note, such as `IC102 workbench`;
-   - an expiry date after the end of the course;
-   - two scopes: `public_repo`, which lets it push to public repositories you have access to,
-     your own and later the cohort's, and `workflow`, which GitHub requires for any push that
-     adds or changes a file under `.github/workflows/` (Lab 05 pushes a whole repository).
+   - the name `IC102 workbench`, your own account as the resource owner, and an expiry of 60 days;
+   - **All repositories** under Repository access, because the repositories for Labs 04 and 05
+     don't exist yet;
+   - two repository permissions, **Contents** and **Workflows**, both "Read and write". Contents
+     is what a push needs, and GitHub refuses a push that adds or changes a file under
+     `.github/workflows/` without Workflows, which two pushes in Labs 04 and 05 do. GitHub adds
+     Metadata, read-only, by itself.
 
    Copy the token when GitHub shows it, because GitHub shows it only once. Keep it in your
    password manager. A file in your workspace is a bad place for it, because the workspace is a
    git clone and a file there can end up in a commit.
+   [Getting started](../guide/getting-started.md#where-you-run-git) says why the course uses this
+   kind of token and not a classic one.
 
-   <!-- SCREENSHOT-TODO: github.com/settings/tokens/new, signed in: the "New personal access token (classic)" form with a note "IC102 workbench", an expiry date set, and only the public_repo and workflow scopes ticked. -->
-   ![The form for a classic token, with the two scopes the course needs.](../assets/img/ic102-d-token-classic.png){width=640}
+   <!-- SCREENSHOT-TODO: github.com/settings/personal-access-tokens/new, signed in: a fine-grained token named "IC102 workbench", Resource owner the student's own account, Expiration 60 days, Repository access "All repositories", and Repository permissions with Contents and Workflows set to "Read and write". The same capture can serve IC102-A. -->
+   ![The form for a fine-grained token, with the two permissions the course needs.](../assets/img/ic102-token-permissions.png){width=640}
 
-   A classic token works for every repository your account can push to. A fine-grained token is
-   limited to one account's or one organization's repositories, so one made for your account
-   couldn't push to the cohort's sandbox in Lab 04.
+   <!-- RUN-TODO: test the token from the workbench: a push to the student's own repository, the first push of the Lab 04 sandbox copy (workflow files) to a new empty repository, a branch push to the student's fork; and quote GitHub's refusal when Workflows is left out. -->
 
 You should see: a no-reply address and a token, both copied somewhere safe.
 
@@ -129,8 +131,9 @@ What does the template give you, and what will its workflows say about it before
 anything?
 
 1. Open <https://github.com/TinyTapeout/ttsky-verilog-template>, press **Use this template ›
-   Create a new repository**, and set the owner to your own account. Name it whatever you like
-   (we'll write `<your-repo>`), choose **Public**, and leave **Include all branches** unticked.
+   Create a new repository**, and set the owner to your own account. Name it `ttsky-ic102-d`,
+   choose **Public**, and leave **Include all branches** unticked. (The labs use that name in
+   their commands; another name works if you change it there too.)
    It must be public: GitHub's runners are free on public repositories, and Pages, which the last
    job needs, is available on a free account only for public ones.
 
@@ -140,20 +143,22 @@ anything?
    so the workflows have already started. Before you look, predict which of the three workflows
    (`docs`, `test` and `gds`) pass on this first commit.
 
-3. Clone the repository into your workspace, next to the course, and set your identity and token
-   cache for it:
+3. Clone the repository into the `projects` folder of your workspace, and set your identity and
+   token cache for it:
 
    ```bash
-   cd /foss/designs/modules
-   git clone https://github.com/<your-username>/<your-repo>.git
-   cd <your-repo>
+   mkdir -p /foss/designs/projects && cd /foss/designs/projects
+   git clone https://github.com/YOUR-USERNAME/ttsky-ic102-d.git
+   cd ttsky-ic102-d
    git config user.name "Your Name"
    git config user.email "ID+USERNAME@users.noreply.github.com"
    git config credential.helper 'cache --timeout=28800'
    ```
 
-   These three settings go in this clone's `.git/config`, which is on your own disk. Settings made
-   with `--global` would be lost the next time the container starts.
+   Put your username, your name and the no-reply address from Part 2 in place of the
+   placeholders. These three settings go in this clone's `.git/config`, which is on your own
+   disk. Settings made with `--global` would be lost the next time the container starts, so
+   you'll make the same three settings in every clone in this course.
 
 4. Look at what came with the template:
 
@@ -266,7 +271,8 @@ How do you fix a failure that isn't in any file?
    ![Settings › Pages, with the source set to GitHub Actions.](../assets/img/ic102-settings-pages-source.png){width=640}
 
 2. Start a new run of the `gds` workflow: on the **Actions** tab, choose **gds** in the list of
-   workflows, then **Run workflow** on the right, and run it on `main`.
+   workflows, then **Run workflow** on the right, and run it on `main`. (Pushing a new commit
+   would start a new run too.)
 
    <!-- SCREENSHOT-TODO: the Actions tab of a student's repository, signed in, with the gds workflow selected and the "Run workflow" menu open, showing "Use workflow from Branch: main" and the green "Run workflow" button. -->
    ![Starting a new run of the gds workflow by hand.](../assets/img/ic102-d-run-workflow.png){width=640}

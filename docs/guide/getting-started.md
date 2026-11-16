@@ -31,25 +31,25 @@ while a run works.
 - **The workbench from IC101.** You'll run the course's tools in it, and every git command too,
   for reasons given in the next section. If you haven't set it up, do
   [IC101 Lab 03](https://uoftasic.com/ic101/labs/lab-03-launch-the-workbench-overview.html) first.
-- **A GitHub account of your own.** Your project repository goes on it, as a public repository,
-  for three reasons: GitHub's standard runners are free and unlimited on public repositories,
-  Pages (which the `viewer` job needs) is available on a free account only for public ones, and
-  so are branch rules. You don't need a paid plan or the organization's seat.
-- **Membership of the `uoftasic` organization, from Lab 04 on.** Lab 04 happens in a repository
-  the whole cohort shares, which belongs to the organization, and members can push branches to
-  it. You'll be invited; accept the invitation before Lab 04.
+- **A GitHub account of your own.** Every repository you make in this course goes on it, as a
+  public repository, for three reasons: GitHub's standard runners are free and unlimited on public
+  repositories, Pages (which the `viewer` job needs) is available on a free account only for
+  public ones, and so are branch rules. You don't need a paid plan, and the course doesn't use the
+  team's GitHub organization at all: Lab 04's review happens between your account and a
+  partner's.
 - **A token for git**, which Lab 01, Part 2 has you make. GitHub doesn't accept your password
   from git.
 
 ## Where you run git
 
 You'll type every git command in a terminal on the workbench desktop, in a clone under
-`/foss/designs/modules/`, next to the course. That's the folder the workbench shares with your
-laptop, so your clones survive when the container stops, and you can open the files in an editor
-on your laptop if you prefer one. (On Windows, set that editor to save shell scripts with Unix
-line endings, because bash can't run a script whose lines end in the Windows way.) The
-alternative, cloning with git on the laptop and running the tests in the workbench, runs into two
-problems:
+`/foss/designs/projects/`, named after its repository: `ttsky-ic102-d` for your project, and two
+more in Labs 04 and 05. `/foss/designs` is the `workspace` folder on your laptop, so your clones
+survive when the container stops, and you can open the files in an editor on your laptop if you
+prefer one. (On Windows, set that editor to save shell scripts with Unix line endings, because
+bash can't run a script whose lines end in the Windows way.) The course itself sits next to them,
+in `/foss/designs/modules/ic102-d`, which is where `mod` keeps courses. The alternative, cloning
+with git on the laptop and running the tests in the workbench, runs into two problems:
 
 - On a Linux laptop whose user ID isn't 1000, the container's user doesn't own a clone your
   laptop made, and git in the container refuses to touch it with
@@ -62,14 +62,24 @@ deleted when the container is replaced, and that includes the file where `git co
 saves your settings. So the labs have you set your name, email address and credential cache with
 plain `git config` inside each clone, which saves them in that clone's `.git/config`, on your own
 disk. Second, git asks for your token on the first push after each restart, because the cache
-that remembers it lives in the container's memory.
+that remembers it for 8 hours lives in the container's memory.
 
-The token is a classic personal access token with two scopes, `public_repo` and `workflow`.
-`public_repo` lets it push to public repositories you have access to, your own and the cohort's.
-`workflow` is what GitHub requires for a push that adds or changes anything under
-`.github/workflows/`, which Lab 05's first push does. A fine-grained token would work for your
-own repositories, but each one is limited to the repositories of one account or one
-organization, so it couldn't also push to the cohort's.
+The token is a fine-grained personal access token for your own account, with access to all of
+your repositories and two permissions, both "Read and write":
+
+- **Contents**, which is what pushing commits needs.
+- **Workflows**, because GitHub refuses a push that adds or changes a file under
+  `.github/workflows/` from a token without it. You won't edit a workflow in this course, but two
+  of your pushes carry workflow files: the first push of your Lab 04 review repository, and the
+  first push of Lab 05's history.
+
+It needs all of your repositories, rather than a list, because the ones for Labs 04 and 05 don't
+exist yet when you make it in Lab 01. Every push in the course goes to a repository you own,
+including Lab 04's: your pull request to your partner comes from your own fork of their
+repository. GitHub also offers older "classic" tokens, whose `public_repo` scope covers every
+public repository your account can push to, including those of any organization you belong to.
+A fine-grained token reaches only your own repositories, which is all this course needs, so a
+token that leaks can do less harm.
 
 ## Public repositories
 
@@ -141,14 +151,15 @@ That's why the course uses public repositories.
 
 </details>
 
-3. A classmate's token was made as a fine-grained token for their own account. Which lab will it
-   fail in, and why?
+3. A classmate made a classic token with the `public_repo` scope instead. It works for every lab,
+   so what's the harm?
 
 <details>
 <summary>Answer</summary>
 
-Lab 04. The cohort's sandbox belongs to the `uoftasic` organization, and a fine-grained token
-works only for the repositories of the one account or organization it was made for. A classic
-token with `public_repo` works for any public repository the account can push to.
+It can push to every public repository the classmate's account can write to, not just their own:
+if they belong to an organization whose members can write to its repositories, all of those
+too. If the token leaked, whoever found it could push to all of them. A fine-grained token made
+for their own account reaches only their own repositories, which is all the course needs.
 
 </details>

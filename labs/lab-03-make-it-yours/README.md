@@ -10,7 +10,7 @@ your repository from Lab 01, in a workbench terminal, with the test job's tools 
 ```bash
 L=/foss/designs/modules/ic102-d/labs/lab-03-make-it-yours
 TT=/foss/designs/modules/ic102-d/labs/common/tt-tools
-cd /foss/designs/modules/<your-repo>
+cd /foss/designs/projects/ttsky-ic102-d
 cp $L/counter.v src/counter.v && git rm -q src/project.v
 cp $L/test_counter.py test/test.py
 # rename the module and update info.yaml, test/Makefile and test/tb.v (Part 1), then:

@@ -10,7 +10,7 @@ folder holds only the check. Part 1 also installs the test job's tools in
 ## How to run
 
 ```bash
-cd /foss/designs/modules/<your-repo>
+cd /foss/designs/projects/ttsky-ic102-d
 python3 /foss/designs/modules/ic102-d/labs/lab-01-your-repo-from-the-template/check.py
 ```
 

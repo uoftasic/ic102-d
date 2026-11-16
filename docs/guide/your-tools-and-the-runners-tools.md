@@ -36,7 +36,7 @@ digital design only the first matters to you.
 
 ## What `make test` reproduces
 
-`make test PROJECT=<your repo>` runs the lines of the `test` job's "Run tests" step in your
+`make test PROJECT=/foss/designs/projects/ttsky-ic102-d` runs the lines of the `test` job's "Run tests" step in your
 `test/` folder (`make clean`, `make`, and `python -m cocotb_tools.check_results results.xml`),
 with the runner's Python, cocotb and Icarus 12.0 ahead of the workbench's on the `PATH`. It prints
 the same two lines the runner's log starts the simulation with. On the runner, in `hart-1`'s test

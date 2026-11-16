@@ -73,7 +73,7 @@ What `gl_test` doesn't do is check timing. Every cell has the same made-up delay
 compares the delays with the clock period. LibreLane's timing analysis in the `gds` job does that,
 against the clock period in `src/config.json`.
 
-## A history worth learning from
+## The tinyCGRA history
 
 `ttsky-verilog-tinyCGRA` shows how this goes wrong in a team. In May 2026, two of its `gds` runs
 built the layout, passed precheck and then failed at `gl_test`. The logs are gone, but the commit

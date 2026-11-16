@@ -112,7 +112,8 @@ The routing summary's two numbers, utilisation and wire length, come from two fi
 
 `precheck` downloads `tt_submission`, installs the PDK at the commit Tiny Tapeout pins for it,
 builds its own Magic and KLayout with Nix, and runs `precheck.py` from Tiny Tapeout's support
-tools. In the runs we read from `sentry` and `protocol-emulator` it passed every time, which is
+tools. In the three runs whose logs we read, two of `protocol-emulator`'s and `sentry`'s
+[43796948508](https://github.com/uoftasic/sentry/actions/runs/43796948508), it passed, which is
 what you'd expect when LibreLane has already run DRC on the same layout. It matters far more to
 the analog version of this course, where you draw the layout yourself. Its reports are uploaded as
 `precheck_reports`.
@@ -151,7 +152,7 @@ for precheck "All the checks need to be green to submit to the chip". It doesn't
 distinction: a workflow counts as green when every one of its jobs is, `viewer` included, and a
 lab's "done" means all six jobs passed on a commit of yours.
 
-## Versions that can change under you
+## Tags and support tools that move
 
 Two things in these workflows can change without any commit in your repository. A tag such as
 `ttsky26d` is a name for one commit of Tiny Tapeout's actions, and Tiny Tapeout moves its tags

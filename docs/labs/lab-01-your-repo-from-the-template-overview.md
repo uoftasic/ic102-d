@@ -175,8 +175,10 @@ anything?
    .github/workflows/docs.yaml:17:        uses: TinyTapeout/tt-gds-action/docs@ttsky26d
    ```
 
-   `ttsky26d` names the version of Tiny Tapeout's actions your repository will use from now on,
-   whatever Tiny Tapeout does to its template later.
+   `ttsky26d` names the version of Tiny Tapeout's actions your repository uses. Your repository
+   keeps that tag whatever Tiny Tapeout does to its template later, although Tiny Tapeout can move
+   the tag itself to a new commit, as [The Tiny Tapeout workflows](../guide/the-tiny-tapeout-workflows.md#tags-and-support-tools-that-move)
+   explains.
 
 5. Now open your repository's **Actions** tab and compare it with your prediction.
 

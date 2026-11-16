@@ -76,8 +76,9 @@ Which files name your design, and what happens when one of them disagrees?
      clock_hz                   10000000
    ```
 
-   followed by a History section that Part 3 fills in. If a name disagrees, the check says
-   which, in a `todo:` line.
+   followed by a History section with no bug commit yet, a `todo:` line about it, and
+   `VERDICT: not yet`. That's expected at this stage: Part 3 makes those commits. If a name
+   disagrees, the check says which, in another `todo:` line.
 
 5. Run the test the way the test job runs it:
 

@@ -89,8 +89,9 @@ rules?
      approved by   <reviewer> at 2026-11-02T03:53:32Z after the merge
    ```
 
-   then the same pull request's review section, two `todo` lines and `VERDICT: not yet`, because
-   this is the check you'll run on your own work at the end. The approval came 21 seconds after the merge. `sentry` has no
+   then a second block, headed with #33 again, which says the author hasn't requested changes on
+   it, then two `todo` lines and `VERDICT: not yet`. Those are about your own work: it's the check
+   you'll run at the end of this lab, with this pull request standing in for both of yours. The approval came 21 seconds after the merge. `sentry` has no
    ruleset, so nothing made the merge wait for it. In the sandbox the merge button stays grey
    until the approval is there.
 
@@ -230,7 +231,7 @@ What can you find in your partner's change that no check can?
 
 You should see: your review on your partner's pull request, marked "requested changes".
 
-## Part 4: Through the rules to `main`
+## Part 4: Merge, and resolve a conflict
 
 What happens to an approval when you push again?
 

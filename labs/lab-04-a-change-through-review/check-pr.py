@@ -2,9 +2,12 @@
 """Lab 04 check: your pull request merged after an approval, and a review of yours asked for a
 change that its author then made.
 
-    python3 check-pr.py OWNER/REPO YOUR_PR THE_PR_YOU_REVIEWED [--me GITHUB_USERNAME]
+    python3 check-pr.py YOUR_PR THE_PR_YOU_REVIEWED [--me GITHUB_USERNAME]
 
-For example: python3 check-pr.py uoftasic/ic102-d-sandbox 7 5
+Each pull request is OWNER/REPO#NUMBER or its link. In Lab 04 the first is in your partner's
+review repository and the second in yours, for example:
+
+    python3 check-pr.py PARTNER-USERNAME/ttsky-ic102-d-review#3 YOUR-USERNAME/ttsky-ic102-d-review#2
 
 It reads both pull requests from GitHub's public API, without signing in, and checks:
 
@@ -15,11 +18,21 @@ It reads both pull requests from GitHub's public API, without signing in, and ch
 "You" are the author of YOUR_PR, unless --me says otherwise. It changes nothing on GitHub.
 """
 import os
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "common"))
 import ic102  # noqa: E402
+
+
+def parse(arg):
+    """OWNER/REPO#N, or https://github.com/OWNER/REPO/pull/N, as (owner, repo, n)."""
+    m = (re.fullmatch(r"([\w.-]+)/([\w.-]+)#(\d+)", arg)
+         or re.fullmatch(r"(?:https?://)?github\.com/([\w.-]+)/([\w.-]+)/pull/(\d+)/?\S*", arg))
+    if not m:
+        raise ic102.CheckError(f"{arg!r} isn't OWNER/REPO#NUMBER or a pull request's link")
+    return m.group(1), m.group(2), int(m.group(3))
 
 
 def pr(owner, name, n):
@@ -35,10 +48,11 @@ def main():
         i = args.index("--me")
         me = args[i + 1]
         args = args[:i] + args[i + 2:]
-    if len(args) != 3 or "/" not in args[0]:
-        raise ic102.CheckError("usage: python3 check-pr.py OWNER/REPO YOUR_PR THE_PR_YOU_REVIEWED")
-    owner, name = args[0].split("/", 1)
-    mine, other = int(args[1].lstrip("#")), int(args[2].lstrip("#"))
+    if len(args) != 2:
+        raise ic102.CheckError("usage: python3 check-pr.py OWNER/REPO#N OWNER/REPO#N "
+                               "(your pull request, then the one you reviewed)")
+    owner, name, mine = parse(args[0])
+    o_owner, o_name, other = parse(args[1])
     problems = []
 
     p, reviews, _ = pr(owner, name, mine)
@@ -59,13 +73,13 @@ def main():
     elif not before:
         problems.append(f"#{mine} has no approval from someone else that came before the merge")
 
-    o, reviews, commits = pr(owner, name, other)
-    print(f"\n{owner}/{name} #{other}: {o['title']}")
+    o, reviews, commits = pr(o_owner, o_name, other)
+    print(f"\n{o_owner}/{o_name} #{other}: {o['title']}")
     print(f"  author        {o['user']['login']}")
     asks = [r for r in reviews if r["user"]["login"] == me and r["state"] == "CHANGES_REQUESTED"]
     if not asks:
         print(f"  {me} hasn't requested changes on it")
-        problems.append(f"request a change on #{other} (Part 3)")
+        problems.append(f"request a change on #{other} (Part 4)")
     else:
         first = asks[0]["submitted_at"]
         later = [c for c in commits if c["commit"]["committer"]["date"] > first]

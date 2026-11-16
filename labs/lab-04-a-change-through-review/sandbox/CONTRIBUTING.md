@@ -10,6 +10,10 @@ Look at the open pull requests and at the table in [docs/info.md](docs/info.md),
 nobody has claimed: `uo0` to `uo7`, or `uio0` to `uio7`. Then open a draft pull request early,
 titled `Claim uo[3]: parity` or similar, so that the next person can see your claim.
 
+Unless you own this repository, you can't push to it: fork it, push your branch to your fork,
+and open the pull request from there into this repository's `main`. Its workflows run on your
+pull request once the owner has approved them for a first-time contributor.
+
 ## The change
 
 On a branch of your own (`claim-uo3-parity`, say), change exactly these four things:
@@ -23,8 +27,9 @@ On a branch of your own (`claim-uo3-parity`, say), change exactly these four thi
    any other line.
 4. `docs/info.md`: your pin's row in the table: the block, what it does, and your GitHub username.
 
-Run the test locally before you push (`make test PROJECT=<this clone>` in
-`labs/common/tt-tools` of the course), and paste its summary into the pull request description.
+Run the test locally before you push (`make test PROJECT=$PWD` in the course's
+`labs/common/tt-tools`, from the top of your clone), and paste its summary into the pull request
+description.
 
 ## Reviewing
 
@@ -48,11 +53,12 @@ the fix, look again and approve.
 
 Neighbouring pins sit on neighbouring lines of `info.yaml` and `docs/info.md`, and git can't
 merge two changes to adjacent lines by itself. If GitHub says your branch has conflicts, merge
-`main` into your branch, keep both claims, and push:
+this repository's `main` into your branch, keep both claims, and push. In a clone of your fork,
+where this repository is the remote `upstream`:
 
 ```bash
-git fetch origin
-git merge origin/main      # stops on the conflict; edit the files, keeping both lines
+git fetch upstream
+git merge upstream/main    # stops on the conflict; edit the files, keeping both lines
 git add info.yaml docs/info.md
 git commit --no-edit
 git push

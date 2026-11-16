@@ -13,10 +13,33 @@ book:
   output-file: "ic102-d-course"
   chapters:
     - index.md
-    - part: "Course path"
+    - part: "1. Your repository"
       chapters:
         - guide/getting-started.md
-        - labs/lab-01-overview.md
+        - guide/git-in-one-page.md
+        - guide/templates-forks-and-clones.md
+        - labs/lab-01-your-repo-from-the-template-overview.md
+    - part: "2. Workflows"
+      chapters:
+        - guide/what-a-cloud-runner-is.md
+        - guide/reading-a-workflow-file.md
+        - guide/the-tiny-tapeout-workflows.md
+        - labs/lab-02-read-the-red-x-overview.md
+    - part: "3. Your design"
+      chapters:
+        - guide/rtl-and-gate-level-tests.md
+        - guide/your-tools-and-the-runners-tools.md
+        - labs/lab-03-make-it-yours-overview.md
+    - part: "4. Review"
+      chapters:
+        - guide/pull-requests-and-review.md
+        - guide/branch-rules.md
+        - guide/how-open-source-projects-work.md
+        - labs/lab-04-a-change-through-review-overview.md
+    - part: "5. History"
+      chapters:
+        - guide/history-as-evidence.md
+        - labs/lab-05-find-the-commit-that-broke-it-overview.md
 
 format:
   typst:

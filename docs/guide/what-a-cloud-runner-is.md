@@ -14,9 +14,8 @@ can pass on your laptop and fail on GitHub.
 GitHub's documentation defines runners as "the machines that execute jobs in a GitHub Actions
 workflow", and says that each GitHub-hosted runner "is a new virtual machine (VM) hosted by
 GitHub" ([GitHub-hosted runners](https://docs.github.com/en/actions/concepts/runners/github-hosted-runners)).
-The word that matters there is *new*. Every job in every workflow gets a fresh machine that has
-never seen your repository, runs the job's steps from top to bottom, and is thrown away when the
-job ends.
+So every job in every workflow gets a new machine that has never seen your repository. The machine
+runs the job's steps from top to bottom, and GitHub throws it away when the job ends.
 
 You can see this at the top of every job's log. Here are the first lines of the `viewer` job in a
 `protocol-emulator` run on Nov 15, 2026
@@ -59,7 +58,7 @@ Tiny Tapeout workflows:
 - **Jobs pass files to each other as artifacts.** The `gds` job finishes by uploading its results
   as an artifact called `tt_submission`, and the `precheck` and `viewer` jobs start by downloading
   it, because they run on other machines and can't see the `gds` job's disk.
-- **The machine knows only what's in your repository.** A file you forgot to commit, a tool you
+- **The machine has only what's in your repository.** A file you forgot to commit, a tool you
   installed on your laptop, or a setting in your shell doesn't exist there. When a check passes
   for you and fails on the runner, this is the first place to look.
 
@@ -89,10 +88,10 @@ all wait for `gds`, a push to a digital repository takes somewhere between 5 and
 back fully green. That's long enough that you should plan around it: push, then read the next page
 or work on something else while you wait, rather than watching the progress bar.
 
-A failure that comes back in under a minute is a different kind of failure. `hart-1`'s `gds` job
-fails in 54 seconds, because the build stops at the first step that reads `info.yaml`, long before
-LibreLane starts. Very fast red usually means a setup or configuration problem, and slow red
-usually means a problem in the design itself.
+How long a job ran before it failed is a clue to the cause. Very fast red usually means a setup or
+configuration problem, and slow red usually means a problem in the design itself. `hart-1`'s `gds`
+job, for example, fails in 54 seconds, because the build stops at the first step that reads
+`info.yaml`, long before LibreLane starts.
 
 ## What it costs
 
@@ -106,9 +105,8 @@ quotes, at the rate of $0.006 a minute for the smallest Linux runner. Usage is r
 whole minute for each job ([Actions billing](https://docs.github.com/en/billing/concepts/product-billing/github-actions),
 [runner pricing](https://docs.github.com/en/billing/reference/actions-runner-pricing)). The rounding
 matters more than you'd think for a Tiny Tapeout repository, because a push to a digital one
-starts six jobs. In the
-`protocol-emulator` run above, the four jobs of the `gds` workflow took 13 min 33 s, 3 min 38 s,
-1 min 2 s and 9 s, which round up to 14 + 4 + 2 + 1 = 21 minutes. Add a minute each for `docs` and
+starts six jobs. In the `protocol-emulator` run above, the four jobs of the `gds` workflow took
+13 min 33 s, 3 min 38 s, 1 min 2 s and 9 s, which round up to 14 + 4 + 2 + 1 = 21 minutes. Add a minute each for `docs` and
 `test`, and one push costs 23 minutes, so a private repository like it would use up the month's
 allowance in about 87 pushes, and probably fewer, since a private repository's runner has half the
 CPUs and the jobs would take longer. In a public repository the same pushes cost nothing.
@@ -130,8 +128,8 @@ Nov 15, 2026, the `test` job installed Icarus Verilog `12.0-2build2` from Ubuntu
 `cocotb-2.1.0` from the repository's `test/requirements.txt`. The `gl_test` job installs a different
 Icarus, Tiny Tapeout's own 13.0 package, and at the digital template's current tag (`ttsky26d`)
 the `gds` job installs LibreLane 3.0.14. The `precheck` job, in both templates, builds its own Magic
-and KLayout and installs the PDK at a fixed commit. A difference
-in any of these can make a check pass in one place and fail in the other.
+and KLayout and installs the PDK at a fixed commit. A difference in any of these can make a check
+pass in one place and fail in the other.
 
 For that reason IC102 pins the tools you run locally to the versions Tiny Tapeout's workflows use,
 so that your local runs and the runner's agree. [Your tools and the runner's
@@ -140,10 +138,10 @@ where the two still differ.
 
 You might wonder whether you could run the workflows themselves on your own machine and skip the
 wait. There is a community tool for that, `act`, which "reads in your GitHub Actions from
-`.github/workflows/`" and runs them in Docker containers ([nektos/act](https://github.com/nektos/act)),
-but it isn't GitHub's, its own documentation says that "Default runners are intentionally
-incomplete", and among the features it lists as unsupported are step summaries, `job.permissions`
-and OIDC ([not supported](https://nektosact.com/not_supported.html)). The `viewer` job needs the
+`.github/workflows/`" and runs them in Docker containers ([nektos/act](https://github.com/nektos/act)).
+It isn't GitHub's, though, and its own documentation says that "Default runners are intentionally
+incomplete". Among the features it lists as unsupported are step summaries, `job.permissions` and
+OIDC ([not supported](https://nektosact.com/not_supported.html)), and the `viewer` job needs the
 last two, so it can't work under `act`. In this course you run the individual tools locally to get
 quick answers, and treat the runner as the place where a check counts.
 

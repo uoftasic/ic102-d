@@ -16,7 +16,7 @@ same thing in words, using the five parts that
 | | Dismiss stale approvals when new commits are pushed | An approval covers the commits the reviewer saw, not ones pushed after it |
 | | Require approval of the most recent push | The person who pushed last can't be the one who approves |
 | | Require conversation resolution | Every review comment is answered or resolved before a merge |
-| | Require an additional approval for unattributed Copilot pull requests | GitHub ticks this by itself, although `ruleset.json` doesn't mention it. It matters only for a pull request that Copilot opens by itself |
+| | Require an additional approval for unattributed Copilot pull requests | GitHub turns this on although `ruleset.json` doesn't ask for it. It matters only for a pull request that Copilot opens by itself |
 | | Allowed merge methods: merge, squash | Rebase merging is off, so every pull request leaves a merge or a single commit on `main` |
 | | Require status checks to pass: `docs`, `test`, `gds`, `precheck`, `gl_test` | The jobs must be green on the pull request's latest commit |
 | Bypass list | Repository admin (the owner), "For pull requests only" | The owner can merge a change of their own without an approval, but still only through a pull request where everyone can see it. Nobody can push to `main` directly, the owner included |

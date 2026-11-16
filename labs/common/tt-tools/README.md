@@ -77,7 +77,7 @@ make test-workbench PROJECT=/foss/designs/projects/ttsky-ic102-d    # the workbe
 
 ## Icarus 12.0, 13.0 and 14.0
 
-On the tests we ran, the three versions agreed whenever all three accepted the code: the template's test and the test of the team's Sentry project (at 544696e) passed with the same simulated times under 12.0, 13.0 and 14.0, both at RTL and on Sentry's gate-level netlist. Where they differ is in what they accept. Icarus 12.0 rejects some SystemVerilog that 13.0 and 14.0 compile, so code you write and test in the workbench can stop the runner's `test` job at the compile step.
+On the tests we ran, the three versions agreed whenever all three accepted the code: the template's test and the test of the team's Sentry project (at 544696e) passed with the same simulated times under 12.0, 13.0 and 14.0, both at RTL and on Sentry's gate-level netlist. They differ in what they accept: Icarus 12.0 rejects some SystemVerilog that 13.0 and 14.0 compile, so code you write and test in the workbench can stop the runner's `test` job at the compile step.
 
 We changed the template's adder to compute the same sum in a `for` loop that ends with `break`, which is legal SystemVerilog, and ran `make test` three ways. With Icarus 12.0 the compile stopped at `project.v:27: sorry: break statements not supported.` and `make` ended with `make: *** [Makefile:42: test] Error 2`. With 13.0 and with 14.0 it printed `project.v:27: internal error: NetProc::nex_input not implemented`, carried on, and the test passed. Assigning a whole array at once (`q = '{8'd1, 8'd2, 8'd3, 8'd4};`) fails the same way on 12.0 only, with `sorry: Assignment to an entire array or to an array slice is not yet supported.` So test with `make test` before you push, and keep the workbench's Icarus for poking around.
 
@@ -128,7 +128,7 @@ This copies the netlist to `test/gate_level_netlist.v` and runs `GATES=yes make`
 |---|---|
 | `warning: the runner installs your test/requirements.txt, and it differs from this venv` | See "Your own requirements.txt" above. |
 | `sorry: ... not supported` from Icarus with `make test`, and no error with `make test-workbench` | Icarus 12.0 doesn't support that construct, so the runner's `test` job will fail the same way. Rewrite it in a form 12.0 accepts. |
-| `make: *** [Makefile:42: test] Error 2` | `make` passing on a failure from the test run above it: a compile error, or `check_results` reporting a failed test. Read the lines above it. |
+| `make: *** [Makefile:42: test] Error 2` | `make` stopped because the step above it failed: a compile error, or `check_results` reporting a failed test. Read the lines above it. |
 
 ## Targets
 

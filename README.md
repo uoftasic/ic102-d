@@ -21,7 +21,7 @@ Org: [github.com/uoftasic](https://github.com/uoftasic)
 | `labs/lab-01-your-repo-from-the-template/` | Lab 01's checker |
 | `labs/lab-02-read-the-red-x/` | The breakage script, the `DIAGNOSIS.md` template and the checker |
 | `labs/lab-03-make-it-yours/` | The counter, its starter test, the planted bug and the checker |
-| `labs/lab-04-a-change-through-review/` | The cohort sandbox template (`sandbox/`), `claim.py`, `check-pr.py`, and the AI-written pull request for Part 5 |
+| `labs/lab-04-a-change-through-review/` | The review sandbox each student copies into a repository of their own (`sandbox/`), `claim.py`, `check-pr.py`, and the AI-written pull request for Part 6 (`ai-pr.py`) |
 | `labs/lab-05-find-the-commit-that-broke-it/` | The prepared history as a git bundle, its builder, the bisect template and the checker |
 
 ## Building the site

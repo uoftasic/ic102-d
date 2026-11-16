@@ -15,11 +15,12 @@ Package: [`labs/lab-05-find-the-commit-that-broke-it/`](https://github.com/uofta
   installed in [Lab 01, Part 1](lab-01-your-repo-from-the-template-overview.md#part-1-load-the-course),
   your access token from Lab 01, Part 2, and the way you turned on Pages in Lab 01, Part 5.
 - Every command runs in a terminal on the workbench desktop, where `git bisect run` can call the
-  same `make test` as Lab 03. In each new terminal, run these first; the steps use `$TT` for the
-  test job's tools:
+  same `make test` as Lab 03. In each new terminal, run these first; the steps use `$L` for this
+  lab's package and `$TT` for the test job's tools:
 
   ```bash
   . /foss/designs/common/.designinit
+  L=/foss/designs/modules/ic102-d/labs/lab-05-find-the-commit-that-broke-it
   TT=/foss/designs/modules/ic102-d/labs/common/tt-tools
   ```
 
@@ -28,7 +29,7 @@ template with a script. Every commit is an ordinary one, though: features, tests
 two half-finished edits, a new file left out of the test's source list, and one tidy-up that
 went wrong.
 
-This lab takes about 45 minutes, plus the 5 to 10 minutes each push takes on GitHub's runners.
+This lab takes about an hour, including the 5 to 10 minutes each push takes on GitHub's runners.
 
 ## Part 1: Clone the history
 
@@ -38,14 +39,17 @@ What does the test say now, and what did it say at `v1.0`?
    commit and tag, and `git clone` reads it like a repository:
 
    ```bash
-   cd /foss/designs/modules
-   git clone ic102-d/labs/lab-05-find-the-commit-that-broke-it/data/history.bundle dimmer
-   cd dimmer
+   mkdir -p /foss/designs/projects && cd /foss/designs/projects
+   git clone $L/data/history.bundle ttsky-ic102-d-bisect
+   cd ttsky-ic102-d-bisect
    git config user.name "Your Name"
    git config user.email "ID+USERNAME@users.noreply.github.com"
+   git config credential.helper 'cache --timeout=28800'
    ```
 
-   Use the same no-reply address as in Lab 01. You should see `Cloning into 'dimmer'...`.
+   Use the same no-reply address as in Lab 01. You should see
+   `Cloning into 'ttsky-ic102-d-bisect'...`. The folder is named after the repository you'll push
+   it to in Part 4.
 
 2. Look at the history:
 
@@ -114,7 +118,7 @@ What should the script say about a commit whose design doesn't compile?
 1. Copy the starting script to the top of your clone, and read it:
 
    ```bash
-   cp ../ic102-d/labs/lab-05-find-the-commit-that-broke-it/bisect-template.sh bisect.sh
+   cp $L/bisect-template.sh bisect.sh
    ```
 
    It runs the test job's steps with `run-test.sh`, the script behind Lab 03's `make test`, and
@@ -274,7 +278,7 @@ What should the script say about a commit whose design doesn't compile?
 8. Check your script against three commits whose answers are known:
 
    ```bash
-   python3 ../ic102-d/labs/lab-05-find-the-commit-that-broke-it/check.py --offline
+   python3 $L/check.py --offline
    ```
 
    You should see, after about a minute:
@@ -342,20 +346,17 @@ You should see: seven passing tests on your branch, with the later features stil
 
 Does GitHub's runner agree with your workbench?
 
-1. On GitHub, create a new public repository called `dimmer` in your own account. Leave it
-   empty: no README, no `.gitignore`, no licence, because the history you push already has its
-   own first commit.
-
-   <!-- SCREENSHOT-TODO: github.com/new, signed in: Owner set to a personal account, Repository name "dimmer", Public selected, and "Add a README file", ".gitignore" and "license" all left at None/unticked. -->
-   ![Creating an empty public repository for the history.](../assets/img/ic102-d-new-empty-repo.png){width=640}
+1. On GitHub, create a new public repository called `ttsky-ic102-d-bisect` in your own account.
+   Leave it empty, as in [Lab 04, Part 1](lab-04-a-change-through-review-overview.md#part-1-your-review-repository):
+   no README, no `.gitignore` and no licence, because the history you push already has its own
+   first commit.
 
 2. Point your clone at it and push `main` and the tag. The push sends files under
-   `.github/workflows/`, which GitHub accepts only from a token with the `workflow` scope, the
-   one you ticked in Lab 01, Part 2:
+   `.github/workflows/`, which GitHub accepts only from a token with the Workflows permission
+   you gave yours in Lab 01, Part 2:
 
    ```bash
-   git remote set-url origin https://github.com/<your-username>/dimmer.git
-   git config credential.helper 'cache --timeout=28800'
+   git remote set-url origin https://github.com/YOUR-USERNAME/ttsky-ic102-d-bisect.git
    git push -u origin main --tags
    ```
 
@@ -373,7 +374,8 @@ Does GitHub's runner agree with your workbench?
 
    <!-- RUN-TODO: the six job results of the first push of the Lab 05 history (main at d79cae5) to a new public repository, and the first error line of test, gl_test and viewer. -->
 
-4. Turn Pages on for `dimmer` the way you did in Lab 01, Part 5.
+4. Turn Pages on for `ttsky-ic102-d-bisect` the way you did in Lab 01, Part 5. You don't need
+   **Run workflow** this time, because the push in the next step starts a new run.
 
 5. Push your branch and open a pull request from `revert-pwm-compare` into `main`:
 
@@ -390,20 +392,28 @@ Does GitHub's runner agree with your workbench?
 6. Wait for the runs on your branch to finish (about 5 to 10 minutes), then run the full check:
 
    ```bash
-   python3 ../ic102-d/labs/lab-05-find-the-commit-that-broke-it/check.py
+   python3 $L/check.py
    ```
 
    It repeats Part 2's three runs and then reads your branch's latest commit from GitHub.
 
-   <!-- RUN-TODO: check.py's full output on a revert-pwm-compare branch whose six jobs have all passed on GitHub. -->
+   <!-- RUN-TODO: check.py's full output on a revert-pwm-compare branch whose six jobs have all passed on GitHub; confirm in particular that viewer passes on a run from a branch other than main. -->
 
-You should see: all six jobs green on the pull request, and `VERDICT: PASS`.
+7. Merge the pull request. The repository is yours and has no rules, so you can merge it
+   yourself. The merge is a push to `main`, so `main`'s workflows run again, now with the
+   revert in them and Pages on.
+
+   <!-- RUN-TODO: the six job results on main after the revert pull request is merged (all green, viewer included). -->
+
+You should see: all six jobs green on the pull request, `VERDICT: PASS`, and all six green on
+`main` after the merge.
 
 ## Finishing
 
-You're done when `check.py`, run on your `revert-pwm-compare` branch, prints `VERDICT: PASS`:
-your script gives the right answer at all three commits, your branch reverts the commit that
-broke the test, and all six jobs passed on the branch's latest commit.
+You're done when `check.py`, run on your `revert-pwm-compare` branch, prints `VERDICT: PASS`
+(your script gives the right answer at all three commits, your branch reverts the commit that
+broke the test, and all six jobs passed on the branch's latest commit), and every job is green on
+`main` after you've merged the pull request.
 
 Questions:
 

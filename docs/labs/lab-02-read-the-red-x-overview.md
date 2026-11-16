@@ -21,7 +21,7 @@ Package: [`labs/lab-02-read-the-red-x/`](https://github.com/uoftasic/ic102-d/tre
   ```bash
   . /foss/designs/common/.designinit
   L=/foss/designs/modules/ic102-d/labs/lab-02-read-the-red-x
-  cd /foss/designs/modules/<your-repo>
+  cd /foss/designs/projects/ttsky-ic102-d
   ```
 
 To read a job's log you have to be signed in to GitHub, even for your own public repository. A
@@ -217,7 +217,7 @@ What does a test do when the design it tests has a new name?
 
    Yours names your repository and says `tb.v:31`, the line of the current template's `tb.v`
    that names the module. Our run of the breakage with the course's `make test` and Icarus 12.0
-   printed `/foss/designs/modules/my-tt-project/test/tb.v:31: error: Unknown module type: tt_um_example`.
+   printed `/foss/designs/projects/ttsky-ic102-d/test/tb.v:31: error: Unknown module type: tt_um_example`.
    Then `gds` goes red too, but
    only in `gl_test`, which runs the same testbench on the netlist: in `protocol-emulator`'s run
    [41345900293](https://github.com/uoftasic/protocol-emulator/actions/runs/41345900293) the

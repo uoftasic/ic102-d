@@ -8,7 +8,7 @@ the repository you made from Tiny Tapeout's template in Lab 01, from a workbench
 
 ```bash
 L=/foss/designs/modules/ic102-d/labs/lab-02-read-the-red-x
-cd /foss/designs/modules/<your-repo>
+cd /foss/designs/projects/ttsky-ic102-d
 cp $L/DIAGNOSIS-template.md DIAGNOSIS.md
 python3 $L/break.py --list         # the five breakages
 python3 $L/break.py 1              # commit breakage 1 (doesn't push)

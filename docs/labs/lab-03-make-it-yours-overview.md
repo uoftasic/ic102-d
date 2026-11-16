@@ -21,7 +21,7 @@ Package: [`labs/lab-03-make-it-yours/`](https://github.com/uoftasic/ic102-d/tree
   . /foss/designs/common/.designinit
   L=/foss/designs/modules/ic102-d/labs/lab-03-make-it-yours
   TT=/foss/designs/modules/ic102-d/labs/common/tt-tools
-  cd /foss/designs/modules/<your-repo>
+  cd /foss/designs/projects/ttsky-ic102-d
   ```
 
 The counter is in `$L/counter.v`, and the comment at its top says what each pin does. You don't

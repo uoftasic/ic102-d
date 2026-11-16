@@ -7,14 +7,15 @@ Everything runs in a workbench terminal, after `make install` in [`../common/tt-
 ## How to run
 
 ```bash
-cd /foss/designs/modules
-git clone ic102-d/labs/lab-05-find-the-commit-that-broke-it/data/history.bundle dimmer
-cd dimmer
-cp ../ic102-d/labs/lab-05-find-the-commit-that-broke-it/bisect-template.sh bisect.sh
+L=/foss/designs/modules/ic102-d/labs/lab-05-find-the-commit-that-broke-it
+mkdir -p /foss/designs/projects && cd /foss/designs/projects
+git clone $L/data/history.bundle ttsky-ic102-d-bisect
+cd ttsky-ic102-d-bisect
+cp $L/bisect-template.sh bisect.sh
 # edit bisect.sh (Part 2), then:
 git bisect start main v1.0
 git bisect run ./bisect.sh
-python3 ../ic102-d/labs/lab-05-find-the-commit-that-broke-it/check.py [--offline]
+python3 $L/check.py [--offline]
 ```
 
 ## Files

@@ -7,7 +7,7 @@
 #   exit 1     the test ran and failed       (bad)
 #   exit 125   the test couldn't run at all  (skip: neither good nor bad)
 #
-# Copy this file to the top of your dimmer clone as bisect.sh and fill in Part 2's TODO.
+# Copy this file to the top of your ttsky-ic102-d-bisect clone as bisect.sh and fill in Part 2's TODO.
 
 # The test job's tools, installed in Lab 01 (labs/common/tt-tools).
 TT=/foss/designs/modules/ic102-d/labs/common/tt-tools

@@ -19,8 +19,14 @@ Package: [`labs/lab-04-a-change-through-review/`](https://github.com/uoftasic/ic
   own, because a classic token isn't tied to one account's repositories.
 - Find a partner from your cohort. You'll review each other's pull requests, so agree on that
   before you start.
-- Every command runs in a terminal on the workbench desktop. In each new terminal, run
-  `. /foss/designs/common/.designinit` first.
+- Every command runs in a terminal on the workbench desktop. In each new terminal, run these
+  first; the steps use `$L` for this lab's package and `$TT` for the test job's tools:
+
+  ```bash
+  . /foss/designs/common/.designinit
+  L=/foss/designs/modules/ic102-d/labs/lab-04-a-change-through-review
+  TT=/foss/designs/modules/ic102-d/labs/common/tt-tools
+  ```
 
 The steps use `uoftasic/ic102-d-sandbox` as the sandbox's name. Your cohort's may have a suffix;
 the course tells you which one is yours.
@@ -57,7 +63,9 @@ rules?
 
    <!-- RUN-TODO: the full output of `git push origin main` when the sandbox's ruleset refuses a direct push (the GH013 rule-violation lines). -->
 
-   GitHub refuses the push and names the rule that stopped it. Throw the commit away:
+   This is your first push to the sandbox, so git first asks for your username and token, as in
+   Lab 01. Then GitHub rejects the commit, because the ruleset only lets changes reach `main`
+   through a pull request, and the error names that rule. Throw the commit away:
 
    ```bash
    git reset --hard origin/main
@@ -69,7 +77,6 @@ rules?
    [Pull requests and review](../guide/pull-requests-and-review.md#what-review-is-for):
 
    ```bash
-   L=/foss/designs/modules/ic102-d/labs/lab-04-a-change-through-review
    python3 $L/check-pr.py uoftasic/sentry 33 33
    ```
 
@@ -90,7 +97,6 @@ rules?
 5. Run the sandbox's tests with the test job's tools:
 
    ```bash
-   TT=/foss/designs/modules/ic102-d/labs/common/tt-tools
    make -C "$TT" test PROJECT="$PWD"
    ```
 
@@ -242,7 +248,7 @@ What happens to an approval when you push again?
    git merge origin/main
    ```
 
-   <!-- SCREENSHOT-TODO: a sandbox pull request, signed in, with the merge box saying "This branch has conflicts that must be resolved", listing info.yaml and docs/info.md. -->
+   <!-- SCREENSHOT-TODO: a sandbox pull request, signed in, with the merge box saying "This branch has conflicts that must be resolved" and naming info.yaml and docs/info.md. -->
 
    In a practice run, where `uo[3]` merged first and the branch claimed `uo[4]`, that printed:
 

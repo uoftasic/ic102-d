@@ -15,8 +15,13 @@ Package: [`labs/lab-05-find-the-commit-that-broke-it/`](https://github.com/uofta
   installed in [Lab 01, Part 1](lab-01-your-repo-from-the-template-overview.md#part-1-load-the-course),
   your access token from Lab 01, Part 2, and the way you turned on Pages in Lab 01, Part 5.
 - Every command runs in a terminal on the workbench desktop, where `git bisect run` can call the
-  same `make test` as Lab 03. In each new terminal, run `. /foss/designs/common/.designinit`
-  first, as in Lab 01.
+  same `make test` as Lab 03. In each new terminal, run these first; the steps use `$TT` for the
+  test job's tools:
+
+  ```bash
+  . /foss/designs/common/.designinit
+  TT=/foss/designs/modules/ic102-d/labs/common/tt-tools
+  ```
 
 The teammates are made up, and so is their project, which the course builds from Tiny Tapeout's
 template with a script. Every commit is an ordinary one, though: features, tests, documentation,
@@ -64,7 +69,6 @@ What does the test say now, and what did it say at `v1.0`?
 3. Run the test on `main`, as the test job would:
 
    ```bash
-   TT=/foss/designs/modules/ic102-d/labs/common/tt-tools
    make -C "$TT" test PROJECT="$PWD"
    ```
 

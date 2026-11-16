@@ -16,7 +16,8 @@ git push -u origin ai/claim-uio7-heartbeat
 gh pr create --title "Claim uio[7]: heartbeat" --body-file <this folder>/pr-body.md
 ```
 
-The problems, for whoever runs the cohort (not for students):
+The problems. The writeup lists them too, in a collapsed answer under Part 5, so a student sees
+them only after writing their own review:
 
 | Where | Problem |
 |---|---|

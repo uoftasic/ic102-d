@@ -139,9 +139,10 @@ and results go in `gatelevel_test_results`.
 
 `viewer` downloads `tt_submission` and `gds_render`, writes a small page that opens Tiny Tapeout's
 3D viewer on your layout, and deploys it with GitHub Pages. It fails with a 404 until Pages is
-turned on, which is the first thing you fix in Lab 01, and on the `ttsky26d` tag a re-run of a
-failed `viewer` fails again for a reason [Reading a workflow file](reading-a-workflow-file.md#re-running-a-run)
-explains. It checks nothing about your design.
+turned on, which is the first thing you fix in Lab 01. On the `ttsky26d` tag a re-run of a
+failed `viewer` fails again, for a reason [Reading a workflow file](reading-a-workflow-file.md#re-running-a-run)
+explains, so after turning Pages on you start a new run instead, with **Run workflow** or a push.
+It checks nothing about your design.
 
 ## What green means in this course
 

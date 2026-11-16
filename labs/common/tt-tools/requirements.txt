@@ -1,0 +1,13 @@
+# The Python packages the template's test job installed on 2026-11-15, copied
+# from the "Successfully installed" line of its log, with every transitive
+# dependency pinned so that `pip install` can't drift.
+#
+# The template's test/requirements.txt (ttsky-verilog-template a42e666) pins
+# only the first two. Source of the rest: uoftasic/hart-1 run 43752267378.
+cocotb==2.1.0
+pytest==8.4.2
+find_libpython==0.5.1
+iniconfig==2.3.1
+packaging==26.3
+pluggy==1.7.0
+pygments==2.21.0

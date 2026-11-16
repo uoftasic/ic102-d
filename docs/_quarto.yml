@@ -1,5 +1,4 @@
-# Quarto build of the COURSE-TEMPLATE docs (replacing Docsify's index.html,
-# _sidebar.md and _navbar.md).
+# Quarto build of the IC102-D docs.
 #
 #   quarto preview docs          # live site at http://localhost:4200
 #   quarto render docs           # site in docs/_site, with a PDF of every page
@@ -30,11 +29,14 @@ website:
       - text: "Guide"
         href: guide/getting-started.md
       - text: "Labs"
-        href: labs/lab-01-overview.md
+        href: labs/lab-01-your-repo-from-the-template-overview.md
     right:
       - text: Course PDF
         icon: file-pdf
         href: "ic102-d-course.pdf"
+      - icon: discord
+        href: https://discord.gg/hrJnP5UsGz
+        aria-label: Discord
       - icon: github
         href: https://github.com/uoftasic/ic102-d
         aria-label: GitHub
@@ -43,18 +45,56 @@ website:
     contents:
       - text: "Home"
         href: index.md
-      - section: "Course path"
+      - section: "1. Your repository"
         contents:
-          - text: "1. Getting started"
+          - text: "Getting started"
             href: guide/getting-started.md
-          - text: "2. Lab 01: Starter script"
-            href: labs/lab-01-overview.md
+          - text: "Git in one page"
+            href: guide/git-in-one-page.md
+          - text: "Templates, forks and clones"
+            href: guide/templates-forks-and-clones.md
+          - text: "Lab 01: Your repository from the template"
+            href: labs/lab-01-your-repo-from-the-template-overview.md
+      - section: "2. Workflows"
+        contents:
+          - text: "What a cloud runner is"
+            href: guide/what-a-cloud-runner-is.md
+          - text: "Reading a workflow file"
+            href: guide/reading-a-workflow-file.md
+          - text: "The Tiny Tapeout workflows"
+            href: guide/the-tiny-tapeout-workflows.md
+          - text: "Lab 02: Read the red X"
+            href: labs/lab-02-read-the-red-x-overview.md
+      - section: "3. Your design"
+        contents:
+          - text: "RTL and gate-level tests"
+            href: guide/rtl-and-gate-level-tests.md
+          - text: "Your tools and the runner's tools"
+            href: guide/your-tools-and-the-runners-tools.md
+          - text: "Lab 03: Make it yours"
+            href: labs/lab-03-make-it-yours-overview.md
+      - section: "4. Review"
+        contents:
+          - text: "Pull requests and review"
+            href: guide/pull-requests-and-review.md
+          - text: "Branch rules"
+            href: guide/branch-rules.md
+          - text: "How open-source projects work"
+            href: guide/how-open-source-projects-work.md
+          - text: "Lab 04: A change through review"
+            href: labs/lab-04-a-change-through-review-overview.md
+      - section: "5. History"
+        contents:
+          - text: "History as evidence"
+            href: guide/history-as-evidence.md
+          - text: "Lab 05: Find the commit that broke it"
+            href: labs/lab-05-find-the-commit-that-broke-it-overview.md
       - section: "Repo"
         contents:
           - text: "Lab packages"
             href: https://github.com/uoftasic/ic102-d/tree/main/labs
-          - text: "Scripts"
-            href: https://github.com/uoftasic/ic102-d/tree/main/scripts
+          - text: "The test job's tools"
+            href: https://github.com/uoftasic/ic102-d/tree/main/labs/common/tt-tools
 
 filters:
   - _filters/course.lua

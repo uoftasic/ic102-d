@@ -248,14 +248,21 @@ Does the runner's test job see what your workbench saw?
    `test` fails, and so does `gl_test` in the `gds` workflow, which runs the same three tests on
    the gate-level netlist. `docs`, `gds`, `precheck` and `viewer` pass, because the design still
    builds; it just does the wrong thing. The runner's message and `SIM TIME` match yours exactly,
-   because the runner used the same cocotb 2.1.0 and Icarus 12.0. In `hart-1`'s test run on Nov
-   15 ([run 43752267378](https://github.com/uoftasic/hart-1/actions/runs/43752267378)) the two
-   lines read `Initialized cocotb v2.1.0 from /opt/hostedtoolcache/Python/3.11.18/...` and
-   `Running on Icarus Verilog version 12.0 (stable)`.
+   because the runner used the same cocotb 2.1.0 and Icarus 12.0. In the course's practice
+   repository ([run 43841055248](https://github.com/vproHacks/ic102-test-d/actions/runs/43841055248))
+   "Run tests" printed `Initialized cocotb v2.1.0 from /opt/hostedtoolcache/Python/3.11.18/...`,
+   `Running on Icarus Verilog version 12.0 (stable)`, and:
+
+   ```
+   AssertionError: after LOAD with uio_in = 0x5A, uo_out is 00000010, expected 0x5A
+   ** test.test_load                 FAIL         550.00           0.00    1698301.39  **
+   ** TESTS=3 PASS=2 FAIL=1 SKIP=0               2450.00           0.00    1017018.65  **
+   ```
+
+   `gl_test` printed the same three lines, with `Running on Icarus Verilog version 13.0
+   (stable)` and its own two REAL TIME columns.
 
    </details>
-
-   <!-- RUN-TODO: the test job's "Run tests" output and the gl_test result on a practice repository with the bug commit pushed, to confirm the FAIL line and SIM TIME match the local run. -->
 
 3. Undo the bug with a new commit, and push:
 
@@ -270,18 +277,35 @@ Does the runner's test job see what your workbench saw?
    python3 $L/check.py
    ```
 
-   It finds the bug commit and the fix after it, and asks GitHub for the jobs on each. On our
-   practice clone, without GitHub, it ended:
+   It finds the bug commit and the fix after it, and asks GitHub for the jobs on each. On the
+   course's practice repository it printed:
 
    ```
+   Checking /foss/designs/projects/ttsky-ic102-d
+
+   Names
+     top_module in info.yaml    tt_um_vprohacks_counter
+     source_files in info.yaml  counter.v
+     PROJECT_SOURCES            counter.v
+     module tb.v instantiates   tt_um_vprohacks_counter
+     clock_hz                   10000000
+
    History
-     bug commit  e115d05
-     fix commit  6824e81
+     bug commit  cd57aae
+     fix commit  8f29d8f
+
+   GitHub: vproHacks/ic102-test-d
+     test on the bug commit cd57aae: failure
+     every job on the fix commit 8f29d8f:
+       docs      success
+       test      success
+       gds       success
+       precheck  success
+       gl_test   success
+       viewer    success
 
    VERDICT: PASS
    ```
-
-   <!-- RUN-TODO: check.py's full output with the GitHub section (test failure on the bug commit, six green jobs on the fix). -->
 
 You should see: `test` red on the bug commit and green on the revert, with the same message you
 saw locally.
@@ -294,43 +318,46 @@ Where do the numbers on the run's summary page come from?
    `gds` job's summary. Under "Routing stats" there's a table with two numbers, "Utilisation (%)"
    and "Wire length (um)". Write both down.
 
-   <!-- SCREENSHOT-TODO: a green gds run of a student's counter repository, signed in, summary page scrolled to the gds job's summary showing the "Routing stats" table (Utilisation (%) and Wire length (um)). -->
-   ![The routing stats in a gds job's summary.](../assets/img/ic102-d-gds-routing-stats.png){width=640}
+   ![The routing stats in the gds job's summary, from the course's practice counter.](../assets/img/ic102-d-gds-routing-stats.png){width=640}
 
-2. Further down the same page, under **Artifacts**, download `GDS_logs`. You have to be signed
-   in to see the link. Unzip it into your workspace folder on your laptop, so the workbench sees
-   it under `/foss/designs`:
+2. Further down the same page, under **Artifacts**, download `GDS_logs` with the download
+   button at the end of its row. You have to be signed in to see the button. Unzip it into your
+   workspace folder on your laptop, so the workbench sees it under `/foss/designs`:
 
-   <!-- SCREENSHOT-TODO: github.com, signed in: a student's repository → Actions → a green gds run → its Summary page, scrolled to the Artifacts section, with the tt_submission artifact's download link highlighted -->
-   ![The Artifacts section of a gds run's summary page, with tt_submission highlighted](../assets/img/ic102-d-gds-artifact-download.png){width=640}
+   ![The Artifacts section of a gds run's summary page, with GDS_logs highlighted.](../assets/img/ic102-d-gds-logs-download.png){width=640}
 
    The artifact holds `src/`, with the configuration the action built, and `runs/wokwi/`,
    LibreLane's whole run: one numbered folder per step, about 70 of them, and a `final/` folder.
 
 3. Find each number's source. The utilisation is a line in the global-placement step's log, and
-   the wire length is a row in `final/metrics.csv`:
+   the wire length is a row in `final/metrics.csv`. If you unzipped the artifact into a folder
+   called `GDS_logs` at the top of your workspace:
 
    ```bash
-   cd /foss/designs/<the unzipped folder>
+   cd /foss/designs/GDS_logs
    grep GPL-0019 runs/wokwi/*-openroad-globalplacement/openroad-globalplacement.log
    grep '^route__wirelength,' runs/wokwi/final/metrics.csv
    ```
 
+   In the course's practice repository, whose counter's summary is the one in the picture above
+   ([run 43839710228](https://github.com/vproHacks/ic102-test-d/actions/runs/43839710228)), they
+   read:
+
+   ```
+   [INFO GPL-0019] Utilization:                     5.293 %
+   route__wirelength,1807
+   ```
+
    In `sentry`'s green run
    [43796948508](https://github.com/uoftasic/sentry/actions/runs/43796948508), a 2x2 design at
-   the time, they read:
-
-   ```
-   [INFO GPL-0019] Utilization:                     0.628 %
-   route__wirelength,919
-   ```
-
-   Yours should match the two numbers you wrote down in step 1. The action's
+   the time, they were `0.628 %` and `919`. Yours should match the two numbers you wrote down in
+   step 1. The action's
    "Routing summary" step reads exactly these two places (`print_stats` in tt-support-tools'
    `project.py`).
 
 4. While you're in the run folder, read
-   `runs/wokwi/*-misc-reportmanufacturability/manufacturability.rpt` (step 72 in `sentry`'s run).
+   `runs/wokwi/*-misc-reportmanufacturability/manufacturability.rpt` (step 72, in `sentry`'s run
+   and in the practice counter's).
    There it says `Passed` under Antenna, LVS and DRC. The `gds` job checks its own
    layout before `precheck` checks it again.
 
@@ -366,13 +393,17 @@ reset." Find out what happens if you ignore that.
 
    `test_reset` and `test_count_up`. Synthesis can't build an `initial` statement into a
    flip-flop, so in the netlist the count starts unknown, and counting up from unknown stays
-   unknown. `test_load` passes, because loading sets every bit. We checked this with a netlist
-   that Yosys made from the same file with the sky130 cells, not with the runner's, and Icarus
-   13.0 printed:
+   unknown. `test_load` passes, because loading sets every bit. In the course's practice
+   repository ([run 43843559172](https://github.com/vproHacks/ic102-test-d/actions/runs/43843559172)),
+   `gl_test` ran the three tests on the runner's netlist with Icarus 13.0 and printed:
 
    ```
    AssertionError: after reset uo_out is XXXXXXXX, expected 0
    AssertionError: after 10 cycles with EN high uo_out is XXXXXXXX, expected 10
+   ** test.test_reset                FAIL         450.00           0.01      32495.41  **
+   ** test.test_count_up             FAIL        1450.00           0.00    2716307.02  **
+   ** test.test_load                 PASS         550.00           0.00    1897683.79  **
+   ** TESTS=3 PASS=1 FAIL=2 SKIP=0               2450.00           0.02     154991.26  **
    ```
 
    This is the pattern in `ttsky-verilog-tinyCGRA`'s history from May 2026, where the
@@ -380,9 +411,9 @@ reset." Find out what happens if you ignore that.
 
    </details>
 
-   <!-- RUN-TODO: gl_test's log for the no-reset counter on a practice repository, to confirm the two AssertionError lines on the runner's netlist. -->
-
-4. Delete the branch, on GitHub and locally; `main` keeps its reset.
+4. Delete the branch, on GitHub and locally; `main` keeps its reset. The branch's `viewer` job
+   passed, and it published the branch's layout to your project's page, which shows the no-reset
+   counter until the next `gds` run on `main`.
 
 ## Finishing
 

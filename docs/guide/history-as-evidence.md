@@ -122,8 +122,11 @@ special exit code 125 should be used when the current source code cannot be test
 ([git-bisect](https://git-scm.com/docs/git-bisect)).
 
 Here is a script for the `protocol-emulator` history above. It runs the cocotb test and decides
-from the results file, not from `make`'s exit status, because, as the template's own workflow
-points out, cocotb's `make` reports success even when a test fails:
+from the results file, not from `make`'s exit status. With cocotb 2.x, `make` does exit non-zero
+when a test fails, but it exits with the same status when the design doesn't compile and the
+simulation never starts, and the results file is what tells those two cases apart. (The comment in
+the template's workflow, that `make` "will return success even if the tests fail", dates from
+cocotb 1.x.)
 
 ```bash
 #!/bin/bash
@@ -220,10 +223,13 @@ Six, because each test halves the suspects and $2^6 = 64$.
 <details>
 <summary>Answer</summary>
 
-It will call every commit that builds "good", including the broken ones, because cocotb's `make`
-exits with 0 even when a test fails. The script has to read the results file (or run
-`cocotb_tools.check_results`, as the template's workflow does) and exit non-zero if any test
-failed.
+With cocotb 2.x, `make` exits non-zero both when a test fails and when the design doesn't
+compile, so the script calls every commit that doesn't compile "bad" too. If a half-finished
+commit that doesn't compile comes before the real bug, bisect names that commit as the first bad
+one, for a reason that has nothing to do with the bug. The script has to look at the results file:
+no results file means the commit couldn't be tested (exit 125, unless not compiling is the failure
+you're hunting), and a failure in it means bad. (With cocotb 1.x, whose `make` exited with 0 on a
+failing test, the same script would have called every commit that compiles "good".)
 
 </details>
 

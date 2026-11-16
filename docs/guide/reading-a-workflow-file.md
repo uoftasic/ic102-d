@@ -122,12 +122,15 @@ whether it passed:
 
 GitHub runs these lines with `bash -e` (the log prints `shell: /usr/bin/bash -e {0}` above the
 step), so the step stops and fails as soon as any command exits with a non-zero status, and passes
-if none does. That exit status is all GitHub looks at. cocotb's `make` exits with status 0 even
-when a test fails, as the comment says, so the template adds a last command that reads the results
-file and exits non-zero if any test failed.
-Without that line the `test` workflow would be green whatever your tests found. You'll need the
-same idea in [Lab 05](../labs/lab-05-find-the-commit-that-broke-it-overview.md), where a script has
-to tell git whether a commit passed.
+if none does. That exit status is all GitHub looks at. The comment above the last line was true of
+cocotb 1.x, whose `make` exited with status 0 even when a test failed, which is why the template
+adds a command that reads the results file and exits non-zero if any test failed. The template now
+pins cocotb 2.1.0, and with cocotb 2.x `make` runs that same check itself at the end of the
+simulation, so a failing test stops the step at `make`, and the last line is a second check that
+only runs when `make` has passed. Either way, what turns a failing test into a red step is a
+command that exits non-zero. You'll need the same idea in
+[Lab 05](../labs/lab-05-find-the-commit-that-broke-it-overview.md), where a script has to tell git
+whether a commit passed.
 
 ## Composite actions
 
@@ -383,14 +386,16 @@ same artifact name every attempt, so the re-run would fail with "Multiple artifa
 </details>
 
 4. Why does the template's "Run tests" step run `python -m cocotb_tools.check_results results.xml`
-   after `make`?
+   after `make`, and does it still need to with the template's cocotb 2.1.0?
 
 <details>
 <summary>Answer</summary>
 
-GitHub decides whether a step passed from the exit status of its commands, and cocotb's `make`
-exits with 0 even when a test fails. The second command reads the results file and exits non-zero
-if any test failed, which is what turns a failing test into a red step.
+GitHub decides whether a step passed from the exit status of its commands. The line was added for
+cocotb 1.x, whose `make` exited with 0 even when a test failed, so reading the results file and
+exiting non-zero was what turned a failing test into a red step. With cocotb 2.x, `make` runs the
+same check itself and exits non-zero, so the step already stops at `make`. The extra line now runs
+only after `make` has passed, and it does no harm.
 
 </details>
 

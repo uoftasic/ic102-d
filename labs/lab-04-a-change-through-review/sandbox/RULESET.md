@@ -18,22 +18,21 @@ same thing in words, using the five parts that
 | | Require conversation resolution | Every review comment is answered or resolved before a merge |
 | | Allowed merge methods: merge, squash | Rebase merging is off, so every pull request leaves a merge or a single commit on `main` |
 | | Require status checks to pass: `docs`, `test`, `gds`, `precheck`, `gl_test` | The jobs must be green on the pull request's latest commit |
-| Bypass list | Organization admins, "For pull requests only" | An admin can merge an urgent fix without an approval, but still only through a pull request |
+| Bypass list | Repository admin (the owner), "For pull requests only" | The owner can merge a change of their own without an approval, but still only through a pull request where everyone can see it. Nobody can push to `main` directly, the owner included |
 
 `viewer` isn't a required check, because it runs only on `main` (see `.github/workflows/gds.yaml`).
 "Require branches to be up to date before merging" is off: with it on, every merge to `main` would
 make every other open pull request run its 5-minute `gds` workflow again before it could merge.
-Git still refuses a merge that conflicts, and you resolve that yourself (Lab 04, Part 4).
+Git still refuses a merge that conflicts, and you resolve that yourself (Lab 04, Part 5).
 
-## Setting it up (maintainers)
+## Setting it up
 
-After creating the repository from this folder:
+The owner of the repository adds the ruleset once, after the first push to `main` (Lab 04,
+Part 1): on GitHub, **Settings › Rules › Rulesets › New ruleset › Import a ruleset**, choose this
+file, check that the page shows the settings in the table above, and press **Create**.
 
-```bash
-gh api -X POST repos/uoftasic/<repo>/rulesets --input ruleset.json
-```
-
-The `required_status_checks` names are job names, and GitHub offers them only after each job has
-run once in the repository, so push `main` and let the three workflows finish first. The JSON was
-written from the shape of an existing ruleset in the organization; it hasn't been applied to a
-repository yet.
+The `required_status_checks` names are job names. GitHub offers them in its menus only after each
+job has run once in the repository, but an imported ruleset names them directly. The bypass entry
+is the repository role "Admin" (role 5), which in a repository on a personal account is its
+owner. The JSON follows the shape of an existing ruleset in the team's repositories; it hasn't
+been imported into a repository yet.

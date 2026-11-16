@@ -19,4 +19,4 @@ All 16 tests pass locally with Icarus Verilog and cocotb 2.0.1.
 The heartbeat period is fixed at 512 cycles (51.2 µs at the sandbox's 10 MHz clock), which is
 too fast to see on an LED; a follow-up could add a prescaler.
 
-Generated with an AI coding tool, for IC102-D Lab 04 (Part 5). It contains problems on purpose.
+Generated with an AI coding tool, for IC102-D Lab 04 (Part 6). It contains problems on purpose.

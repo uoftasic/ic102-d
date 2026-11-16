@@ -37,6 +37,7 @@ jobs:
           make clean
           make
           # make will return success even if the tests fail, so check results.xml for failed tests
+          # (The comment above is from cocotb 1.x. With cocotb 2.x, make itself fails when a test fails.)
           python -m cocotb_tools.check_results results.xml
 
       - name: Test Summary

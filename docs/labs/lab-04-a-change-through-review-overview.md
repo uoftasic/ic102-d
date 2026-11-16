@@ -114,13 +114,12 @@ refused.
 
 What does a pull request need for your partner to review it in five minutes?
 
-1. Fork your partner's repository: open `https://github.com/PARTNER-USERNAME/ttsky-ic102-d-review`,
-   press **Fork**, and change the repository name to `ttsky-ic102-d-review-fork`, because you
-   already have a `ttsky-ic102-d-review`. The fork is yours to push to; your partner's `main`
-   changes only through pull requests.
-
-   <!-- SCREENSHOT-TODO: the "Create a new fork" page for PARTNER/ttsky-ic102-d-review, signed in as a second account, with Owner set to that account and Repository name changed to ttsky-ic102-d-review-fork. Needs two accounts: GitHub doesn't let an account fork its own repository, so the one-account live test on Nov 16, 2026 couldn't show this page. -->
-   ![Forking your partner's review repository under a new name.](../assets/img/ic102-d-fork-rename.png){width=640}
+1. Fork your partner's repository: open `https://github.com/PARTNER-USERNAME/ttsky-ic102-d-review`
+   and press **Fork**, at the top right. On the page that opens, set **Owner** to your own
+   account. **Repository name** starts out as the name of the repository you're forking, and you
+   already have a `ttsky-ic102-d-review`, so change it to `ttsky-ic102-d-review-fork`. Then press
+   **Create fork** ([forking a repository](https://docs.github.com/en/pull-requests/how-tos/work-with-forks/fork-a-repo)).
+   The fork is yours to push to; your partner's `main` changes only through pull requests.
 
 2. Clone your fork, and add your partner's repository as a second remote called `upstream`, so
    you can fetch what they merge:

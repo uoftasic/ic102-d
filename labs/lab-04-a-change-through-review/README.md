@@ -23,18 +23,22 @@ python3 $L/check-pr.py PARTNER-USERNAME/ttsky-ic102-d-review#N YOUR-USERNAME/tts
 |---|---|
 | `sandbox/` | The review sandbox: a Tiny Tapeout project with sixteen slots, workflows that also run on pull requests, a pull request template, `CONTRIBUTING.md`, `RULESET.md` and `ruleset.json` |
 | `claim.py` | Writes a ready-made block and its starter test into one slot of a sandbox clone |
-| `check-pr.py` | Reads two pull requests from GitHub's public API: yours merged after an approval, and your change request was followed by a push |
+| `check-pr.py` | Reads two pull requests from GitHub's public API, and checks that yours was merged after an approval and that a push followed your change request on the other |
 | `ai-pr.py`, `ai-pr/` | The AI-written pull request for the optional Part 6, and the script that commits it onto a branch of your fork |
 | `solutions/ai-pr-problems.md` | The problems planted in the AI-written pull request |
 | `maintainer/make_slots.py` | Regenerates the sandbox's slot files, top module, test Makefile and slot tests |
 
-What was checked locally, in the course image with the test job's tools: the sixteen unclaimed
-slot tests pass; every `claim.py` block passes its starter test and an exhaustive check of all
-256 inputs (the combinational ones) on both a `uo` and a `uio` pin; the Lab 04 flow, with local
-bare repositories standing in for the owner's repository and the partner's fork, from the first
-commit of the sandbox to a claim on `uo[3]` from the fork, a claim on `uo[4]` merged into the
-owner's `main`, the conflict that leaves in `info.yaml` and `docs/info.md`, and both tests passing
-after the merge is resolved; tt-support-tools' docs check (9d13ff3) passes on the sandbox; and
-the AI-written pull request, made with `ai-pr.py`, passes all sixteen tests. Not checked until it
-runs on GitHub: importing `ruleset.json`, the `gds` job hardening the sandbox in a 1x2 tile, and
-the workflows' behaviour on pull requests from forks.
+What was checked locally, in the course image with the test job's tools:
+
+- The sixteen unclaimed slot tests pass.
+- Every `claim.py` block passes its starter test, and the combinational ones pass an exhaustive
+  check of all 256 inputs, on both a `uo` and a `uio` pin.
+- The Lab 04 flow, with local bare repositories standing in for the owner's repository and the
+  partner's fork. It ran from the first commit of the sandbox, through a claim on `uo[3]` from
+  the fork and a claim on `uo[4]` merged into the owner's `main`, to the conflict that this
+  leaves in `info.yaml` and `docs/info.md`. Both tests pass after the merge is resolved.
+- tt-support-tools' docs check (9d13ff3) passes on the sandbox.
+- The AI-written pull request, made with `ai-pr.py`, passes all sixteen tests.
+
+Not checked until it runs on GitHub: importing `ruleset.json`, the `gds` job hardening the
+sandbox in a 1x2 tile, and the workflows' behaviour on pull requests from forks.

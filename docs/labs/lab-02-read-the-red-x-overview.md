@@ -1,10 +1,11 @@
 # Lab 02: Read the red X
 
-You'll break your own repository five times, each time in a way one of the team's repositories
-broke or one of Tiny Tapeout's checks exists to catch. A course script makes each breakage as one
-commit. You predict what will fail, push, and find the job, the step and the first error line
-that explain the red X, and you write them in a file called `DIAGNOSIS.md` before you fix
-anything. Each fix is a commit of yours that GitHub runs green.
+You'll break your own repository five times, each time in a way that one of the team's
+repositories broke or that one of Tiny Tapeout's checks exists to catch. A course script makes
+each breakage as a single commit. For each one, you predict what will fail, push, find the job,
+the step and the first error line that explain the red X, and write them in a file called
+`DIAGNOSIS.md` before you fix anything. Each fix is a commit of your own, and GitHub has to run
+it green.
 
 Package: [`labs/lab-02-read-the-red-x/`](https://github.com/uoftasic/ic102-d/tree/main/labs/lab-02-read-the-red-x)
 
@@ -29,7 +30,7 @@ run's summary page is public, and GitHub shows the logs behind it only to people
 
 This lab takes about 1 hour 15 minutes, most of it waiting for runs. A `docs` or `test` run
 finishes in about a minute. A `gds` run takes about 5 minutes (4 min 30 s to 5 min 30 s in the
-course's practice repository), and you can read the next page of this lab while it works.
+course's practice repository), and you can read ahead in this lab while it runs.
 
 ## Part 1: The diagnosis file
 
@@ -60,9 +61,8 @@ course's practice repository), and you can read the next page of this lab while 
    5  info.yaml: run the design at 50 MHz
    ```
 
-   They read like commits a teammate might push, and like `protocol-emulator`'s
-   `b976406 docs: update info.yaml`, which also renamed a module, a message doesn't always say
-   everything a commit did.
+   They read like commits a teammate might push. A commit's message doesn't always say everything
+   the commit did: `protocol-emulator`'s `b976406 docs: update info.yaml` also renamed a module.
 
 3. Commit `DIAGNOSIS.md` and push it, so each entry you add later travels with its fix:
 
@@ -76,7 +76,8 @@ course's practice repository), and you can read the next page of this lab while 
 
 Which job tells you first that `info.yaml` is wrong, and which line in its log says how?
 
-Every breakage follows the same eight steps. This part walks through them once.
+You'll go through the same eight steps for every breakage, and this part takes you through them
+once, with breakage 1.
 
 1. Make the breakage:
 
@@ -111,10 +112,11 @@ Every breakage follows the same eight steps. This part walks through them once.
 
 7. Commit the fix together with your updated `DIAGNOSIS.md`, push, and wait until every job is
    green again. Then fill in **Fix commit** with the fix's hash (`git log --oneline -1`) and
-   commit that small change too, but don't push it on its own: it goes up with the next breakage,
-   in one push, and GitHub runs the workflows only on the newest commit of a push. Two pushes a
-   minute apart start two `gds` runs whose `viewer` jobs deploy to Pages at about the same time,
-   and the second one fails. In the course's practice repository it failed with:
+   commit that small change too. Don't push it on its own, though. It goes up with the next
+   breakage, in one push, and GitHub runs the workflows only on the newest commit of a push. If
+   you pushed it by itself, the two pushes, a minute apart, would start two `gds` runs whose
+   `viewer` jobs deploy to Pages at about the same time, and the second one would fail. In the
+   course's practice repository it failed with:
 
    ```
    ##[error]HttpError: Deployment request failed for eda299edadf9f73ed66d97f537dae4a0840d10d6 due to in progress deployment. Please cancel c70f08ac35a93511ba610109124c852b4108bc57 first or wait for it to complete.
@@ -146,9 +148,9 @@ the line under the heading:
 - Project title cannot be empty
 ```
 
-That's what the practice repository's `docs` job printed for this breakage on Nov 16, and the
-same text tt-support-tools' docs check (the commit the runner used that day, `9d13ff3`) printed
-when we ran it on a broken copy of the template in the course image. `hart-1`'s docs log
+That's what the practice repository's `docs` job printed for this breakage on Nov 16. When we ran
+tt-support-tools' docs check in the course image, on a broken copy of the template and at
+`9d13ff3` (the commit the runner used that day), it printed the same text. `hart-1`'s docs log
 ([run 43752267314](https://github.com/uoftasic/hart-1/actions/runs/43752267314))
 has the same line in a longer list, because its title, author, description and pinout were all
 empty.
@@ -161,7 +163,7 @@ In `gds`, the step is "Build GDS", section "Fetch verilog and build config". In 
 ```
 
 Yours names your repository and lists only the title. The `cat: ... No such file or directory`
-from "Linter output" further down is a consequence, as
+from "Linter output" further down is a consequence of that first error, as
 [Reading a workflow file](../guide/reading-a-workflow-file.md#reading-a-failed-run) explains. The
 fix is to put the title back.
 
@@ -187,10 +189,10 @@ Can a section be "missing" from a file you can see it in?
    ```
 
    Those are the last two lines of `hart-1`'s docs log too. The script put the template's
-   `docs/info.md` back, and both headings are there; the check looks for the template's
-   placeholder sentences under them ("Explain how your project works") and reports the section
-   as missing while they're still there. `gds` passes, because only the docs check reads
-   `docs/info.md`.
+   `docs/info.md` back, so both headings are there. The check looks for the template's
+   placeholder sentences under them ("Explain how your project works"), and reports a section as
+   missing for as long as its placeholder is still there. `gds` passes, because only the docs
+   check reads `docs/info.md`.
 
    The fix is to write the two sections again, or to undo the commit: `git revert HEAD` makes a
    new commit that undoes the last one and leaves the history intact.
@@ -234,8 +236,8 @@ What does a test do when the design it tests has a new name?
    same `Unknown module type` line. The `results.xml` and `tb.fst` messages after it, and in the
    annotations, are consequences: the simulation never started.
 
-   The fix is the one line in `test/tb.v` that names the module, not undoing the rename: the
-   template asks for a top module with your username in it.
+   The fix is to change the one line in `test/tb.v` that names the module, rather than undo the
+   rename, because the template asks for a top module with your username in it.
 
    </details>
 
@@ -281,7 +283,7 @@ When a test fails because the design changed on purpose, what's the right fix?
 
    </details>
 
-3. Make that fix, run it locally before you push, then finish the routine:
+3. Make that fix and run the test locally before you push, then finish the routine:
 
    ```bash
    make -C /foss/designs/modules/ic102-d/labs/common/tt-tools test PROJECT="$PWD"
@@ -326,7 +328,7 @@ What does Tiny Tapeout's validator accept for `clock_hz`?
 
    `clock_hz: 50` is one. It's an integer, so the validator accepts it, but it says the design
    runs at 50 Hz, a factor of a million below the 50 MHz the commit message meant.
-   `protocol-emulator`'s pull request #2 points out exactly this value. Another is a pinout that
+   `protocol-emulator`'s pull request #2 points out the same value. Another is a pinout that
    calls `uio[0]` an input while the design drives it with `uio_oe[0] = 1`.
 
    </details>
@@ -379,8 +381,8 @@ Questions:
    <summary>Answer</summary>
 
    They use it for different things. `docs` builds the datasheet page from it, and `gds` needs
-   the top module, the source files and the tile size to build the layout, so each reads it and
-   stops when it can't. You'd see the same error twice, and fixing it once fixes both.
+   the top module, the source files and the tile size to build the layout, so each of them reads
+   it and stops if it can't. So you see the same error twice, and fixing it once fixes both.
 
    </details>
 
@@ -390,8 +392,9 @@ Questions:
    <summary>Answer</summary>
 
    Breakages 1, 2 and 5. The local test never reads `info.yaml` or `docs/info.md`; only the
-   runner's `docs` and `gds` jobs do. That's one reason the runner, not your workbench, is
-   where a check counts.
+   runner's `docs` and `gds` jobs do, and the course doesn't reproduce either of those on your
+   workbench. That's one reason to count a check as passed only when it has passed on the
+   runner.
 
    </details>
 

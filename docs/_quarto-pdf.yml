@@ -8,7 +8,7 @@ project:
 
 book:
   title: "IC102-D — Working in Tiny Tapeout Repos (Digital)"
-  subtitle: "Run a digital Tiny Tapeout project the way the team does: your own repo from the template, green workflows, reviewed pull requests, and history you can use."
+  subtitle: "Make a digital Tiny Tapeout project from the template on your own GitHub account and keep its workflows passing."
   author: "UofT ASIC Team"
   output-file: "ic102-d-course"
   chapters:

@@ -1,6 +1,6 @@
 # IC102-D — Working in Tiny Tapeout Repos (Digital)
 
-Run a digital Tiny Tapeout project the way the team does: your own repo from the template, green workflows, reviewed pull requests, and history you can use.
+Make a digital Tiny Tapeout project from the template on your own GitHub account and keep its workflows passing.
 
 The course site, with the reading and the lab writeups, is published at
 <https://uoftasic.com/ic102-d/>. Students get this repository in the workbench from IC101 with

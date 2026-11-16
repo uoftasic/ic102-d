@@ -42,8 +42,7 @@ What does it take to turn the course's folder into a repository with rules on it
 1. On GitHub, create a new public repository called `ttsky-ic102-d-review` in your own account.
    Leave it empty: no README, no `.gitignore` and no licence, because the sandbox has its own.
 
-   <!-- SCREENSHOT-TODO: github.com/new, signed in: Owner set to a personal account, Repository name "ttsky-ic102-d-review", Public selected, and "Add a README file", ".gitignore" and "license" all left at None/unticked. Still open after the live test on Nov 16, 2026: the signed-in browser profile was allowed only on the two test repositories, the template's Use this template page and Settings › Emails, and github.com/new without a template isn't one of them. The template page is the same form with a template chosen (docs/assets/img/ic102-create-from-template.png). -->
-   ![Creating an empty public repository.](../assets/img/ic102-d-new-empty-repo.png){width=640}
+   ![Creating the empty review repository in the course's practice run on Nov 16, 2026. The form started with Add README off and with No .gitignore and No license chosen, so none of the three had to be changed.](../assets/img/ic102-d-new-empty-repo.png){width=640 fig-alt="GitHub's Create a new repository form. Under General, Owner is vproHacks and Repository name is ttsky-ic102-d-review, with the note ttsky-ic102-d-review is available. The Description box is empty. Under Configuration, Choose visibility is set to Public, Start with a template to No template, Add README is switched Off, Add .gitignore reads No .gitignore and Add license reads No license."}
 
 2. Make a repository from the sandbox folder, and push it:
 

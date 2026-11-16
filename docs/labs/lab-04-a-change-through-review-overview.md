@@ -224,10 +224,9 @@ What happens to an open pull request when `main` changes under it?
    anything in `.github/workflows/`. Then press **Awaiting approval**, at the top right, which
    opens the **Merge status** panel, and press **Approve workflows to run**.
 
-   The same documentation says that runs may need approving when the person who opened the pull
-   request, or the person whose action started the runs, is someone who needs approval, and
-   that, with the default setting, anyone who has had a commit or pull request merged into the
-   repository no longer needs it
+   GitHub decides this each time workflows are started. It looks at who opened the pull request
+   and at whose action started the runs, and with the default setting it doesn't ask about anyone
+   who has had a commit or pull request merged into the repository
    ([workflows from forks](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#controlling-changes-from-forks-to-workflows-in-public-repositories)).
    So the runs of your partner's later pushes can be held too, until their first pull request is
    merged. Approve them the same way whenever GitHub asks.
@@ -314,7 +313,7 @@ What can you find in your partner's change that no check can?
    in the dialog
    ([submitting your review](https://docs.github.com/en/pull-requests/how-tos/review-pull-requests/reviewing-proposed-changes-in-a-pull-request#submitting-your-review)).
 
-You should see: your review on your partner's pull request, requesting changes.
+You should see: a review from you on your partner's pull request that requests changes.
 
 ## Part 5: Answer the review and resolve the conflict
 

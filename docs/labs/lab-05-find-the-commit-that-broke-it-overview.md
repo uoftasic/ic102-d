@@ -2,9 +2,10 @@
 
 You'll take over the history of a small Tiny Tapeout project, an LED dimmer that three teammates
 wrote over five weeks. Its test passed at the commit they tagged `v1.0`, and it fails now, 27
-commits later. You'll write a script that `git bisect run` can trust, use it to find the commit
-that broke the test, revert that commit on a branch, and get the revert through every workflow
-in a pull request on a repository of your own.
+commits later. You'll write a script that tells `git bisect run` correctly whether each commit is
+good, bad or can't be tested, use it to find the commit that broke the test, revert that commit
+on a branch, and get the revert through every workflow in a pull request on a repository of your
+own.
 
 Package: [`labs/lab-05-find-the-commit-that-broke-it/`](https://github.com/uoftasic/ic102-d/tree/main/labs/lab-05-find-the-commit-that-broke-it)
 
@@ -67,8 +68,8 @@ What does the test say now, and what did it say at `v1.0`?
    14d59b6 test: run fade mode for 100 steps
    ```
 
-   Every hash in this lab is exact, because the course built each commit with a fixed author,
-   date and message.
+   The hashes in your clone are the same as the ones on this page, because the course built each
+   commit with a fixed author, date and message.
 
 3. Run the test on `main`, as the test job would:
 
@@ -149,8 +150,8 @@ What should the script say about a commit whose design doesn't compile?
    simulation, so it stops with `Error 2` when a test fails, and it stops with the same status
    when the design doesn't compile. The difference shows in `test/results.xml`: cocotb writes it
    whenever the simulation runs, and never when the compile fails. (This is also why the script
-   deletes `results.xml` before each run. An old one, left from the previous commit, would answer
-   for a commit that never ran.)
+   deletes `results.xml` before each run. An old one, left from the previous commit, would make a
+   commit that never ran look as if it had.)
 
 3. Replace the last line of `bisect.sh` (`exit 0`, under the TODO) with the rule the
    [History as evidence](../guide/history-as-evidence.md#finding-the-commit-that-broke-it) script
@@ -203,11 +204,11 @@ What should the script say about a commit whose design doesn't compile?
    <summary>Answer</summary>
 
    No. The log has a line ending in `src/seg7.v:15: error: Unknown module type: seg7_table`: the
-   commit added a
-   new file to `info.yaml` but not to `PROJECT_SOURCES` in `test/Makefile`, so the design didn't
-   compile and the test never ran. The very next commit, `ae2c625 test/Makefile: add
+   commit added a new file to `info.yaml` but not to `PROJECT_SOURCES` in `test/Makefile`, so the
+   design didn't compile and the test never ran. The very next commit, `ae2c625 test/Makefile: add
    seg7_table.v to PROJECT_SOURCES`, fixed that, and nothing about the PWM changed. The script
-   called a commit bad that couldn't be tested at all, and `git bisect` believed it.
+   reported a commit that couldn't be tested at all as bad, and `git bisect` goes by whatever the
+   script reports.
 
    The same rule was right for `protocol-emulator`, because there the failure being hunted *was*
    a compile error (a module the testbench could no longer find). Here the failure being hunted
@@ -288,7 +289,8 @@ What should the script say about a commit whose design doesn't compile?
      00c3d87  last commit, test fails      exit 1    ok
    ```
 
-   followed by `no commit made by git revert on this branch yet`, which Part 3 fixes.
+   followed by `no commit made by git revert on this branch yet`. You'll make that commit in
+   Part 3.
 
 You should see: `git bisect` name a commit whose diff changes the PWM, and three `ok` lines from
 the check.
@@ -453,8 +455,8 @@ Questions:
    Yes, because they hunt different failures. In `protocol-emulator` the test broke *because*
    the testbench stopped compiling, so a commit that doesn't compile shows the bug. In the dimmer
    the bug is a wrong value from a design that compiles, so a commit that doesn't compile can't
-   show it either way, and 125 tells git to look at a neighbour instead. Decide what you're
-   hunting before you decide what the script says.
+   show it either way, and 125 tells git to look at a neighbour instead. So decide what you're
+   hunting before you decide what the script says about a commit that doesn't compile.
 
    </details>
 
@@ -478,8 +480,9 @@ Questions:
    <summary>Answer</summary>
 
    They weren't looking at their runs. On GitHub, the `test` workflow would have gone red on the
-   push that included `d18e316`, and every push after it. A red cross that stays red for a week
-   is one nobody is reading, which is how `hart-1`'s `docs` and `gds` stayed red for four weeks.
+   push that included `d18e316`, and on every push after it. A red cross only stays red for a
+   week when nobody is reading it, and that's how `hart-1`'s `docs` and `gds` stayed red for four
+   weeks.
 
    </details>
 

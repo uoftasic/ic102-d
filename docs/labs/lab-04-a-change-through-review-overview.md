@@ -304,14 +304,15 @@ What can you find in your partner's change that no check can?
    (Use your partner's slot and block in place of these. For another block, think about which
    inputs its two test values never exercise.)
 
-3. Write your review. First add a comment on any line where you found something else. Line
-   comments stay pending, and only you can see them, until you submit the review. Then, on
-   **Files changed**, press **Submit review**. It opens the **Finish your review** dialog pictured
-   in Part 3, step 3, where **Approve** and **Request changes** were greyed out because the pull
-   request was your own. Type a comment that says what to add and why: which input values, and
-   which wrong block they would catch. Select **Request changes**, and press **Submit review** in
-   the dialog
-   ([submitting your review](https://docs.github.com/en/pull-requests/how-tos/review-pull-requests/reviewing-proposed-changes-in-a-pull-request#submitting-your-review)).
+3. Write your review. First add a comment on any line where you found something else: on
+   **Files changed**, hover over the line, click the blue comment icon, type the comment, and
+   press **Start a review** (**Add review comment** for the ones after it). Those comments stay
+   pending, and only you can see them, until you submit the review. Then press
+   **Submit review**. It opens the **Finish your review** dialog pictured in Part 3, step 3,
+   where **Approve** and **Request changes** were greyed out because the pull request was your
+   own. Type a comment that says what to add and why: which input values, and which wrong block
+   they would catch. Select **Request changes**, and press **Submit review** in the dialog
+   ([reviewing a pull request](https://docs.github.com/en/pull-requests/how-tos/review-pull-requests/reviewing-proposed-changes-in-a-pull-request#starting-a-review)).
 
 You should see: a review from you on your partner's pull request that requests changes.
 

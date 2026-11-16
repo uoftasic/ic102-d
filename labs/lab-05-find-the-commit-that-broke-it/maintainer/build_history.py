@@ -578,8 +578,12 @@ def main():
         old = set(subprocess.run(["git", "ls-files", "src"], cwd=repo, capture_output=True,
                                  text=True, check=True).stdout.split())
         new = render(state, base)
+        # Remove only the Verilog files a step drops. The template's src/config.json stays in
+        # every commit: without it the gds job stops at "Could not file configuration file
+        # src/config.{json}", which is what the first build of this history did on GitHub.
         for path in old - set(new):
-            os.remove(os.path.join(repo, path))
+            if path.endswith(".v"):
+                os.remove(os.path.join(repo, path))
         for path, text in new.items():
             with open(os.path.join(repo, path), "w", newline="\n") as fh:
                 fh.write(text)

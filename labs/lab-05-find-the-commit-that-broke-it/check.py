@@ -29,10 +29,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "common"))
 import ic102  # noqa: E402
 
-GOOD = "d4d038ba667d42a39ddb955b82267b263b25aa56"       # v1.0
-NO_BUILD = "18bb2c3886dabbc0d52c37b69df06162904c424b"   # WIP: preset brightness levels
-LAST = "d79cae577f82c23a00bd6b0e0ded14e2978ec07f"       # the history's last commit
-BROKE_SHA256 = "5cf28be1805141f2efac1eecf49fe66d0003f74a02dc979f7f76b81178aa3f11"
+GOOD = "4e04d775e153a5c2526f9687f9ef83a185f62b7d"       # v1.0
+NO_BUILD = "cbba6a3831a677c6552cf449fd3ae56728bf2565"   # WIP: preset brightness levels
+LAST = "00c3d87894d0c8bce7a127e029cd9f6cbbb36da2"       # the history's last commit
+BROKE_SHA256 = "52dc7fd9ccdabecaa2064687149f06c34db0a18cfca534c815b4afbeaabe226a"
 
 
 def run_script(root, script, commit):
@@ -58,7 +58,7 @@ def main():
         raise ic102.CheckError(f"{root} isn't a clone of Lab 05's history (Part 1)")
 
     script = os.path.join(root, "bisect.sh")
-    print(f"Checking {root}\n\nYour bisect.sh, run at three commits (about a minute)")
+    print(f"Checking {root}\n\nYour bisect.sh, run at three commits")
     if not os.path.exists(script):
         problems.append("no bisect.sh at the top of your clone (Part 2)")
     else:

@@ -33,6 +33,6 @@ python3 $L/check.py [--offline]
 
 `maintainer/verify.sh` prints, among other things, which commit each bisect script names. On the
 bundle as committed: a script that exits with `make`'s status, and one that calls a commit with no
-`results.xml` bad, both name `fc5cc5a`; `solutions/bisect.sh` names the planted commit. If you
+`results.xml` bad, both name `85133d6`; `solutions/bisect.sh` names the planted commit. If you
 rebuild the bundle, the hashes in the writeup, in `check.py` (`GOOD`, `NO_BUILD`, `LAST` and
 `BROKE_SHA256`) and in this file change with it.

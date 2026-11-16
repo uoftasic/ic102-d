@@ -1,10 +1,10 @@
 # Lab 01: Your repository from the template
 
-You'll make a Tiny Tapeout project of your own: a public repository on your GitHub account,
-created from Tiny Tapeout's Verilog template. You'll fill in the two files the template leaves
-for you, push, read what each workflow says, turn on GitHub Pages when the last job asks for it,
+You'll make a Tiny Tapeout project of your own: a public repository on your GitHub account, created
+from Tiny Tapeout's Verilog template. You'll fill in the two files the template leaves for you,
+push, read what each workflow says, turn on GitHub Pages when the last job, `viewer`, asks for it,
 and keep going until every job is green on a commit you made. You'll also install the test job's
-tools in the workbench, which the later labs use.
+tools in the workbench; the later labs use them too.
 
 Package: [`labs/lab-01-your-repo-from-the-template/`](https://github.com/uoftasic/ic102-d/tree/main/labs/lab-01-your-repo-from-the-template)
 
@@ -118,7 +118,7 @@ What will your commits say about you, and how will git prove to GitHub that it's
    - **All repositories** under Repository access, because the repositories for Labs 04 and 05
      don't exist yet;
    - two repository permissions, **Contents** and **Workflows**, both "Read and write". Contents
-     is the permission every push needs. You need Workflows as well, because GitHub refuses a
+     is the permission every push needs. You need Workflows as well, because GitHub rejects a
      push that adds or changes a file under `.github/workflows/` unless the token has it, and two
      of your pushes, in Labs 04 and 05, do that. GitHub adds Metadata, read-only, by itself.
 
@@ -150,8 +150,8 @@ anything?
    ![Creating a repository from the template.](../assets/img/ic102-create-from-template.png){width=640}
 
 2. GitHub makes the repository and commits the template's files to it, and that commit counts as
-   a push, so the workflows have already started. Before you look, predict which of the three workflows
-   (`docs`, `test` and `gds`) pass on this first commit.
+   a push, so three workflows have already started: `docs`, `test` and `gds`. (The fourth, `fpga`,
+   is switched off.) Before you look, predict which of the three pass on this first commit.
 
 3. Clone the repository into the `projects` folder of your workspace, and set your identity and
    token cache for it:
@@ -190,9 +190,9 @@ anything?
    .github/workflows/gds.yaml:47:      - uses: TinyTapeout/tt-gds-action/viewer@ttsky26d
    ```
 
-   `ttsky26d` names the version of Tiny Tapeout's actions your repository uses. Your repository
-   keeps that tag whatever Tiny Tapeout does to its template later, although Tiny Tapeout can move
-   the tag itself to a new commit, as [The Tiny Tapeout workflows](../guide/the-tiny-tapeout-workflows.md#tags-and-support-tools-that-move)
+   `ttsky26d` names the version of Tiny Tapeout's actions that your repository uses. Your workflow
+   files keep naming `ttsky26d` whatever Tiny Tapeout later changes in its template, although Tiny
+   Tapeout can move the tag itself to a new commit, as [The Tiny Tapeout workflows](../guide/the-tiny-tapeout-workflows.md#tags-and-support-tools-that-move)
    explains.
 
 5. Now open your repository's **Actions** tab and compare it with your prediction.
@@ -200,11 +200,11 @@ anything?
    <details>
    <summary>Answer</summary>
 
-   `test` passes, and `docs` and `gds` fail. `test` runs the template's own test on the
-   template's adder, and the adder is correct. `docs` and `gds` both read `info.yaml`, whose
-   title, author and description are empty. In `gds` only the first job runs, and the other three
-   are skipped because each `needs: gds`. `hart-1`'s first commit, made from the same template on
-   Oct 18, got the same results. Here are its check runs, read with the course's `check-runs.py`:
+   `test` passes, and `docs` and `gds` fail. `test` runs the template's own test on the template's
+   adder, and the adder is correct. `docs` and `gds` both read `info.yaml`, whose title, author and
+   description are empty. In `gds` only the first job runs, and the other three are skipped because
+   each one has `needs: gds`. `hart-1`'s first commit, made from the same template on Oct 18, got
+   the same results. Here are its check runs, read with the course's `check-runs.py`:
 
    ```
    uoftasic/hart-1 at 29313b4
@@ -247,8 +247,8 @@ Which of the six jobs pass once `info.yaml` and `docs/info.md` are filled in?
    ```
 
 4. Predict the result of each job before you look: `docs`, `test`, and the four jobs of `gds`.
-   `gds` builds the layout this time, which took 2 min 50 s in the course's practice repository,
-   and the three jobs after it, which run side by side, took another 2 min 26 s.
+   The `gds` job builds the layout this time, which took 2 min 50 s in the course's practice
+   repository, and the three jobs after it, which run side by side, took another 2 min 26 s.
 
    <details>
    <summary>Answer</summary>
@@ -261,15 +261,16 @@ Which of the six jobs pass once `info.yaml` and `docs/info.md` are filled in?
 
    </details>
 
-5. Open the `viewer` job's log (signed in) and find the line that says what to do. In the
-   practice repository's run [43826443768](https://github.com/vproHacks/ic102-test-d/actions/runs/43826443768)
+5. Open the `viewer` job's log (you have to be signed in to GitHub to see it) and find the line
+   that says what to do. In the practice repository's run [43826443768](https://github.com/vproHacks/ic102-test-d/actions/runs/43826443768)
    it was:
 
    ```
    ##[error]Error: Failed to create deployment (status: 404) with build version 1e5f04aba0db818605ad318fb00c018d94be6d98. Request ID 9BB4:34D4D8:189992:27A7DC:6AFAB621 Ensure GitHub Pages has been enabled: https://github.com/vproHacks/ic102-test-d/settings/pages
    ```
 
-   Yours names your own commit and your repository's own settings page.
+   The line in your log has your own commit as the build version, and your own repository's
+   settings page at the end.
 
    ![A protocol-emulator gds run where only the viewer job failed.](../assets/img/ic102-run-viewer-only-red.png){width=760}
 
@@ -294,7 +295,7 @@ How do you fix a failure that isn't in any file?
    Start a new run rather than pressing **Re-run failed jobs** on the old one. A re-run keeps the
    first attempt's Pages artifact, and the `viewer` action at the `ttsky26d` tag uploads an
    artifact with the same name on every attempt, so the re-run fails with
-   "Multiple artifacts named "github-pages"". A new run starts with no artifacts, so it doesn't
+   `Multiple artifacts named "github-pages"`. A new run starts with no artifacts, so it doesn't
    have this problem. `sentry`'s re-runs failed this way, and
    [Reading a workflow file](../guide/reading-a-workflow-file.md#re-running-a-run) has the log.
 
@@ -337,8 +338,9 @@ You should see: six green jobs on your commit, and `VERDICT: PASS`.
 
 ## Finishing
 
-You're done when `check.py` prints `VERDICT: PASS`: `info.yaml` and `docs/info.md` are filled in,
-HEAD is a commit of yours on top of the template's, and all six jobs passed on it.
+You're done when `check.py` prints `VERDICT: PASS`, which it does when `info.yaml` and
+`docs/info.md` are filled in, HEAD is a commit of yours on top of the template's, and all six jobs
+passed on it.
 
 Questions:
 
@@ -359,9 +361,9 @@ Questions:
    <details>
    <summary>Answer</summary>
 
-   They wouldn't, from the history alone: a setting isn't a commit, and the run logs that show
-   the 404 are deleted after 90 days. That's a reason to write it down where it lasts, for
-   example in the README, or in an issue.
+   They wouldn't, from the history alone: turning on Pages changed a setting and made no commit,
+   and the run logs that show the 404 are deleted after 90 days. That's a reason to write the
+   change down somewhere it lasts, for example in the README, or in an issue.
 
    </details>
 

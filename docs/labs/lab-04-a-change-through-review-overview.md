@@ -208,13 +208,13 @@ What happens to an open pull request when `main` changes under it?
 1. Open the pull request your partner made on your repository. Its workflows haven't run: GitHub
    holds them until you press **Approve and run workflows**, because a pull request from someone
    who hasn't contributed to your repository before runs code they wrote on your repository's
-   runners, and GitHub wants you to look at it first. Approve them, and do the same after each
-   push your partner makes, until their first pull request is merged.
+   runners, and GitHub wants you to look at it first. Approve them, and do the same whenever
+   GitHub holds the runs of a later push, until your partner's first pull request is merged.
 
    <!-- SCREENSHOT-TODO: a pull request from a fork into a student's ttsky-ic102-d-review, signed in as the repository's owner, showing the workflows awaiting approval and the "Approve and run workflows" button. Needs two accounts. -->
    ![Approving the workflows of a first-time contributor's pull request.](../assets/img/ic102-d-approve-runs.png){width=640}
 
-   <!-- RUN-TODO: confirm the button's label and that each later push from the fork needs approving again until the first merge. -->
+   <!-- RUN-TODO: confirm the button's label, that each later push from the fork needs approving again until the first merge, and whether a pull request with a merge conflict gets pull_request runs at all (GitHub's docs say it doesn't, which Part 5 assumes). -->
 
 2. Look at **Files changed** and note the pin your partner claimed. Claim the one after it
    yourself, in your own clone, on a branch, the same way as in Part 2 (the two edits by hand,
@@ -301,7 +301,8 @@ What happens to an approval when you push again?
    Reply to each comment and resolve it, because the ruleset won't merge with a conversation still
    open. In the practice run, the parity test's list of cases became
    `[(0x00, 0), (0x01, 1), (0x10, 1), (0x80, 1), (0xF0, 0), (0xFF, 0)]`, and the test reported
-   `PASS 1050.00`. Ask your partner to approve the runs and look again.
+   `PASS 1050.00`. Ask your partner to look again. Your pull request gets no new runs yet,
+   because GitHub doesn't run `pull_request` workflows on a pull request that has a conflict.
 
 2. When your partner approves, the pull request still can't merge, because of the conflict from
    Part 3. Bring your partner's `main` into your branch:
@@ -394,8 +395,8 @@ review the one opened on your own.
    You should see `Committed the AI-written pull request as ... on branch
    ai-claim-uio7-heartbeat.`
 
-2. When your partner's arrives on your repository, approve its runs and review it as you reviewed
-   their claim, but treat every statement in its description as a claim to check, as
+2. When your partner's arrives on your repository, approve its runs if GitHub asks, and review it
+   as you reviewed their claim, but treat every statement in its description as a claim to check, as
    [Pull requests and review](../guide/pull-requests-and-review.md#pull-requests-written-with-ai-tools)
    suggests. Request changes, naming each problem you find with its file and line. Don't approve
    it and don't merge it; close it when you're done.

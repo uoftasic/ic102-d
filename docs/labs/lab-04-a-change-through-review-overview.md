@@ -221,12 +221,12 @@ What happens to an open pull request when `main` changes under it?
    steps
    ([approving workflow runs from forks](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/approve-runs-from-forks)):
    on the pull request's **Files changed** tab, read the changes, paying most attention to
-   anything in `.github/workflows/`. Then press **Awaiting approval**, at the top right, which
-   opens the **Merge status** panel, and press **Approve workflows to run**.
+   anything in `.github/workflows/`. Then press **Awaiting approval**, at the top right of the
+   pull request, which opens the **Merge status** panel, and press **Approve workflows to run**.
 
-   GitHub decides this each time workflows are started. It looks at who opened the pull request
-   and at whose action started the runs, and with the default setting it doesn't ask about anyone
-   who has had a commit or pull request merged into the repository
+   GitHub decides whether to hold the runs each time workflows are started. It looks at who
+   opened the pull request and at whose action started the runs, and with the default setting it
+   doesn't ask about anyone who has had a commit or pull request merged into the repository
    ([workflows from forks](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#controlling-changes-from-forks-to-workflows-in-public-repositories)).
    So the runs of your partner's later pushes can be held too, until their first pull request is
    merged. Approve them the same way whenever GitHub asks.
@@ -306,11 +306,11 @@ What can you find in your partner's change that no check can?
 
 3. Write your review. First add a comment on any line where you found something else. Line
    comments stay pending, and only you can see them, until you submit the review. Then, on
-   **Files changed**, press **Submit review**. It opens the **Finish your review** dialog you saw
-   on your own pull request in Part 3, where **Approve** and **Request changes** were greyed out
-   because you were the author. Type a comment that says what to add and why: which input values,
-   and which wrong block they would catch. Select **Request changes**, and press **Submit review**
-   in the dialog
+   **Files changed**, press **Submit review**. It opens the **Finish your review** dialog pictured
+   in Part 3, step 3, where **Approve** and **Request changes** were greyed out because the pull
+   request was your own. Type a comment that says what to add and why: which input values, and
+   which wrong block they would catch. Select **Request changes**, and press **Submit review** in
+   the dialog
    ([submitting your review](https://docs.github.com/en/pull-requests/how-tos/review-pull-requests/reviewing-proposed-changes-in-a-pull-request#submitting-your-review)).
 
 You should see: a review from you on your partner's pull request that requests changes.

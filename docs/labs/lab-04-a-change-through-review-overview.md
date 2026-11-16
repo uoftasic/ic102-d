@@ -2,10 +2,10 @@
 
 You and a partner each make a small Tiny Tapeout project of your own, the review sandbox, and put
 branch rules on it. Each of its sixteen output pins is driven by a slot that starts empty. You'll
-claim a pin in your partner's sandbox with a pull request from a fork, which your partner has to
-approve before it can merge. In your own sandbox you'll review your partner's pull request and
-ask for a change, and claim the pin next to theirs yourself, which leaves them a conflict to
-resolve, as their claim leaves you one.
+claim a pin in your partner's sandbox with a pull request from a fork, and your partner has to
+approve it before it can merge. In your own sandbox you'll review your partner's pull request and
+ask for a change. You'll also claim the pin next to theirs yourself, which leaves them a conflict
+to resolve, and their claim in their own sandbox leaves you one.
 
 Package: [`labs/lab-04-a-change-through-review/`](https://github.com/uoftasic/ic102-d/tree/main/labs/lab-04-a-change-through-review)
 
@@ -29,10 +29,10 @@ Package: [`labs/lab-04-a-change-through-review/`](https://github.com/uoftasic/ic
   ```
 
 The steps write `YOUR-USERNAME` and `PARTNER-USERNAME` for your two GitHub usernames, and `N` for
-a pull request's number. Their examples are a parity block on `uo[3]` from the partner and a
-majority block on `uo[4]` from the owner; use your own pins and blocks.
+a pull request's number. The examples have you claim `uo[3]` for a parity block in your
+partner's repository, and `uo[4]` for a majority block in your own; use your own pins and blocks.
 
-This lab takes about 1 hour 45 minutes, including GitHub's runners, which take 5 to 10 minutes
+This lab takes about 1 hour 45 minutes. That includes the 5 to 10 minutes GitHub's runners take
 after each push, but not the time you spend waiting for your partner.
 
 ## Part 1: Your review repository
@@ -76,8 +76,8 @@ What does it take to turn the course's folder into a repository with rules on it
    Import a ruleset**, and pick `ruleset.json` from your clone. On your laptop it's in the
    `projects/ttsky-ic102-d-review` folder of your workspace. Before you press **Create**, check
    the page against `RULESET.md`, which describes the same ruleset in the five parts of
-   [Branch rules](../guide/branch-rules.md#what-a-ruleset-is). The bypass list has one entry:
-   the repository's admin role, which is you, "For pull requests only".
+   [Branch rules](../guide/branch-rules.md#what-a-ruleset-is). The bypass list has one entry, the
+   repository's admin role (which is you), set to "For pull requests only".
 
    ![Importing the sandbox's ruleset: the New ruleset menu, with Import a ruleset at the bottom.](../assets/img/ic102-d-ruleset-import.png){width=640}
 
@@ -281,7 +281,7 @@ What can you find in your partner's change that no check can?
    those two values, and run the tests. GitHub keeps every pull request's latest commit in the
    repository it's aimed at, as `refs/pull/N/head`, so you can fetch it without adding your
    partner's fork as a remote. For a parity block, a version that looks at only half the inputs
-   does it:
+   does that:
 
    ```bash
    git switch main
@@ -394,9 +394,9 @@ You should see: your pull request merged, and both pins' rows filled in on your 
 ## Part 6: A pull request written by an AI tool (optional)
 
 About 15 minutes. The course has a pull request, "Claim uio[7]: heartbeat", whose code and
-description an AI coding tool wrote. Its description says so in its last line, and that the
-course left problems in it on purpose. All sixteen tests pass on it with the course's tools; we
-checked, and that's part of the exercise. You each open it on the other's repository, and each
+description an AI coding tool wrote. Its description says so in its last line, and says that the
+course left problems in it on purpose. All sixteen tests pass on it with the course's tools (we
+checked), and that's part of the exercise. You each open it on the other's repository, and each
 review the one opened on your own.
 
 1. In your fork's clone, put it on a branch of its own, push it, and open a pull request into
@@ -421,10 +421,11 @@ review the one opened on your own.
 <details>
 <summary>Answer</summary>
 
-There are three. `src/slot_uio7.v` sets `oe` to 0, so `uio[7]` stays an input and the heartbeat
-never leaves the chip, while `info.yaml` calls it an output. `test/test_uio7.py` has its only
-real assertion commented out ("flaky at gate level", which nobody showed), its last assertion
-(`in (0, 1)`) can't fail, and it never checks `uio_oe`. And the description says the tests pass
+There are three problems. `src/slot_uio7.v` sets `oe` to 0, so `uio[7]` stays an input and the
+heartbeat never leaves the chip, while `info.yaml` calls it an output. `test/test_uio7.py` has
+its only real assertion commented out ("flaky at gate level", which the pull request gives no
+evidence for), its last assertion (`in (0, 1)`) can't fail, and it never checks `uio_oe`. And
+the description says the tests pass
 "with cocotb 2.0.1", which is the workbench's version; the runner and the course's `make test`
 use 2.1.0.
 
@@ -444,9 +445,10 @@ Questions:
    <details>
    <summary>Answer</summary>
 
-   A test that fails on blocks that are wrong in ways the old one missed, like the half-parity
-   block in Part 4. A test is worth as much as the wrong designs it can catch, and you can only
-   find that out by trying some, which is what you did as a reviewer.
+   They gave you a test that fails on blocks that are wrong in ways the old one missed, such as
+   the half-parity block in Part 4. What a test is worth depends on which wrong designs it can
+   catch, and the only way to find out is to try some, as you did when you reviewed your
+   partner's pull request.
 
    </details>
 
@@ -475,7 +477,7 @@ both of the pull requests it asks for:
 python3 $L/check-pr.py uoftasic/sentry#33 uoftasic/sentry#33
 ```
 
-Its first block reads, with the two people's usernames where we've put roles:
+Its first block reads as follows, with roles in place of the two people's usernames:
 
 ```
 uoftasic/sentry #33: Event Decoder FSM

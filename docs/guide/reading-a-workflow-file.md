@@ -309,8 +309,8 @@ Build and deployment › Source
 ([publishing source](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)).
 A repository made from a template starts with Pages off, as
 [Templates, forks and clones](templates-forks-and-clones.md#what-the-template-gives-you) explains,
-so the first `gds` run in a new repository can build and check a layout without a single problem
-and still end red. That was the state of `protocol-emulator`'s run on Nov 15, 2026
+so the first `gds` run in a new repository can build and check a layout successfully and still end
+red. That was the state of `protocol-emulator`'s run on Nov 15, 2026
 ([run 43757724629](https://github.com/uoftasic/protocol-emulator/actions/runs/43757724629)):
 
 ![A protocol-emulator gds run where only the viewer job failed. The person who pushed is shown as a team member.](../assets/img/ic102-run-viewer-only-red.png){width=760 fig-alt="A workflow run summary for gds.yaml, status Failure, total duration 17m 17s. gds took 13m 33s, precheck 3m 38s and gl_test 1m 2s, all green; viewer took 9s and is red. The Annotations box lists 4 errors on viewer, among them Error: Failed to create deployment (status: 404) and Creating Pages deployment failed. Six artifacts were uploaded."}

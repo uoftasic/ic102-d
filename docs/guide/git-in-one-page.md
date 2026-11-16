@@ -5,9 +5,9 @@ Tiny Tapeout repository alongside other people?*
 
 In IC101 you used git for exactly one thing, `git clone`. From Lab 01 of this course onwards you'll
 make commits, push them to GitHub, open pull requests and read other people's history, so you need
-a working picture of what git is doing. This page gives you that picture and nothing more. The
-commands themselves are in the labs, where you'll type them; here we explain what they do and why
-the team's repositories look the way they do.
+a working picture of what git is doing. This page gives you that picture. The commands themselves
+are in the labs, where you'll type them, so here we only explain what they do and why the team's
+repositories look the way they do.
 
 ## Four places a change lives
 
@@ -34,8 +34,8 @@ explains. Going the other way, `git fetch` brings down commits other people push
 or `git switch` brings them into your working tree. `git pull` does the fetch and the merge in one
 step.
 
-The push is the step that matters most in a Tiny Tapeout repository, because GitHub runs the
-template's workflows on every push, and a commit that hasn't been pushed hasn't been checked.
+Of these steps, the push matters most in a Tiny Tapeout repository, because GitHub runs the
+template's workflows on every push, so a commit isn't checked until you've pushed it.
 
 ## Commit identity
 
@@ -61,9 +61,8 @@ repository you work in. That's the first thing you'll do in
 ## Commit messages
 
 A good commit does one thing, and its message says what that thing is and, when it isn't obvious,
-why. The reason this matters is that the history is the only record most projects keep. Six weeks
-from now nobody will remember why a line changed, and the message will be the only place to find
-out.
+why. That matters because the history is the only record most projects keep: six weeks from now
+nobody will remember why a line changed, and the message will be the only place to find out.
 
 Here are three real commits from `protocol-emulator`, all made while getting its workflows to pass:
 
@@ -73,12 +72,11 @@ Here are three real commits from `protocol-emulator`, all made while getting its
 | `a5f1475` | `chore: temporarily remove assertion from test.py` | Commented out the template's only assertion |
 | `7c56c54` | `chore: updated module name in testbench` | `test/tb.v`, to match the new module name |
 
-These are ordinary messages, and most of us have written ones like them. They're worth a second
-look because of what happened next. The first commit renamed the design's top module, but its
-message mentions only `info.yaml`, so when the test workflow started failing at that commit, the
-message gave no hint why. The second one says what it did and not why, and "temporarily" is still
-true on `main` two weeks later: the assertion is commented out, so the test that passes there
-checks nothing. [History as evidence](history-as-evidence.md) follows this story further.
+These are ordinary messages, and most of us have written ones like them, but two of them caused
+problems later. The first commit renamed the design's top module, but its message mentions only
+`info.yaml`, so when the test workflow started failing at that commit, the message gave no hint
+why. The second one says what it did and not why, and "temporarily" is still true on `main` two
+weeks later: the assertion is commented out, so the test that passes there checks nothing. [History as evidence](history-as-evidence.md) follows this story further.
 
 Compare `b1896da` in `ttsky-verilog-tinyCGRA`, "removed config_done assert (unreliable in GLS)".
 It also removes an assertion, but it says which one and gives a reason a reviewer can argue with.
@@ -112,7 +110,7 @@ test/gate_level_netlist.v
 Every line is something a tool writes: waveforms (`*.vcd`, `*.fst`), the LibreLane run directory
 (`runs`), the simulator's build folder and results, and the gate-level netlist the GDS action copies
 into `test/`. When a project adds a new place for tools to write, it needs a new line here.
-`crosswalk` did exactly that in pull request #5, "Ignore simulation output", which added
+`crosswalk` did that in pull request #5, "Ignore simulation output", which added
 `test/digital/sim_build/`, `test/digital/results.xml`, `test/digital/tb.fst`,
 `test/digital/__pycache__/` and `*.raw` after the repository was split into analog and digital
 parts.
@@ -130,8 +128,8 @@ secret ever goes in a repository, ignored or not, because a single mistaken `git
 
 ## Branches, merges and conflicts
 
-Work on a branch, and git can bring two lines of work back together with a merge. Most merges need
-no help, because the two branches changed different files or different lines. When both branches
+When you work on a branch, git can later bring the two lines of work back together with a merge.
+Most merges need no help, because the two branches changed different files or different lines. When both branches
 changed the same lines, git stops and asks you to decide, and that's called a **merge conflict**.
 
 In a Tiny Tapeout repository the most likely place for one is the pinout in `info.yaml`, because

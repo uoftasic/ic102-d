@@ -368,9 +368,16 @@ Does GitHub's runner agree with your workbench?
    on the three PWM cases, and so does `gl_test`, which runs the same test on the gate-level
    netlist. `viewer` fails with the 404 from Lab 01, because a new repository has Pages off.
 
+   That's what the course's practice repository got. `test` and `gl_test` both stopped at
+   `AssertionError: with duty 0 the LED (uo_out[7]) was on for 8 of 2048 cycles, expected 0`,
+   the first of the three failures you saw in Part 1, and `viewer` at
+   `Error: Failed to create deployment (status: 404)`.
+
    </details>
 
-   <!-- RUN-TODO: the six job results of the first push of the Lab 05 history (main at 00c3d87) to a new public repository, and the first error line of test, gl_test and viewer. -->
+   You'll also see the three workflows run a second time, on `v1.0`. Tiny Tapeout's workflows run
+   on every push, and pushing a tag counts as one. On `v1.0` only `viewer` fails, with the same
+   404.
 
 4. Turn Pages on for `ttsky-ic102-d-bisect` the way you did in Lab 01, Part 5. You don't need
    **Run workflow** this time, because the push in the next step starts a new run.
@@ -393,15 +400,37 @@ Does GitHub's runner agree with your workbench?
    python3 $L/check.py
    ```
 
-   It repeats Part 2's three runs and then reads your branch's latest commit from GitHub.
+   It repeats Part 2's three runs and then reads your branch's latest commit from GitHub. In the
+   course's practice repository it printed:
 
-   <!-- RUN-TODO: check.py's full output on a revert-pwm-compare branch whose six jobs have all passed on GitHub; confirm in particular that viewer passes on a run from a branch other than main. -->
+   ```
+   Checking /foss/designs/projects/ttsky-ic102-d-bisect
+
+   Your bisect.sh, run at three commits
+     4e04d77  v1.0, test passes            exit 0    ok
+     cbba6a3  preset WIP, doesn't compile  exit 125  ok
+     00c3d87  last commit, test fails      exit 1    ok
+
+   Your revert
+     reverts d18e316, the commit that broke the test
+
+   GitHub: vproHacks/ic102-test-d at 6b2ae2a
+     docs      success
+     test      success
+     gds       success
+     precheck  success
+     gl_test   success
+     viewer    success
+
+   VERDICT: PASS
+   ```
+
+   `viewer` passes on a branch too: it publishes the branch's layout to your project's page.
 
 7. Merge the pull request. The repository is yours and has no rules, so you can merge it
    yourself. The merge is a push to `main`, so `main`'s workflows run again, now with the
-   revert in them and Pages on.
-
-   <!-- RUN-TODO: the six job results on main after the revert pull request is merged (all green, viewer included). -->
+   revert in them and Pages on. In the course's practice repository all six were green 5 min 45 s
+   after the merge, `viewer` included.
 
 You should see: all six jobs green on the pull request, `VERDICT: PASS`, and all six green on
 `main` after the merge.

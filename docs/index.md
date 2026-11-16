@@ -1,7 +1,7 @@
 # IC102-D — Working in Tiny Tapeout Repos (Digital)
 
 In this course you take a digital Tiny Tapeout project the whole way from Tiny Tapeout's
-template to a repository whose every workflow is green, and you learn to work on a shared one:
+template to a repository in which every workflow is green, and you learn to work on a shared one:
 reading what GitHub's runners say, reviewing and being reviewed, and using the project's history
 when something breaks.
 

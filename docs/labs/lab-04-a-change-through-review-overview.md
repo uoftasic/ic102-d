@@ -1,10 +1,11 @@
 # Lab 04: A change through review
 
-Your cohort shares one Tiny Tapeout repository, the sandbox. Each of its sixteen output pins is
-driven by a slot, and each slot starts empty. You'll claim one pin for a small block, in a pull
-request that a classmate has to approve before it can merge; you'll review a classmate's pull
-request and ask for a change; and when someone claims the pin next to yours first, you'll resolve
-the conflict that leaves in your branch.
+You and a partner each make a small Tiny Tapeout project of your own, the review sandbox, and put
+branch rules on it. Each of its sixteen output pins is driven by a slot that starts empty. You'll
+claim a pin in your partner's sandbox with a pull request from a fork, which your partner has to
+approve before it can merge. In your own sandbox you'll review your partner's pull request and
+ask for a change, and claim the pin next to theirs yourself, which leaves them a conflict to
+resolve, as their claim leaves you one.
 
 Package: [`labs/lab-04-a-change-through-review/`](https://github.com/uoftasic/ic102-d/tree/main/labs/lab-04-a-change-through-review)
 
@@ -13,12 +14,11 @@ Package: [`labs/lab-04-a-change-through-review/`](https://github.com/uoftasic/ic
 - Read [Pull requests and review](../guide/pull-requests-and-review.md),
   [Branch rules](../guide/branch-rules.md) and
   [How open-source projects work](../guide/how-open-source-projects-work.md).
-- Accept your invitation to the `uoftasic` organization on GitHub. You'll get it by email, or
-  from the banner at <https://github.com/uoftasic>. Membership is what lets you push branches to
-  the sandbox; the token from Lab 01, Part 2 works for organization repositories as well as your
-  own, because a classic token isn't tied to one account's repositories.
-- Find a partner from your cohort. You'll review each other's pull requests, so agree on that
-  before you start.
+- Find a partner who's doing this lab at the same time as you. You each own one repository and
+  contribute to the other's, so you'll wait for each other a few times; agree how you'll say
+  when you're ready (the team Discord is fine).
+- You need the token from Lab 01, Part 2. Its Workflows permission matters here, because the
+  first push of your sandbox includes the files in `.github/workflows/`.
 - Every command runs in a terminal on the workbench desktop. In each new terminal, run these
   first; the steps use `$L` for this lab's package and `$TT` for the test job's tools:
 
@@ -28,106 +28,114 @@ Package: [`labs/lab-04-a-change-through-review/`](https://github.com/uoftasic/ic
   TT=/foss/designs/modules/ic102-d/labs/common/tt-tools
   ```
 
-The steps use `uoftasic/ic102-d-sandbox` as the sandbox's name. Your cohort's may have a suffix;
-the course tells you which one is yours.
+The steps write `YOUR-USERNAME` and `PARTNER-USERNAME` for your two GitHub usernames, and `N` for
+a pull request's number. Their examples are a parity block on `uo[3]` from the partner and a
+majority block on `uo[4]` from the owner; use your own pins and blocks.
 
-This lab takes about an hour, plus 5 to 10 minutes on GitHub's runners each time you push.
+This lab takes about 1 hour 45 minutes, including GitHub's runners, which take 5 to 10 minutes
+after each push, but not the time you spend waiting for your partner.
 
-## Part 1: The sandbox and its rules
+## Part 1: Your review repository
 
-What will GitHub let you do to the sandbox's `main`, and what did it let the team do without
-rules?
+What does it take to turn the course's folder into a repository with rules on it?
 
-1. Clone the sandbox and set your name, address and token cache for it, as in Lab 01:
+1. On GitHub, create a new public repository called `ttsky-ic102-d-review` in your own account.
+   Leave it empty: no README, no `.gitignore` and no licence, because the sandbox has its own.
+
+   <!-- SCREENSHOT-TODO: github.com/new, signed in: Owner set to a personal account, Repository name "ttsky-ic102-d-review", Public selected, and "Add a README file", ".gitignore" and "license" all left at None/unticked. -->
+   ![Creating an empty public repository.](../assets/img/ic102-d-new-empty-repo.png){width=640}
+
+2. Make a repository from the sandbox folder, and push it:
 
    ```bash
-   cd /foss/designs/modules
-   git clone https://github.com/uoftasic/ic102-d-sandbox.git sandbox
-   cd sandbox
+   mkdir -p /foss/designs/projects && cd /foss/designs/projects
+   cp -r $L/sandbox ttsky-ic102-d-review
+   cd ttsky-ic102-d-review
+   git init -b main
    git config user.name "Your Name"
    git config user.email "ID+USERNAME@users.noreply.github.com"
    git config credential.helper 'cache --timeout=28800'
+   git add -A
+   git commit -m "Start from the IC102-D review sandbox"
+   git remote add origin https://github.com/YOUR-USERNAME/ttsky-ic102-d-review.git
+   git push -u origin main
    ```
 
-2. Read `README.md`, `CONTRIBUTING.md` and `RULESET.md`. `RULESET.md` describes the rules on
-   `main` in the five parts [Branch rules](../guide/branch-rules.md#what-a-ruleset-is) uses, and
-   the same ruleset is on GitHub at `https://github.com/uoftasic/ic102-d-sandbox/rules`.
+   You should see `50 files changed, 1490 insertions(+)` from the commit, and the push end with
+   `* [new branch]      main -> main`.
 
-3. Before you try it, write down what will happen if you commit straight to `main` and push.
-   Then try it with a commit that changes nothing:
+   <!-- RUN-TODO: the push's full output, and GitHub's message when the token has no Workflows permission (the push of .github/workflows/ refused), to quote here. -->
+
+3. The push starts the sandbox's three workflows, and `viewer` fails with the 404 from Lab 01,
+   because Pages is off in a new repository. Turn Pages on as in
+   [Lab 01, Part 5](lab-01-your-repo-from-the-template-overview.md#part-5-turn-on-pages), then
+   start a new run of `gds` with **Run workflow** on `main`, not a re-run.
+
+4. Add the rules. On GitHub, open **Settings › Rules › Rulesets**, choose **New ruleset ›
+   Import a ruleset**, and pick `ruleset.json` from your clone. On your laptop it's in the
+   `projects/ttsky-ic102-d-review` folder of your workspace. Before you press **Create**, check
+   the page against `RULESET.md`, which describes the same ruleset in the five parts of
+   [Branch rules](../guide/branch-rules.md#what-a-ruleset-is). The bypass list has one entry:
+   the repository's admin role, which is you, "For pull requests only".
+
+   <!-- SCREENSHOT-TODO: Settings > Rules > Rulesets of a student's ttsky-ic102-d-review, signed in as its owner, with the "New ruleset" menu open showing "Import a ruleset"; and, if it fits, the imported ruleset's page before Create. -->
+   ![Importing the sandbox's ruleset.](../assets/img/ic102-d-ruleset-import.png){width=640}
+
+   <!-- RUN-TODO: import ruleset.json into a personal repository and confirm GitHub accepts it as written (RepositoryRole 5 bypass, required checks docs/test/gds/precheck/gl_test, allowed_merge_methods). -->
+
+5. Before you try it, write down what will happen if you commit straight to `main` and push.
+   Then try it with a commit that changes nothing, and throw the commit away afterwards:
 
    ```bash
    git commit --allow-empty -m "Try to push to main"
    git push origin main
-   ```
-
-   <!-- RUN-TODO: the full output of `git push origin main` when the sandbox's ruleset refuses a direct push (the GH013 rule-violation lines). -->
-
-   This is your first push to the sandbox, so git first asks for your username and token, as in
-   Lab 01. Then GitHub rejects the commit, because the ruleset only lets changes reach `main`
-   through a pull request, and the error names that rule. Throw the commit away:
-
-   ```bash
    git reset --hard origin/main
    ```
 
-4. Rules exist because a pull request without them merges whenever someone presses the button.
-   `check-pr.py` in this lab's package reads a pull request from GitHub's public API; try it on
-   `sentry`'s pull request #33, the one with thirteen reviews in
-   [Pull requests and review](../guide/pull-requests-and-review.md#what-review-is-for):
+   <!-- RUN-TODO: the full output of `git push origin main` refused by the ruleset in a personal repository whose owner is on the bypass list "For pull requests only" (the GH013 lines). -->
+
+   GitHub refuses the push and names the rule, although the repository is yours. The bypass
+   list lets you skip the approval, but only in a pull request.
+
+You should see: all three workflows green on your `main`, `viewer` included, and a direct push
+refused.
+
+## Part 2: Claim a pin in your partner's repository
+
+What does a pull request need for your partner to review it in five minutes?
+
+1. Fork your partner's repository: open `https://github.com/PARTNER-USERNAME/ttsky-ic102-d-review`,
+   press **Fork**, and change the repository name to `ttsky-ic102-d-review-fork`, because you
+   already have a `ttsky-ic102-d-review`. The fork is yours to push to; your partner's `main`
+   changes only through pull requests.
+
+   <!-- SCREENSHOT-TODO: the "Create a new fork" page for PARTNER/ttsky-ic102-d-review, signed in as a second account, with Owner set to that account and Repository name changed to ttsky-ic102-d-review-fork. Needs two accounts. -->
+   ![Forking your partner's review repository under a new name.](../assets/img/ic102-d-fork-rename.png){width=640}
+
+2. Clone your fork, and add your partner's repository as a second remote called `upstream`, so
+   you can fetch what they merge:
 
    ```bash
-   python3 $L/check-pr.py uoftasic/sentry 33 33
+   cd /foss/designs/projects
+   git clone https://github.com/YOUR-USERNAME/ttsky-ic102-d-review-fork.git
+   cd ttsky-ic102-d-review-fork
+   git config user.name "Your Name"
+   git config user.email "ID+USERNAME@users.noreply.github.com"
+   git config credential.helper 'cache --timeout=28800'
+   git remote add upstream https://github.com/PARTNER-USERNAME/ttsky-ic102-d-review.git
+   git remote -v
    ```
 
-   You should see, with the two people's GitHub usernames where we've put roles:
+   You should see `origin` (your fork) and `upstream` (your partner's), each twice.
 
-   ```
-   uoftasic/sentry #33: Event Decoder FSM
-     author        <author>
-     merged        2026-11-02T03:53:11Z
-     approved by   <reviewer> at 2026-11-02T03:53:32Z after the merge
-   ```
-
-   then a second block, headed with #33 again, which says the author hasn't requested changes on
-   it, then two `todo` lines and `VERDICT: not yet`. Those are about your own work: it's the check
-   you'll run at the end of this lab, with this pull request standing in for both of yours. The approval came 21 seconds after the merge. `sentry` has no
-   ruleset, so nothing made the merge wait for it. In the sandbox the merge button stays grey
-   until the approval is there.
-
-5. Run the sandbox's tests with the test job's tools:
-
-   ```bash
-   make -C "$TT" test PROJECT="$PWD"
-   ```
-
-   You should see one test per slot, sixteen in all, ending with
-   `** TESTS=16 PASS=16 FAIL=0 SKIP=0`. An unclaimed slot's test checks that its pin stays 0;
-   a claimed slot's test is whatever its claimant wrote.
-
-You should see: a refused push, and sixteen passing tests on `main`.
-
-## Part 2: Claim a pin
-
-What does a pull request need for a classmate to review it in five minutes?
-
-1. Pick a pin nobody has claimed: look at the table in `docs/info.md` on `main`, and at the open
-   pull requests on GitHub, where everyone's claims in progress are. Then pick a block:
-
-   ```bash
-   python3 $L/claim.py --list
-   ```
-
-   You should see eight blocks, from `parity` ("1 when an odd number of the eight ui_in pins are
-   1") to `toggle`. A `uio` pin works too; the block then makes the pin an output. If you'd rather
-   write a block of your own, copy the shape of an unclaimed `src/slot_<pin>.v`.
-
-2. Make a branch named after what it does, and put the block in your slot. With `parity` on
-   `uo[3]` it looks like this:
+3. Pick a block. `python3 $L/claim.py --list` prints eight, from `parity` ("1 when an odd number
+   of the eight ui_in pins are 1") to `toggle`. Pick a pin from `uo[0]` to `uo[6]`: your partner
+   will claim the one after yours, and the optional Part 6 uses `uio[7]`. Then make a branch named
+   after what it does, and put the block in your slot:
 
    ```bash
    git switch -c claim-uo3-parity
-   python3 $L/claim.py parity uo3 --by <your-github-username>
+   python3 $L/claim.py parity uo3 --by YOUR-USERNAME
    ```
 
    You should see:
@@ -137,30 +145,30 @@ What does a pull request need for a classmate to review it in five minutes?
    Now edit by hand: the line `uo[3]: ""` in info.yaml, and the `uo[3]` row of the table in docs/info.md.
    ```
 
-3. Make those two edits yourself. They're the claim that the datasheet and the next person
-   read, and they're where conflicts happen. `git diff -- info.yaml docs/info.md` should show
-   one changed line in each file, like this one from a practice run:
-
-   ```
-   -| `uo[3]` | unclaimed | |
-   +| `uo[3]` | parity: 1 when an odd number of ui_in pins are 1 | student-a |
-   ```
+4. Make those two edits yourself. They're the claim that the datasheet and the next person read,
+   and they're where conflicts happen. `git diff -- info.yaml docs/info.md` should show one
+   changed line in each file, like these from a practice run:
 
    ```
    -  uo[3]: ""
    +  uo[3]: "parity of ui_in"
    ```
 
-4. Run the tests, and read your slot's test in `test/test_<pin>.py` while they run:
+   ```
+   -| `uo[3]` | unclaimed | |
+   +| `uo[3]` | parity: 1 when an odd number of ui_in pins are 1 | student-b |
+   ```
+
+5. Run the tests, and read your slot's test in `test/test_uo3.py` while they run:
 
    ```bash
    make -C "$TT" test PROJECT="$PWD"
    ```
 
-   You should see your slot's test pass, as `test_uo3.test_uo3_parity PASS 650.00` did, and
-   sixteen tests in all.
+   You should see `test_uo3.test_uo3_parity PASS 650.00`, and `** TESTS=16 PASS=16 FAIL=0
+   SKIP=0`. An unclaimed slot's test checks that its pin stays 0.
 
-5. Commit, push the branch, and open a pull request into `main`:
+6. Commit, push the branch to your fork, and open a pull request into your partner's `main`:
 
    ```bash
    git add -A
@@ -168,90 +176,141 @@ What does a pull request need for a classmate to review it in five minutes?
    git push -u origin claim-uo3-parity
    ```
 
-   Open the link that `git push` prints. The description starts from the sandbox's template; fill
-   in every section, including the test summary you just saw and whether an AI tool wrote any of
-   it. Open it as a draft if you're still working, and mark it ready for review when you're done.
-   Then request your partner as its reviewer.
+   Open the link that `git push` prints, and check that the base repository is your partner's
+   and the base branch is `main`. The description starts from the sandbox's template: fill in
+   every section, including the test summary you just saw and whether an AI tool wrote any of it.
+   Then tell your partner the pull request's number.
 
-6. The sandbox's workflows run on pull requests, so the checks start now. Before they finish,
-   predict whether you could merge if they all passed.
+7. Before your partner does anything, predict whether this pull request could be merged once its
+   checks pass.
 
    <details>
    <summary>Answer</summary>
 
-   No. The ruleset needs one approval from someone other than you, as well as the five checks,
-   and you can't approve your own pull request.
+   No. Your partner's ruleset needs an approval from someone with write access, which only your
+   partner has, and only your partner can press the merge button in a repository you can't push
+   to. The checks won't even start until your partner approves them, because you've never
+   contributed to their repository before.
 
    </details>
 
-   <!-- SCREENSHOT-TODO: a sandbox pull request, signed in as its author, scrolled to the merge box: checks green or running, "Review required", and the merge button disabled. -->
-   ![The merge box of a sandbox pull request that has no approval yet.](../assets/img/ic102-d-pr-merge-blocked.png){width=640}
+   <!-- SCREENSHOT-TODO: a pull request from a fork into PARTNER/ttsky-ic102-d-review, signed in as its author (the fork's owner), scrolled to the merge box: workflows awaiting approval or checks running, "Review required", and no merge button for the author. Needs two accounts. -->
+   ![The merge box of a pull request from a fork, seen by its author.](../assets/img/ic102-d-pr-merge-blocked.png){width=640}
 
-You should see: your pull request open, with five checks running and a review requested.
+You should see: your pull request open on your partner's repository, waiting for them.
 
-## Part 3: Review a classmate's pull request
+## Part 3: A neighbouring claim
+
+What happens to an open pull request when `main` changes under it?
+
+1. Open the pull request your partner made on your repository. Its workflows haven't run: GitHub
+   holds them until you press **Approve and run workflows**, because a pull request from someone
+   who hasn't contributed to your repository before runs code they wrote on your repository's
+   runners, and GitHub wants you to look at it first. Approve them, and do the same after each
+   push your partner makes, until their first pull request is merged.
+
+   <!-- SCREENSHOT-TODO: a pull request from a fork into a student's ttsky-ic102-d-review, signed in as the repository's owner, showing the workflows awaiting approval and the "Approve and run workflows" button. Needs two accounts. -->
+   ![Approving the workflows of a first-time contributor's pull request.](../assets/img/ic102-d-approve-runs.png){width=640}
+
+   <!-- RUN-TODO: confirm the button's label and that each later push from the fork needs approving again until the first merge. -->
+
+2. Look at **Files changed** and note the pin your partner claimed. Claim the one after it
+   yourself, in your own clone, on a branch, the same way as in Part 2 (the two edits by hand,
+   then the tests):
+
+   ```bash
+   cd /foss/designs/projects/ttsky-ic102-d-review
+   git switch -c claim-uo4-majority
+   python3 $L/claim.py majority uo4 --by YOUR-USERNAME
+   ```
+
+   You should see `test_uo4.test_uo4_majority PASS 650.00` among sixteen passing tests. Commit,
+   `git push -u origin claim-uo4-majority`, and open the pull request into your own `main`.
+
+3. When its five checks are green, merge it. GitHub says a review is required, and offers you a
+   box to tick to merge without one, because the ruleset puts you on the bypass list "For pull
+   requests only". Tick it and merge. Your partner couldn't have approved it in a way that counts,
+   because only approvals from people with write access count, and your partner has none.
+
+   <!-- SCREENSHOT-TODO: the merge box of the owner's own pull request in ttsky-ic102-d-review, signed in as the owner, with checks green, "Review required", and the bypass checkbox ("Merge without waiting for requirements to be met (bypass rules)" or GitHub's current wording) ticked. -->
+   ![Merging your own claim with the bypass.](../assets/img/ic102-d-merge-bypass.png){width=640}
+
+4. Predict what your partner's pull request says now, then look at it.
+
+   <details>
+   <summary>Answer</summary>
+
+   "This branch has conflicts that must be resolved", in `info.yaml` and `docs/info.md`. Your
+   line and theirs are neighbours in both files, and git won't merge two changes to adjacent
+   lines by itself, because it can't tell whether one depends on the other.
+
+   </details>
+
+   <!-- SCREENSHOT-TODO: a pull request from a fork into a student's ttsky-ic102-d-review, signed in, with the merge box saying "This branch has conflicts that must be resolved" and naming info.yaml and docs/info.md. Needs two accounts. -->
+
+You should see: your claim merged, `main`'s runs green, and a conflict on your partner's pull
+request.
+
+## Part 4: Review your partner's pull request
 
 What can you find in your partner's change that no check can?
 
-1. Open your partner's pull request. Read the description first, then **Files changed**, then the
-   checks. Go through the list in `CONTRIBUTING.md`: the test, the pin, only four files changed,
-   the description, the checks.
+1. Read the description first, then **Files changed**, then the checks. Go through the list in
+   `CONTRIBUTING.md`: the test, the pin, only four files changed, the description, the checks.
 
 2. The starter tests from `claim.py` check two input values each. Find out whether that's enough
-   for your partner's block: check out their branch, break their block in a way that still
-   passes those two values, and run the tests. For a parity block, a version that looks at only
-   half the inputs does it:
+   for your partner's block: check out their branch, break their block in a way that still passes
+   those two values, and run the tests. GitHub keeps every pull request's latest commit in the
+   repository it's aimed at, as `refs/pull/N/head`, so you can fetch it without adding your
+   partner's fork as a remote. For a parity block, a version that looks at only half the inputs
+   does it:
 
    ```bash
-   git fetch origin
-   git switch --detach origin/claim-uo3-parity
+   git switch main
+   git pull
+   git fetch origin pull/N/head
+   git switch --detach FETCH_HEAD
    sed -i 's/assign out = \^in;/assign out = ^in[3:0];/' src/slot_uo3.v
    make -C "$TT" test PROJECT="$PWD"
    ```
 
-   You should see `test_uo3.test_uo3_parity PASS 650.00`, although the block now ignores
-   `ui_in[7:4]`. Then put things back:
+   You should see `* branch            refs/pull/N/head -> FETCH_HEAD` from the fetch, and then
+   `test_uo3.test_uo3_parity PASS 650.00`, although the block now ignores `ui_in[7:4]`. Put
+   things back with `git checkout -- .` and `git switch main`.
 
-   ```bash
-   git checkout -- .
-   git switch -
-   ```
-
-   `git switch -` takes you back to the branch you were on before.
-
-   (Use your partner's branch, slot and block in place of these. For another block, think about
-   which inputs its two test values never exercise.)
+   (Use your partner's slot and block in place of these. For another block, think about which
+   inputs its two test values never exercise.)
 
 3. Write your review. On **Files changed**, press **Review changes**, choose **Request changes**,
-   and say what to add and why: which input values, and which wrong block they would catch.
-   Add comments on any line where you found something else.
+   and say what to add and why: which input values, and which wrong block they would catch. Add
+   comments on any line where you found something else.
 
-   <!-- SCREENSHOT-TODO: the "Review changes" dialog on a sandbox pull request's Files changed tab, signed in as a reviewer, with a short comment typed and "Request changes" selected. -->
+   <!-- SCREENSHOT-TODO: the "Review changes" dialog on a pull request's Files changed tab in a student's ttsky-ic102-d-review, signed in as the owner reviewing a partner's pull request, with a short comment typed and "Request changes" selected. Needs two accounts. -->
    ![Requesting changes on a pull request.](../assets/img/ic102-d-review-request-changes.png){width=640}
 
 You should see: your review on your partner's pull request, marked "requested changes".
 
-## Part 4: Merge, and resolve a conflict
+## Part 5: Answer the review, and resolve the conflict
 
 What happens to an approval when you push again?
 
-1. When your partner's review of your pull request arrives, make the change they asked for: add
-   the test cases, run the tests, commit and push to the same branch. Reply to each comment and
-   resolve it, because the ruleset won't merge with a conversation still open.
+1. When your partner's review of your pull request arrives, make the change they asked for in
+   your fork's clone: add the test cases, run the tests, commit, and push to the same branch.
+   Reply to each comment and resolve it, because the ruleset won't merge with a conversation still
+   open. In the practice run, the parity test's list of cases became
+   `[(0x00, 0), (0x01, 1), (0x10, 1), (0x80, 1), (0xF0, 0), (0xFF, 0)]`, and the test reported
+   `PASS 1050.00`. Ask your partner to approve the runs and look again.
 
-2. When your partner approves and the checks are green, merge your pull request. If GitHub says
-   the branch has conflicts instead, someone has claimed a pin next to yours since you branched.
-   Their line and yours are neighbours in both `info.yaml` and `docs/info.md`, and git won't
-   merge two changes to adjacent lines by itself. Bring `main` into your branch:
+2. When your partner approves, the pull request still can't merge, because of the conflict from
+   Part 3. Bring your partner's `main` into your branch:
 
    ```bash
-   git fetch origin
-   git merge origin/main
+   git fetch upstream
+   git merge upstream/main
    ```
 
-   <!-- SCREENSHOT-TODO: a sandbox pull request, signed in, with the merge box saying "This branch has conflicts that must be resolved" and naming info.yaml and docs/info.md. -->
-
-   In a practice run, where `uo[3]` merged first and the branch claimed `uo[4]`, that printed:
+   In the practice run, where `uo[4]` had been merged into `main` and the branch claimed `uo[3]`,
+   that printed:
 
    ```
    Auto-merging docs/info.md
@@ -265,17 +324,17 @@ What happens to an approval when you push again?
 
    ```
    <<<<<<< HEAD
-     uo[3]: ""
-     uo[4]: "majority of ui_in[2:0]"
-   =======
      uo[3]: "parity of ui_in"
      uo[4]: ""
-   >>>>>>> origin/main
+   =======
+     uo[3]: ""
+     uo[4]: "majority of ui_in[2:0]"
+   >>>>>>> upstream/main
    ```
 
 3. Resolve it: keep both claims (here, `uo[3]: "parity of ui_in"` and
-   `uo[4]: "majority of ui_in[2:0]"`), delete the three marker lines, and do the same in
-   `docs/info.md`. Then finish the merge, test, and push:
+   `uo[4]: "majority of ui_in[2:0]"`), delete the three marker lines, and do the same with the two
+   rows in `docs/info.md`. Then finish the merge, test, and push:
 
    ```bash
    git add info.yaml docs/info.md
@@ -284,8 +343,9 @@ What happens to an approval when you push again?
    git push
    ```
 
-   You should see both claimed slots' tests pass in the run, and the conflict message gone from
-   the pull request.
+   You should see both claimed slots' tests pass, `test_uo3.test_uo3_parity PASS 1050.00` and
+   `test_uo4.test_uo4_majority PASS 650.00`, with `TESTS=16 PASS=16`, and the conflict message
+   gone from the pull request.
 
 4. Before you look, predict whether your pull request is still approved.
 
@@ -293,33 +353,50 @@ What happens to an approval when you push again?
    <summary>Answer</summary>
 
    No. The ruleset dismisses an approval when new commits arrive, because the reviewer approved
-   the commits they saw, and the merge commit you just pushed isn't one of them. Ask your partner
-   to look again and approve.
+   the commits they saw, and the merge commit you just pushed isn't one of them. It also requires
+   the last push to be approved by someone other than the person who pushed it. Ask your partner
+   to approve the runs and the pull request again.
 
    </details>
 
-5. Merge once the approval and the checks are back. Then run the check on your own work, with
-   your pull request's number and the number of the one you reviewed:
+5. Your partner merges it, since only they can. Then run the check on your own work, with your
+   pull request and the one you reviewed:
 
    ```bash
-   python3 $L/check-pr.py uoftasic/ic102-d-sandbox <your PR> <the PR you reviewed>
+   python3 $L/check-pr.py PARTNER-USERNAME/ttsky-ic102-d-review#N YOUR-USERNAME/ttsky-ic102-d-review#N
    ```
 
-   <!-- RUN-TODO: check-pr.py's output for a merged sandbox pull request that was approved before the merge, and a reviewed one whose author pushed after a change request. -->
+   <!-- RUN-TODO: check-pr.py's output for a pull request from a fork that was merged after the owner approved it, and a reviewed one whose author pushed after a change request. Needs two accounts. -->
 
-You should see: your pull request merged, and your pin's row filled in on `main`.
+You should see: your pull request merged, and both pins' rows filled in on your partner's
+`main`.
 
-## Part 5: A pull request written by an AI tool (optional)
+## Part 6: A pull request written by an AI tool (optional)
 
-About 15 minutes. The course opens one pull request in each sandbox, "Claim uio[7]: heartbeat",
-whose code and description an AI coding tool wrote. Its description says so in its last line,
-and that the course left problems in it on purpose. All sixteen tests pass on it with the
-course's tools; we checked, and that's part of the exercise.
+About 15 minutes. The course has a pull request, "Claim uio[7]: heartbeat", whose code and
+description an AI coding tool wrote. Its description says so in its last line, and that the
+course left problems in it on purpose. All sixteen tests pass on it with the course's tools; we
+checked, and that's part of the exercise. You each open it on the other's repository, and each
+review the one opened on your own.
 
-Review it as you reviewed your partner's, but treat every statement in its description as a
-claim to check, as [Pull requests and review](../guide/pull-requests-and-review.md#pull-requests-written-with-ai-tools)
-suggests. Leave a review that requests changes and names each problem you find, with the file
-and line. Don't approve it, and don't merge it, even if the rules would let you.
+1. In your fork's clone, put it on a branch of its own, push it, and open a pull request into
+   your partner's `main` titled `Claim uio[7]: heartbeat`, with the text of
+   `$L/ai-pr/pr-body.md` as its description:
+
+   ```bash
+   cd /foss/designs/projects/ttsky-ic102-d-review-fork
+   python3 $L/ai-pr.py
+   git push -u origin ai-claim-uio7-heartbeat
+   ```
+
+   You should see `Committed the AI-written pull request as ... on branch
+   ai-claim-uio7-heartbeat.`
+
+2. When your partner's arrives on your repository, approve its runs and review it as you reviewed
+   their claim, but treat every statement in its description as a claim to check, as
+   [Pull requests and review](../guide/pull-requests-and-review.md#pull-requests-written-with-ai-tools)
+   suggests. Request changes, naming each problem you find with its file and line. Don't approve
+   it and don't merge it; close it when you're done.
 
 <details>
 <summary>Answer</summary>
@@ -336,8 +413,8 @@ use 2.1.0.
 ## Finishing
 
 You're done when `check-pr.py` prints `VERDICT: PASS` for your pull request and the one you
-reviewed: yours merged after someone else approved it, and the review you wrote asked for a
-change that its author then pushed.
+reviewed: yours was merged into your partner's repository after they approved it, and the review
+you wrote in yours asked for a change that its author then pushed.
 
 Questions:
 
@@ -348,13 +425,13 @@ Questions:
    <summary>Answer</summary>
 
    A test that fails on blocks that are wrong in ways the old one missed, like the half-parity
-   block in Part 3. A test is worth as much as the wrong designs it can catch, and you can only
+   block in Part 4. A test is worth as much as the wrong designs it can catch, and you can only
    find that out by trying some, which is what you did as a reviewer.
 
    </details>
 
-2. Two classmates claimed `uo[3]` and `uo[4]` and got a conflict. Would claims on `uo[3]` and
-   `uo[5]` have conflicted?
+2. You and your partner claimed `uo[3]` and `uo[4]` and got a conflict. Would claims on `uo[3]`
+   and `uo[5]` have conflicted?
 
    <details>
    <summary>Answer</summary>
@@ -369,10 +446,31 @@ Submit: the links to your pull request and to the review you wrote.
 
 ## Going further (optional)
 
+Rules exist because without them a pull request merges whenever someone presses the button. Try
+`check-pr.py` on `sentry`'s pull request #33, the one with thirteen reviews in
+[Pull requests and review](../guide/pull-requests-and-review.md#what-review-is-for), giving it as
+both of the pull requests it asks for:
+
+```bash
+python3 $L/check-pr.py uoftasic/sentry#33 uoftasic/sentry#33
+```
+
+Its first block reads, with the two people's usernames where we've put roles:
+
+```
+uoftasic/sentry #33: Event Decoder FSM
+  author        <author>
+  merged        2026-11-02T03:53:11Z
+  approved by   <reviewer> at 2026-11-02T03:53:32Z after the merge
+```
+
+The approval came 21 seconds after the merge, because `sentry` has no ruleset and nothing made
+the merge wait for it.
+
 The sandbox's workflows differ from the template's in their `on:` section and in one line of the
-`viewer` job. Compare `.github/workflows/gds.yaml` in the sandbox with your own repository's, and
-work out why a pull request in the sandbox runs each workflow once, where a branch push in your
-own repository runs it on every push, and why `viewer` shows as skipped on pull requests.
+`viewer` job. Compare `.github/workflows/gds.yaml` in the sandbox with your own `ttsky-ic102-d`'s,
+and work out why your partner's pull request from a fork got runs at all, why each workflow ran
+once per push to it, and why `viewer` shows as skipped on pull requests.
 [Reading a workflow file](../guide/reading-a-workflow-file.md#the-parts-of-a-workflow-file) has
 the parts you need.
 

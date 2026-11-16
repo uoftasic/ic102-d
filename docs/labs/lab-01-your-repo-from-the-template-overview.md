@@ -52,8 +52,8 @@ If you haven't set up the workbench yet, do
    make check-tools
    ```
 
-   `make install` took 5 s on a fast connection and puts 177 MB on your own disk, so it survives
-   a restart of the container. You should see this table:
+   `make install` took 5 s on a fast connection. It puts 177 MB on your own disk, in the course
+   folder, so the tools are still there after the container restarts. You should see this table:
 
    ```
    Tool (job)             Runner         Here           Workbench      Status
@@ -97,8 +97,9 @@ What will your commits say about you, and how will git prove to GitHub that it's
    ![GitHub's email settings, where "Keep my email addresses private" shows your no-reply address.](../assets/img/ic102-email-settings.png){width=640}
 
    Every commit records an email address, and in a public repository anyone can read it. Four of
-   the team's repositories already show personal addresses in their history; using the no-reply
-   address keeps yours out. You'll set it in each repository you clone, in Part 3.
+   the team's repositories already show personal addresses in their history. Committing with the
+   no-reply address keeps your personal address out of your own repositories' history. You'll set
+   it in each repository you clone, starting in Part 3.
 
 2. Make a token for git to push with. GitHub doesn't accept your password from git, so on GitHub
    open **Settings › Developer settings › Personal access tokens › Fine-grained tokens**, choose
@@ -108,9 +109,9 @@ What will your commits say about you, and how will git prove to GitHub that it's
    - **All repositories** under Repository access, because the repositories for Labs 04 and 05
      don't exist yet;
    - two repository permissions, **Contents** and **Workflows**, both "Read and write". Contents
-     is what a push needs, and GitHub refuses a push that adds or changes a file under
-     `.github/workflows/` without Workflows, which two pushes in Labs 04 and 05 do. GitHub adds
-     Metadata, read-only, by itself.
+     is the permission every push needs. You need Workflows as well, because GitHub refuses a
+     push that adds or changes a file under `.github/workflows/` unless the token has it, and two
+     of your pushes, in Labs 04 and 05, do that. GitHub adds Metadata, read-only, by itself.
 
    Copy the token when GitHub shows it, because GitHub shows it only once. Keep it in your
    password manager. A file in your workspace is a bad place for it, because the workspace is a
@@ -139,8 +140,8 @@ anything?
 
    ![Creating a repository from the template.](../assets/img/ic102-create-from-template.png){width=640}
 
-2. GitHub makes the repository and commits the template's files to it, and that commit is a push,
-   so the workflows have already started. Before you look, predict which of the three workflows
+2. GitHub makes the repository and commits the template's files to it, and that commit counts as
+   a push, so the workflows have already started. Before you look, predict which of the three workflows
    (`docs`, `test` and `gds`) pass on this first commit.
 
 3. Clone the repository into the `projects` folder of your workspace, and set your identity and
@@ -190,11 +191,11 @@ anything?
    <details>
    <summary>Answer</summary>
 
-   `test` passes, and `docs` and `gds` fail. `test` runs the template's own test of the
-   template's adder, which is correct. `docs` and `gds` both read `info.yaml`, whose title,
-   author and description are empty. In `gds` only the first job runs, and the other three are
-   skipped because each `needs: gds`. `hart-1`'s first commit, made from the same template on
-   Oct 18, got exactly this. Its check runs, read with the course's `check-runs.py`:
+   `test` passes, and `docs` and `gds` fail. `test` runs the template's own test on the
+   template's adder, and the adder is correct. `docs` and `gds` both read `info.yaml`, whose
+   title, author and description are empty. In `gds` only the first job runs, and the other three
+   are skipped because each `needs: gds`. `hart-1`'s first commit, made from the same template on
+   Oct 18, got the same results. Here are its check runs, read with the course's `check-runs.py`:
 
    ```
    uoftasic/hart-1 at 29313b4
@@ -224,8 +225,8 @@ Which of the six jobs pass once `info.yaml` and `docs/info.md` are filled in?
    `top_module`, `tiles` and `clock_hz` as they are. Don't add or delete any pins.
 
 2. Edit `docs/info.md`. Replace the sentence under "How it works" and the one under "How to
-   test" with a few real sentences each: the docs check fails while the template's sentences are
-   still there.
+   test" with a few real sentences each, because the docs check fails for as long as the
+   template's sentences are still there.
 
 3. Commit and push. The first push asks for your GitHub username, and then for a password: paste
    the token there. The cache remembers it for 8 hours.
@@ -244,8 +245,9 @@ Which of the six jobs pass once `info.yaml` and `docs/info.md` are filled in?
    <summary>Answer</summary>
 
    Five pass and `viewer` fails. `viewer` publishes your layout with GitHub Pages, and Pages is off
-   in a repository made from a template. It's what kept `protocol-emulator`'s `gds` runs red: in
-   the two of its runs we checked, the layout built, precheck passed, and only `viewer` failed.
+   in a repository made from a template. The same failure kept `protocol-emulator`'s `gds` runs
+   red: in the two of its runs we checked, the layout built and precheck passed, and only
+   `viewer` failed.
    The practice repository got the same: five green, and `viewer` red after 16 s.
 
    </details>
@@ -280,19 +282,20 @@ How do you fix a failure that isn't in any file?
 
    ![Starting a new run of the gds workflow by hand: the menu under Run workflow, with the branch set to main. The run starts only when you press the green Run workflow button inside the menu.](../assets/img/ic102-d-run-workflow.png){width=640}
 
-   Why a new run and not **Re-run failed jobs**? A re-run keeps the first attempt's Pages
-   artifact, and the `viewer` action at the `ttsky26d` tag uploads one with the same name every
-   attempt, so the re-run fails with "Multiple artifacts named "github-pages"". `sentry` hit
-   exactly that; [Reading a workflow file](../guide/reading-a-workflow-file.md#re-running-a-run)
-   has the log. A new run starts with no artifacts.
+   Start a new run rather than pressing **Re-run failed jobs** on the old one. A re-run keeps the
+   first attempt's Pages artifact, and the `viewer` action at the `ttsky26d` tag uploads an
+   artifact with the same name on every attempt, so the re-run fails with
+   "Multiple artifacts named "github-pages"". A new run starts with no artifacts, so it doesn't
+   have this problem. `sentry`'s re-runs failed this way, and
+   [Reading a workflow file](../guide/reading-a-workflow-file.md#re-running-a-run) has the log.
 
 3. When the run finishes, every job should be green. The practice repository's new run took
    4 min 5 s, and looked like this run of `sentry`'s:
 
    ![A fully green sentry gds run and its six artifacts.](../assets/img/ic102-run-all-green.png){width=760}
 
-4. Open your project's page, whose address Settings › Pages now shows. It's the page Tiny
-   Tapeout's 3D viewer reads your layout from.
+4. Open your project's page; Settings › Pages now shows its address. Tiny Tapeout's 3D viewer
+   reads your layout from that page.
 
 5. Check your work:
 
@@ -335,9 +338,9 @@ Questions:
    <details>
    <summary>Answer</summary>
 
-   Very little. The test drives one pair of inputs, 20 and 30, and checks for 50, so it proves the
-   adder adds those two numbers. It would pass on a design that only ever handled that one case.
-   You'll write a stronger test in Lab 03.
+   It told you very little. The test drives one pair of inputs, 20 and 30, and checks for 50, so
+   all it shows is that the adder gets that one sum right. A design that handled only that one
+   case would pass it too. You'll write a stronger test in Lab 03.
 
    </details>
 

@@ -61,7 +61,7 @@ If you haven't set up the workbench yet, do
    make check-tools
    ```
 
-   `make install` took 5 s on a fast connection. It puts 177 MB on your own disk, in the course
+   `make install` took 4.7 s on a fast connection. It puts 178 MB on your own disk, in the course
    folder, so the tools are still there after the container restarts. You should see this table:
 
    ```

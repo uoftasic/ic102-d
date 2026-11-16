@@ -31,7 +31,7 @@ fourth workflow file, `fpga.yaml`, is switched off: its trigger lists only a bra
 ## docs
 
 The `docs` job has a single step of its own, "Build docs", which runs Tiny Tapeout's docs action.
-Inside it, the checking is done by the section "Check info.yaml and docs/info.md". It runs the same
+Inside it, the section "Check info.yaml and docs/info.md" does the checking. It runs the same
 validator the `gds` job uses on `info.yaml`, and then a check of `docs/info.md` that looks for
 the template's placeholder sentences. If either finds a problem, the job prints a list under
 `## Errors in info.yaml` or `## Errors in docs/info.md`, copies it into the run's summary page,

@@ -34,5 +34,6 @@ file, check that the page shows the settings in the table above, and press **Cre
 The `required_status_checks` names are job names. GitHub offers them in its menus only after each
 job has run once in the repository, but an imported ruleset names them directly. The bypass entry
 is the repository role "Admin" (role 5), which in a repository on a personal account is its
-owner. The JSON follows the shape of an existing ruleset in the team's repositories; it hasn't
-been imported into a repository yet.
+owner. The JSON follows the shape of an existing ruleset in the team's repositories. On Nov 16,
+2026, GitHub's rulesets API accepted it as written in the course's practice sandbox, and GitHub
+then rejected a direct push to `main` there, as Lab 04, Part 1 shows.

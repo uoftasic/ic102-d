@@ -156,4 +156,4 @@ This copies the netlist to `test/gate_level_netlist.v` and runs `GATES=yes make`
 | `check-requirements.sh` | The requirements warning, run by both of the above |
 | `selftest.sh` | `make selftest`; `./selftest.sh all` runs it with all three Icarus versions |
 
-When Tiny Tapeout moves the `ttsky26d` tag, or the template moves to a new tag, the versions in `pins.env` have to be read again from the new action files and a new runner log. The IC102 maintainers' notes list the steps.
+When Tiny Tapeout moves the `ttsky26d` tag, or the template moves to a new tag, the versions in `pins.env` have to be read again from the new action files and a new runner log. The steps are at the top of `pins.env`.

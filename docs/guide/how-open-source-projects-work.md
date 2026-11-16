@@ -47,7 +47,7 @@ Local changes:
 - verify/lint.sh: dropped ../peri/*/*.v (peripherals not copied).
 ```
 
-Those few lines answer every question someone will later have about the copy. A reviewer can
+Those few lines answer the questions people will later have about the copy. A reviewer can
 compare the folder with that exact commit and confirm it's what it claims to be, which is how a
 7,408-line pull request becomes reviewable, as
 [Pull requests and review](pull-requests-and-review.md) describes. Whoever updates TinyQV next
@@ -73,8 +73,8 @@ fix(viewer): use a unique pages artifact name per run attempt
 Re-running a failed viewer job keeps the github-pages artifacts of the previous attempts, and deploy-pages then fails with "Multiple artifacts named github-pages were unexpectedly found for this workflow run".
 ```
 
-Reading upstream's recent commits took a few minutes and explained the failure completely, and
-comparing the commit's date with the dates of the tags showed which tags have the fix. That's a
+Reading upstream's recent commits took a few minutes and explained the failure, and comparing the
+commit's date with the dates of the tags showed which tags have the fix. That's a
 good order in which to look: your own log first, then upstream's documentation, then its history
 and issues, and only then ask.
 
@@ -87,17 +87,16 @@ line, a link to the run, and the tag and commit you're on, so that someone can r
 If you find something to fix upstream, the route is the one from
 [Templates, forks and clones](templates-forks-and-clones.md): fork the repository, make the change
 on a branch, and open a pull request back to it. It's also the route you'll take into your
-partner's repository in Lab 04. Follow the project's own conventions. Tiny
-Tapeout's commit messages, for instance, start with a type and the part they touch, as in
-`fix(viewer): …`, `fix(custom_gds): …` or `feat: ihp-sg13cmos5l PDK support`, and a pull request
-that looks like the project's own work is easier for its maintainers to accept. Keep it small, and
-say in the description what problem it solves and how you tested it, exactly as you would for a
-reviewer on your own team.
+partner's repository in Lab 04. Follow the project's own conventions. Tiny Tapeout's commit
+messages, for instance, start with a type and the part they touch, as in `fix(viewer): …`,
+`fix(custom_gds): …` or `feat: ihp-sg13cmos5l PDK support`, and a pull request that looks like the
+project's own work is easier for its maintainers to accept. Keep it small, and say in the
+description what problem it solves and how you tested it, as you would for a reviewer on your own
+team.
 
-Upstream moves on without you. Tiny Tapeout updates its templates and actions for every shuttle,
-and your repository stays on the tag it started with until you change it, as
-[Templates, forks and clones](templates-forks-and-clones.md#template-updates)
-explains. When you report a problem, the tag and the commit it resolved to (both in your log) are
+Upstream projects keep changing after you start from them. Tiny Tapeout updates its templates and
+actions for every shuttle, and your repository stays on the tag it started with until you change
+it, as [Templates, forks and clones](templates-forks-and-clones.md#template-updates) explains. When you report a problem, the tag and the commit it resolved to (both in your log) are
 what tell upstream which version you mean.
 
 ## Working in public {#working-in-public}

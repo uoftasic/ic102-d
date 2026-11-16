@@ -198,13 +198,13 @@ What does a pull request need for your partner to review it in five minutes?
 
    No. Your partner's ruleset needs an approval from someone with write access, which only your
    partner has, and only your partner can press the merge button in a repository you can't push
-   to. The checks won't even start until your partner approves them, because you've never
-   contributed to their repository before.
+   to. The checks won't even start until your partner approves them. You've never had a commit
+   or pull request merged into their repository, which makes you a first-time contributor there,
+   and by default GitHub holds a first-time contributor's workflow runs until someone with write
+   access approves them
+   ([workflows from forks](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#controlling-changes-from-forks-to-workflows-in-public-repositories)).
 
    </details>
-
-   <!-- SCREENSHOT-TODO: a pull request from a fork into PARTNER/ttsky-ic102-d-review, signed in as its author (the fork's owner), scrolled to the merge box: workflows awaiting approval or checks running, "Review required", and no merge button for the author. Needs two accounts. In the one-account live test the author was also the repository's admin, so the merge box offered the bypass instead (the picture in Part 3, step 3). -->
-   ![The merge box of a pull request from a fork, seen by its author.](../assets/img/ic102-d-pr-merge-blocked.png){width=640}
 
 You should see: your pull request open on your partner's repository, with its checks waiting
 for your partner to approve them.
@@ -213,16 +213,24 @@ for your partner to approve them.
 
 What happens to an open pull request when `main` changes under it?
 
-1. Open the pull request your partner made on your repository. Its workflows haven't run: GitHub
-   holds them until you press **Approve and run workflows**, because a pull request from someone
-   who hasn't contributed to your repository before runs code they wrote on your repository's
-   runners, and GitHub wants you to look at it first. Approve them, and do the same whenever
-   GitHub holds the runs of a later push, until your partner's first pull request is merged.
+1. Open the pull request your partner made on your repository. Its workflows haven't run, because
+   your partner has never had a commit or pull request merged into your repository, and by
+   default GitHub holds a first-time contributor's runs until you approve them. Their pull
+   request runs code they wrote on your repository's runners, and it can change the workflow
+   files themselves, so GitHub wants you to look at it first. GitHub's documentation gives the
+   steps
+   ([approving workflow runs from forks](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/approve-runs-from-forks)):
+   on the pull request's **Files changed** tab, read the changes, paying most attention to
+   anything in `.github/workflows/`. Then press **Awaiting approval**, at the top right, which
+   opens the **Merge status** panel, and press **Approve workflows to run**.
 
-   <!-- SCREENSHOT-TODO: a pull request from a fork into a student's ttsky-ic102-d-review, signed in as the repository's owner, showing the workflows awaiting approval and the "Approve and run workflows" button. Needs two accounts. GitHub asks for this approval only for a pull request from a fork of someone else's, which one account can't make. -->
-   ![Approving the workflows of a first-time contributor's pull request.](../assets/img/ic102-d-approve-runs.png){width=640}
-
-   <!-- RUN-TODO: confirm the button's label, and that each later push from the fork needs approving again until the first merge. Needs two accounts. The third question is answered: in the live test on Nov 16, 2026, a push to a pull request with a merge conflict started no pull_request runs (commit 8ceb89e in vproHacks/ic102-review-sandbox-d, no check runs), and the push that resolved the conflict started all three workflows. -->
+   The same documentation says that runs may need approving when the person who opened the pull
+   request, or the person whose action started the runs, is someone who needs approval, and
+   that, with the default setting, anyone who has had a commit or pull request merged into the
+   repository no longer needs it
+   ([workflows from forks](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#controlling-changes-from-forks-to-workflows-in-public-repositories)).
+   So the runs of your partner's later pushes can be held too, until their first pull request is
+   merged. Approve them the same way whenever GitHub asks.
 
 2. Look at **Files changed** and note the pin your partner claimed. Claim the one after it
    yourself, in your own clone, on a branch, the same way as in Part 2 (the two edits by hand,

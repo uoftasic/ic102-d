@@ -91,7 +91,7 @@ warning: the runner installs your test/requirements.txt, and it differs from thi
   Results here may not match the runner's. See README.md, 'Your own requirements.txt'.
 ```
 
-The test still runs, with the venv's versions. To match the runner exactly in that case, put your project's versions in `requirements.txt` here and run `make install` again, which rebuilds the venv because the file changed.
+The test still runs, with the venv's versions. To match the runner exactly in that case, put your project's versions in `requirements.txt` here and run `make install` again, which rebuilds the venv because the file changed. That edit leaves the course clone with a local change, so put the file back with `git checkout requirements.txt` when you're done, or a later `git pull` of the course may stop on it.
 
 ## The gate-level test (optional)
 
@@ -101,7 +101,10 @@ The `gl_test` job simulates the netlist that the `gds` job built, with the sky13
 make install-gl
 ```
 
-That took 7 s and adds 420 MB: the `sky130_fd_sc_hd` library at `8afc8346` (383 MB), which is the only part of the PDK `gl_test` reads, and the PDK installer `ciel` (37 MB). Then download the `tt_submission` artifact from your gds run's summary page on GitHub, unzip it into your workspace, and point `SUBMISSION` at the `tt_submission` folder inside it:
+That took 7 s and adds 420 MB: the `sky130_fd_sc_hd` library at `8afc8346` (383 MB), which is the only part of the PDK `gl_test` reads, and the PDK installer `ciel` (37 MB). Then download the `tt_submission` artifact from your gds run's summary page on GitHub (you have to be signed in to see it), unzip it into your workspace, and point `SUBMISSION` at the `tt_submission` folder inside it:
+
+<!-- SCREENSHOT-TODO: github.com, signed in: a student's repository → Actions → a green gds run → its Summary page, scrolled to the Artifacts section, with the tt_submission artifact's download link highlighted -->
+![The Artifacts section of a gds run's summary page, with tt_submission highlighted](../../../docs/assets/img/ic102-d-gds-artifact-download.png)
 
 ```bash
 make gl-test PROJECT=/foss/designs/your-repository SUBMISSION=/foss/designs/tt_submission-unzipped/tt_submission

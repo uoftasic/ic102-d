@@ -5,8 +5,8 @@ request, a review and a passing check, and why do the rules in the team's reposi
 little?*
 
 [Pull requests and review](pull-requests-and-review.md) describes the habit. A **branch rule** is
-how a repository enforces it: GitHub refuses a push or a merge that breaks the rule, whoever makes
-it. Rules are easy to get subtly wrong, though, and the three sets of rules in the team's
+how a repository enforces it: GitHub rejects a push, or blocks a merge, that breaks the rule,
+whoever makes it. Rules are easy to get subtly wrong, though, and the three sets of rules in the team's
 repositories each look protective and leave `main` open in a different way. This page goes through
 all three, because between them they show what each setting does.
 
@@ -40,8 +40,8 @@ signing in.
 
 ## Three rulesets in the team's repositories
 
-**`hart-1`, "Don't Push to Main"** (created Nov 15, 2026). Its name says what it's for, and
-GitHub's own page for the ruleset says that it does nothing:
+**`hart-1`, "Don't Push to Main"** (created Nov 15, 2026). Its name says what it's for, but
+GitHub's own page for the ruleset says that it "will not be applied":
 
 ![hart-1's ruleset "Don't Push to Main", seen without signing in.](../assets/img/ic102-ruleset-targets-nothing.png){width=640 fig-alt="The ruleset page for Don't Push to Main, marked Active, with a yellow banner: This ruleset does not target any resources and will not be applied. Under Target branches it says Branch targeting has not been configured. The branch rules are Restrict deletions and Block force pushes, and there are no restrictions."}
 
@@ -51,14 +51,14 @@ it, which are worth having, but neither stops an ordinary `git push` to `main`. 
 says, it would also need *Require a pull request before merging* and the default branch as its
 target.
 
-**`crosswalk`, "protect-main"** (created Oct 31, 2026). This one is set up properly on paper. It
+**`crosswalk`, "protect-main"** (created Oct 31, 2026). On paper this one is set up properly: it
 targets the default branch, restricts deletions, blocks force pushes, and requires a pull request
 with one approval. Its bypass list, however, has one entry: a repository role, with "Always allow".
 Since the ruleset was created, six commits have reached `main` without a pull request (`61156d4`,
 `3985abc`, `34cf810`, `8973a92`, `685608c` and `2f71732`; the last is a merge made locally and
-pushed, "Merge Sample/hold and CDAC, update interface details"), and all six pull requests merged in that
-time were merged by their own authors with no approval. "Always allow" means exactly that:
-everyone who holds the role is outside the rule for every push and every merge.
+pushed, "Merge Sample/hold and CDAC, update interface details"), and all six pull requests merged
+in that time were merged by their own authors with no approval. With "Always allow", everyone who
+holds the role is outside the rule for every push and every merge.
 
 **`protocol-emulator`, "main"** (created Oct 24, 2026). This one targets `refs/heads/main`, blocks
 force pushes and requires a pull request, with the required number of approvals set to zero, and

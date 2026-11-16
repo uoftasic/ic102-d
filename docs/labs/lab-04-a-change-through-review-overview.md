@@ -42,7 +42,7 @@ What does it take to turn the course's folder into a repository with rules on it
 1. On GitHub, create a new public repository called `ttsky-ic102-d-review` in your own account.
    Leave it empty: no README, no `.gitignore` and no licence, because the sandbox has its own.
 
-   <!-- SCREENSHOT-TODO: github.com/new, signed in: Owner set to a personal account, Repository name "ttsky-ic102-d-review", Public selected, and "Add a README file", ".gitignore" and "license" all left at None/unticked. -->
+   <!-- SCREENSHOT-TODO: github.com/new, signed in: Owner set to a personal account, Repository name "ttsky-ic102-d-review", Public selected, and "Add a README file", ".gitignore" and "license" all left at None/unticked. Still open after the live test on Nov 16, 2026: the signed-in browser profile was allowed only on the two test repositories, the template's Use this template page and Settings › Emails, and github.com/new without a template isn't one of them. The template page is the same form with a template chosen (docs/assets/img/ic102-create-from-template.png). -->
    ![Creating an empty public repository.](../assets/img/ic102-d-new-empty-repo.png){width=640}
 
 2. Make a repository from the sandbox folder, and push it:
@@ -61,10 +61,10 @@ What does it take to turn the course's folder into a repository with rules on it
    git push -u origin main
    ```
 
-   You should see `50 files changed, 1490 insertions(+)` from the commit, and the push end with
-   `* [new branch]      main -> main`.
+   You should see `50 files changed, 1495 insertions(+)` from the commit, and the push end with
+   `* [new branch]      main -> main` and `branch 'main' set up to track 'origin/main'.`
 
-   <!-- RUN-TODO: the push's full output, and GitHub's message when the token has no Workflows permission (the push of .github/workflows/ refused), to quote here. -->
+   <!-- RUN-TODO: GitHub's message when the token has no Workflows permission (the push of .github/workflows/ refused), to quote here. The live test on Nov 16, 2026 couldn't make a fine-grained token, so this is still open; the push itself, with gh's OAuth token (scope workflow), ended as quoted above. -->
 
 3. The push starts the sandbox's three workflows, and `viewer` fails with the 404 from Lab 01,
    because Pages is off in a new repository. Turn Pages on as in
@@ -79,10 +79,7 @@ What does it take to turn the course's folder into a repository with rules on it
    [Branch rules](../guide/branch-rules.md#what-a-ruleset-is). The bypass list has one entry:
    the repository's admin role, which is you, "For pull requests only".
 
-   <!-- SCREENSHOT-TODO: Settings > Rules > Rulesets of a student's ttsky-ic102-d-review, signed in as its owner, with the "New ruleset" menu open showing "Import a ruleset"; and, if it fits, the imported ruleset's page before Create. -->
-   ![Importing the sandbox's ruleset.](../assets/img/ic102-d-ruleset-import.png){width=640}
-
-   <!-- RUN-TODO: import ruleset.json into a personal repository and confirm GitHub accepts it as written (RepositoryRole 5 bypass, required checks docs/test/gds/precheck/gl_test, allowed_merge_methods). -->
+   ![Importing the sandbox's ruleset: the New ruleset menu, with Import a ruleset at the bottom.](../assets/img/ic102-d-ruleset-import.png){width=640}
 
 5. Before you try it, write down what will happen if you commit straight to `main` and push.
    Then try it with a commit that changes nothing, and throw the commit away afterwards:
@@ -93,10 +90,23 @@ What does it take to turn the course's folder into a repository with rules on it
    git reset --hard origin/main
    ```
 
-   <!-- RUN-TODO: the full output of `git push origin main` refused by the ruleset in a personal repository whose owner is on the bypass list "For pull requests only" (the GH013 lines). -->
+   GitHub refuses the push and names the rules, although the repository is yours. In the course's
+   practice sandbox the push printed:
 
-   GitHub refuses the push and names the rule, although the repository is yours. The bypass
-   list lets you skip the approval, but only in a pull request.
+   ```
+   remote: error: GH013: Repository rule violations found for refs/heads/main.
+   remote: Review all repository rules at https://github.com/vproHacks/ic102-review-sandbox-d/rules?ref=refs%2Fheads%2Fmain
+   remote:
+   remote: - Changes must be made through a pull request.
+   remote:
+   remote: - 5 of 5 required status checks are expected.
+   remote:
+   To https://github.com/vproHacks/ic102-review-sandbox-d.git
+    ! [remote rejected] main -> main (push declined due to repository rule violations)
+   error: failed to push some refs to 'https://github.com/vproHacks/ic102-review-sandbox-d.git'
+   ```
+
+   The bypass list lets you skip the approval, but only in a pull request.
 
 You should see: all three workflows green on your `main`, `viewer` included, and a direct push
 refused.
@@ -110,7 +120,7 @@ What does a pull request need for your partner to review it in five minutes?
    already have a `ttsky-ic102-d-review`. The fork is yours to push to; your partner's `main`
    changes only through pull requests.
 
-   <!-- SCREENSHOT-TODO: the "Create a new fork" page for PARTNER/ttsky-ic102-d-review, signed in as a second account, with Owner set to that account and Repository name changed to ttsky-ic102-d-review-fork. Needs two accounts. -->
+   <!-- SCREENSHOT-TODO: the "Create a new fork" page for PARTNER/ttsky-ic102-d-review, signed in as a second account, with Owner set to that account and Repository name changed to ttsky-ic102-d-review-fork. Needs two accounts: GitHub doesn't let an account fork its own repository, so the one-account live test on Nov 16, 2026 couldn't show this page. -->
    ![Forking your partner's review repository under a new name.](../assets/img/ic102-d-fork-rename.png){width=640}
 
 2. Clone your fork, and add your partner's repository as a second remote called `upstream`, so
@@ -195,7 +205,7 @@ What does a pull request need for your partner to review it in five minutes?
 
    </details>
 
-   <!-- SCREENSHOT-TODO: a pull request from a fork into PARTNER/ttsky-ic102-d-review, signed in as its author (the fork's owner), scrolled to the merge box: workflows awaiting approval or checks running, "Review required", and no merge button for the author. Needs two accounts. -->
+   <!-- SCREENSHOT-TODO: a pull request from a fork into PARTNER/ttsky-ic102-d-review, signed in as its author (the fork's owner), scrolled to the merge box: workflows awaiting approval or checks running, "Review required", and no merge button for the author. Needs two accounts. In the one-account live test the author was also the repository's admin, so the merge box offered the bypass instead (the picture in Part 3, step 3). -->
    ![The merge box of a pull request from a fork, seen by its author.](../assets/img/ic102-d-pr-merge-blocked.png){width=640}
 
 You should see: your pull request open on your partner's repository, with its checks waiting
@@ -211,10 +221,10 @@ What happens to an open pull request when `main` changes under it?
    runners, and GitHub wants you to look at it first. Approve them, and do the same whenever
    GitHub holds the runs of a later push, until your partner's first pull request is merged.
 
-   <!-- SCREENSHOT-TODO: a pull request from a fork into a student's ttsky-ic102-d-review, signed in as the repository's owner, showing the workflows awaiting approval and the "Approve and run workflows" button. Needs two accounts. -->
+   <!-- SCREENSHOT-TODO: a pull request from a fork into a student's ttsky-ic102-d-review, signed in as the repository's owner, showing the workflows awaiting approval and the "Approve and run workflows" button. Needs two accounts. GitHub asks for this approval only for a pull request from a fork of someone else's, which one account can't make. -->
    ![Approving the workflows of a first-time contributor's pull request.](../assets/img/ic102-d-approve-runs.png){width=640}
 
-   <!-- RUN-TODO: confirm the button's label, that each later push from the fork needs approving again until the first merge, and whether a pull request with a merge conflict gets pull_request runs at all (GitHub's docs say it doesn't, which Part 5 assumes). -->
+   <!-- RUN-TODO: confirm the button's label, and that each later push from the fork needs approving again until the first merge. Needs two accounts. The third question is answered: in the live test on Nov 16, 2026, a push to a pull request with a merge conflict started no pull_request runs (commit 8ceb89e in vproHacks/ic102-review-sandbox-d, no check runs), and the push that resolved the conflict started all three workflows. -->
 
 2. Look at **Files changed** and note the pin your partner claimed. Claim the one after it
    yourself, in your own clone, on a branch, the same way as in Part 2 (the two edits by hand,
@@ -229,13 +239,18 @@ What happens to an open pull request when `main` changes under it?
    You should see `test_uo4.test_uo4_majority PASS 650.00` among sixteen passing tests. Commit,
    `git push -u origin claim-uo4-majority`, and open the pull request into your own `main`.
 
-3. When its five checks are green, merge it. GitHub says a review is required, and offers you a
-   box to tick to merge without one, because the ruleset puts you on the bypass list "For pull
-   requests only". Tick it and merge. Your partner couldn't have approved it in a way that counts,
-   because only approvals from people with write access count, and your partner has none.
+3. When its five checks are green, merge it. GitHub says "Review required" and "Merging is
+   blocked", and offers you a box to tick, **Merge without waiting for requirements to be met
+   (bypass rules)**, because the ruleset puts you on the bypass list "For pull requests only".
+   Tick it and press **Bypass rules and merge**.
 
-   <!-- SCREENSHOT-TODO: the merge box of the owner's own pull request in ttsky-ic102-d-review, signed in as the owner, with checks green, "Review required", and the bypass checkbox ("Merge without waiting for requirements to be met (bypass rules)" or GitHub's current wording) ticked. -->
-   ![Merging your own claim with the bypass.](../assets/img/ic102-d-merge-bypass.png){width=640}
+   ![Merging your own claim with the bypass. The skipped check is viewer, which the sandbox runs only on main.](../assets/img/ic102-d-merge-bypass.png){width=640}
+
+   You can't approve your own pull request: GitHub greys out **Approve** and **Request changes**
+   for its author. And your partner couldn't have approved it in a way that counts, because only
+   approvals from people with write access count, and your partner has none.
+
+   ![The review dialog on your own pull request, where only Comment is possible.](../assets/img/ic102-d-review-own-pr.png){width=520}
 
 4. Predict what your partner's pull request says now, then look at it.
 
@@ -244,11 +259,12 @@ What happens to an open pull request when `main` changes under it?
 
    "This branch has conflicts that must be resolved", in `info.yaml` and `docs/info.md`. Your
    line and theirs are neighbours in both files, and git won't merge two changes to adjacent
-   lines by itself, because it can't tell whether one depends on the other.
+   lines by itself, because it can't tell whether one depends on the other. Above it, the checks
+   now say "Checks awaiting conflict resolution".
+
+   ![The merge box of a pull request whose branch conflicts with main, from the course's practice sandbox.](../assets/img/ic102-d-pr-conflict.png){width=640}
 
    </details>
-
-   <!-- SCREENSHOT-TODO: a pull request from a fork into a student's ttsky-ic102-d-review, signed in, with the merge box saying "This branch has conflicts that must be resolved" and naming info.yaml and docs/info.md. Needs two accounts. -->
 
 You should see: your claim merged, `main`'s runs green, and a conflict on your partner's pull
 request.
@@ -283,11 +299,11 @@ What can you find in your partner's change that no check can?
    (Use your partner's slot and block in place of these. For another block, think about which
    inputs its two test values never exercise.)
 
-3. Write your review. On **Files changed**, press **Review changes**, choose **Request changes**,
+3. Write your review. On **Files changed**, press **Submit review**, choose **Request changes**,
    and say what to add and why: which input values, and which wrong block they would catch. Add
    comments on any line where you found something else.
 
-   <!-- SCREENSHOT-TODO: the "Review changes" dialog on a pull request's Files changed tab in a student's ttsky-ic102-d-review, signed in as the owner reviewing a partner's pull request, with a short comment typed and "Request changes" selected. Needs two accounts. -->
+   <!-- SCREENSHOT-TODO: the "Finish your review" dialog (opened with "Submit review") on a pull request's Files changed tab in a student's ttsky-ic102-d-review, signed in as the owner reviewing a partner's pull request, with a short comment typed and "Request changes" selected. Needs two accounts: GitHub doesn't let a pull request's author request changes on it, so the one-account live test on Nov 16, 2026 could show only the author's side (the picture in Part 3). -->
    ![Requesting changes on a pull request.](../assets/img/ic102-d-review-request-changes.png){width=640}
 
 You should see: your review on your partner's pull request, marked "requested changes".
@@ -302,7 +318,8 @@ What happens to an approval when you push again?
    open. In the practice run, the parity test's list of cases became
    `[(0x00, 0), (0x01, 1), (0x10, 1), (0x80, 1), (0xF0, 0), (0xFF, 0)]`, and the test reported
    `PASS 1050.00`. Ask your partner to look again. Your pull request gets no new runs yet,
-   because GitHub doesn't run `pull_request` workflows on a pull request that has a conflict.
+   because GitHub doesn't run `pull_request` workflows on a pull request that has a conflict. (In
+   the practice sandbox, this push started no runs at all.)
 
 2. When your partner approves, the pull request still can't merge, because of the conflict from
    Part 3. Bring your partner's `main` into your branch:
@@ -369,7 +386,7 @@ What happens to an approval when you push again?
    python3 $L/check-pr.py PARTNER-USERNAME/ttsky-ic102-d-review#N YOUR-USERNAME/ttsky-ic102-d-review#N
    ```
 
-   <!-- RUN-TODO: check-pr.py's output for a pull request from a fork that was merged after the owner approved it, and a reviewed one whose author pushed after a change request. Needs two accounts. -->
+   <!-- RUN-TODO: check-pr.py's output for a pull request from a fork that was merged after the owner approved it, and a reviewed one whose author pushed after a change request. Needs two accounts. In the one-account live test it read both real pull requests (vproHacks/ic102-review-sandbox-d#1 and #2) and printed "approved by   nobody yet", "vproHacks hasn't requested changes on it" and VERDICT: not yet, as it should. -->
 
 You should see: your pull request merged, and both pins' rows filled in on your partner's
 `main`.

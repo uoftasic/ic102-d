@@ -24,14 +24,14 @@ fresh runner:
 | `gds` | `gl_test` | Your cocotb test again, on the gate-level netlist | 35 to 62 s | `gatelevel_test_results` |
 | `gds` | `viewer` | Publishes a page that shows your layout in 3D | 6 to 25 s | `github-pages` |
 
-The last three jobs each `need: gds`, so they wait for it and are skipped if it fails. The
+The last three jobs each have `needs: gds`, so they wait for it and are skipped if it fails. The
 fourth workflow file, `fpga.yaml`, is switched off: its trigger lists only a branch called
 `none`.
 
 ## docs
 
 The `docs` job has a single step of its own, "Build docs", which runs Tiny Tapeout's docs action.
-Inside it, the section that matters is "Check info.yaml and docs/info.md". It runs the same
+Inside it, the checking is done by the section "Check info.yaml and docs/info.md". It runs the same
 validator the `gds` job uses on `info.yaml`, and then a check of `docs/info.md` that looks for
 the template's placeholder sentences. If either finds a problem, the job prints a list under
 `## Errors in info.yaml` or `## Errors in docs/info.md`, copies it into the run's summary page,
@@ -74,7 +74,8 @@ After "Run tests", two steps run even when it failed: "Test Summary" turns `resu
 table on the run's summary page, and the last step uploads `tb.fst` and `results.xml` as the
 `test-results` artifact. When the simulation never started, both complain that the files are
 missing, as [Reading a workflow file](reading-a-workflow-file.md#reading-a-failed-run) shows for
-`protocol-emulator`. Those complaints are consequences, never causes.
+`protocol-emulator`. Both complaints are about files that the failed step never wrote, so look
+further up the log for the cause.
 
 A green `test` job means your test passed on your RTL with the runner's tools. It doesn't mean
 the test checks much: the template's test drives one pair of inputs and checks one output, and
@@ -84,7 +85,8 @@ it stays green on a design that only gets that one case right.
 
 ### The gds job
 
-"Build GDS" is one line in `gds.yaml` and 18 steps in Tiny Tapeout's action. The ones to know:
+"Build GDS" is one line in `gds.yaml` and 18 steps in Tiny Tapeout's action. These are the ones
+you need to know:
 
 - **"Fetch verilog and build config"** runs `tt_tool.py --create-user-config`. It reads
   `info.yaml`, checks that every file in `source_files` exists in `src/`, and turns your tile size
@@ -111,8 +113,8 @@ The routing summary's two numbers, utilisation and wire length, come from two fi
 
 `precheck` downloads `tt_submission`, installs the PDK at the commit Tiny Tapeout pins for it,
 builds its own Magic and KLayout with Nix, and runs `precheck.py` from Tiny Tapeout's support
-tools. In the three runs whose logs we read, two of `protocol-emulator`'s and `sentry`'s
-[43796948508](https://github.com/uoftasic/sentry/actions/runs/43796948508), it passed, which is
+tools. It passed in the three runs whose logs we read (two of `protocol-emulator`'s, and
+`sentry`'s [43796948508](https://github.com/uoftasic/sentry/actions/runs/43796948508)), which is
 what you'd expect when LibreLane has already run DRC on the same layout. It matters far more to
 the analog version of this course, where you draw the layout yourself. Its reports are uploaded as
 `precheck_reports`.
@@ -137,12 +139,12 @@ and results go in `gatelevel_test_results`.
 
 ### viewer
 
-`viewer` downloads `tt_submission` and `gds_render`, writes a small page that opens Tiny Tapeout's
-3D viewer on your layout, and deploys it with GitHub Pages. It fails with a 404 until Pages is
-turned on, which is the first thing you fix in Lab 01. On the `ttsky26d` tag a re-run of a
-failed `viewer` fails again, for a reason [Reading a workflow file](reading-a-workflow-file.md#re-running-a-run)
-explains, so after turning Pages on you start a new run instead, with **Run workflow** or a push.
-It checks nothing about your design.
+`viewer` doesn't check anything about your design. It downloads `tt_submission` and `gds_render`,
+writes a small page that opens Tiny Tapeout's 3D viewer on your layout, and deploys it with GitHub
+Pages. It fails with a 404 until Pages is turned on, which is the first thing you fix in Lab 01.
+On the `ttsky26d` tag a re-run of a failed `viewer` fails again, for a reason
+[Reading a workflow file](reading-a-workflow-file.md#re-running-a-run) explains, so after turning
+Pages on you start a new run instead, with **Run workflow** or a push.
 
 ## What green means in this course
 
@@ -194,7 +196,7 @@ doesn't have, such as a signal inside the design that synthesis renamed or remov
 <summary>Answer</summary>
 
 No. `make` runs the same check at the end of the simulation and stops with an error, so the step
-fails at `make`. The extra line runs only when `make` passed, and then it finds nothing.
+fails at `make`. The extra line runs only when `make` passed, and then it finds no failed tests.
 
 </details>
 

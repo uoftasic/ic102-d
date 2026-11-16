@@ -17,7 +17,7 @@ project:
 
 website:
   title: "IC102-D — Working in Tiny Tapeout Repos (Digital)"
-  description: "Run a digital Tiny Tapeout project the way the team does: your own repo from the template, green workflows, reviewed pull requests, and history you can use."
+  description: "Make a digital Tiny Tapeout project from the template on your own GitHub account and keep its workflows passing."
   site-url: https://uoftasic.com/ic102-d/
   repo-url: https://github.com/uoftasic/ic102-d
   repo-subdir: docs

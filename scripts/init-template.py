@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Replace course placeholders after creating a repo from the UofT ASIC template.
 
-Fills ic102-d, IC102-D — Working in Tiny Tapeout Repos (Digital), and Run a digital Tiny Tapeout project the way the team does: your own repo from the template, green workflows, reviewed pull requests, and history you can use. only.
+Fills ic102-d, IC102-D — Working in Tiny Tapeout Repos (Digital), and Make a digital Tiny Tapeout project from the template on your own GitHub account and keep its workflows passing. only.
 Does not scaffold or remove docs pages — keep the published site barebones.
 """
 

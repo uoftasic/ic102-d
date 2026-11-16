@@ -18,7 +18,7 @@ Only these three are filled in:
 |-------|---------|
 | `ic102-d` | `dd103` |
 | `IC102-D — Working in Tiny Tapeout Repos (Digital)` | `DD103 — RTL on FPGAs & ASICs` |
-| `Run a digital Tiny Tapeout project the way the team does: your own repo from the template, green workflows, reviewed pull requests, and history you can use.` | `RTL synthesis intro with Yosys` |
+| `Make a digital Tiny Tapeout project from the template on your own GitHub account and keep its workflows passing.` | `RTL synthesis intro with Yosys` |
 
 ## Conventions
 

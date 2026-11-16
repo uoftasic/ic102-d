@@ -13,7 +13,7 @@ To start a course or lab-notes repo: create it from this template under `uoftasi
 |-------|---------|---------|
 | `ic102-d` | Repo slug and course id | `dd103`, `ic101`, `serdes-lab` |
 | `IC102-D — Working in Tiny Tapeout Repos (Digital)` | Display name | `DD103 — RTL on FPGAs & ASICs` |
-| `Run a digital Tiny Tapeout project the way the team does: your own repo from the template, green workflows, reviewed pull requests, and history you can use.` | One-line blurb | `RTL synthesis intro with Yosys` |
+| `Make a digital Tiny Tapeout project from the template on your own GitHub account and keep its workflows passing.` | One-line blurb | `RTL synthesis intro with Yosys` |
 
 ## Init script
 

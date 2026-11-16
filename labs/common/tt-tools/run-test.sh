@@ -15,8 +15,12 @@
 #   ICARUS=workbench ./run-test.sh PROJECT_DIR
 #                                          with the workbench's Icarus 14.0
 #
-# The exit status is check_results's: 0 when every test passed. `make` alone
-# exits 0 even when a test fails, which is why the workflow runs check_results.
+# The exit status is 0 when every test passed. With cocotb 2.x, `make` already
+# runs check_results as the last step of its own recipe (Makefile.icarus), so it
+# exits 2 both when the design doesn't compile and when a test fails, and this
+# script stops there with that status. The workflow's separate check_results
+# line, and its comment that make "will return success even if the tests fail",
+# date from cocotb 1.x; here it's a second check that only runs when make passed.
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

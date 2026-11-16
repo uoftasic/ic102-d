@@ -68,7 +68,7 @@ Point `PROJECT` at the top folder of your repository, the one with `info.yaml` i
 make test PROJECT=/foss/designs/your-repository
 ```
 
-This runs the four lines of the workflow's "Run tests" step in your `test/` folder, `make clean`, `make`, and `python -m cocotb_tools.check_results results.xml`, with the runner's Python, cocotb and Icarus 12.0 first on the `PATH`. The last command is there because cocotb's `make` exits 0 even when a test fails; `check_results` reads `results.xml` and exits 1 if any test failed, and `make test` passes that on. Two variants use the other Icarus versions:
+This runs the four lines of the workflow's "Run tests" step in your `test/` folder, `make clean`, `make`, and `python -m cocotb_tools.check_results results.xml`, with the runner's Python, cocotb and Icarus 12.0 first on the `PATH`. `check_results` reads `results.xml` and exits 1 if any test failed. The workflow's comment says the line is there because "make will return success even if the tests fail", which was true of cocotb 1.x. With cocotb 2.1.0, `make` runs `check_results` itself as the last line of its recipe for `results.xml` (in cocotb's `Makefile.icarus`), so a failing test makes `make` stop with `Error 2`, and the separate line is a second check that runs only when `make` passed. `make test` exits with whichever failed first. Two variants use the other Icarus versions:
 
 ```bash
 make test-icarus13 PROJECT=/foss/designs/your-repository     # gl_test's Icarus 13.0

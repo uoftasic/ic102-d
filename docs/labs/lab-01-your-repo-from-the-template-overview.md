@@ -40,7 +40,7 @@ If you haven't set up the workbench yet, do
    You should see the `ASIC-EDU: PDK=sky130A ...` banner and, at the end,
    `cwd: /foss/designs/modules/ic102-d`.
 
-   <!-- RUN-TODO: the output of `mod add ic102-d` once github.com/uoftasic/ic102-d exists (add_module.sh's "Cloning ..." and "OK  module ready: ..." lines). -->
+   <!-- RUN-TODO: the output of `mod add ic102-d` once github.com/uoftasic/ic102-d exists (add_module.sh's "Cloning ..." and "OK  module ready: ..." lines). Still open after the live test on Nov 16, 2026: uoftasic/ic102-d didn't exist yet (GitHub answered 404), so the live test used a clone of the course made by hand. The rest of Part 1 matched: make install took 4.7 s and 178 MB, and check-tools and selftest printed what this part quotes. -->
 
 3. Install the test job's tools. GitHub's runner tests your design with Icarus Verilog 12.0 and
    cocotb 2.1.0, and the workbench has 14.0 and 2.0.1, so the course installs the runner's
@@ -90,8 +90,8 @@ If you haven't set up the workbench yet, do
 
 What will your commits say about you, and how will git prove to GitHub that it's you pushing?
 
-1. Find your GitHub no-reply address. On GitHub, open **Settings › Emails**, tick **Keep my email
-   addresses private**, and copy the address shown under it, which looks like
+1. Find your GitHub no-reply address. On GitHub, open **Settings › Emails**, turn on **Keep my
+   email addresses private**, and copy the address in the sentence under it, which looks like
    `ID+USERNAME@users.noreply.github.com`.
 
    ![GitHub's email settings, where "Keep my email addresses private" shows your no-reply address.](../assets/img/ic102-email-settings.png){width=640}
@@ -118,10 +118,10 @@ What will your commits say about you, and how will git prove to GitHub that it's
    [Getting started](../guide/getting-started.md#where-you-run-git) says why the course uses this
    kind of token and not a classic one.
 
-   <!-- SCREENSHOT-TODO: github.com/settings/personal-access-tokens/new, signed in: a fine-grained token named "IC102 workbench", Resource owner the student's own account, Expiration 60 days, Repository access "All repositories", and Repository permissions with Contents and Workflows set to "Read and write". The same capture can serve IC102-A. -->
+   <!-- SCREENSHOT-TODO: github.com/settings/personal-access-tokens/new, signed in: a fine-grained token named "IC102 workbench", Resource owner the student's own account, Expiration 60 days, Repository access "All repositories", and Repository permissions with Contents and Workflows set to "Read and write". The same capture can serve IC102-A. Still open after the live test on Nov 16, 2026: the token form is under Developer settings, which the test wasn't allowed to open, and it shows a security setting. -->
    ![The form for a fine-grained token, with the two permissions the course needs.](../assets/img/ic102-token-permissions.png){width=640}
 
-   <!-- RUN-TODO: test the token from the workbench: a push to the student's own repository, the first push of the Lab 04 sandbox copy (workflow files) to a new empty repository, a branch push to the student's fork; and quote GitHub's refusal when Workflows is left out. -->
+   <!-- RUN-TODO: test the token from the workbench: a push to the student's own repository, the first push of the Lab 04 sandbox copy (workflow files) to a new empty repository, a branch push to the student's fork; and quote GitHub's refusal when Workflows is left out. Still open after the live test on Nov 16, 2026, which couldn't make a fine-grained token (an account setting). Its pushes used gh's OAuth token (scopes repo and workflow), and with it the same pushes worked: to the template repository, the sandbox's first push with .github/workflows/ to an empty repository, a branch with a pull request, and the Lab 05 history (pushed with --force over the practice repository's main, because only two test repositories were allowed). Not tested: a fine-grained token, a push to a fork, and the refusal without Workflows. -->
 
 You should see: a no-reply address and a token, both copied somewhere safe.
 
@@ -132,7 +132,7 @@ anything?
 
 1. Open <https://github.com/TinyTapeout/ttsky-verilog-template>, press **Use this template ›
    Create a new repository**, and set the owner to your own account. Name it `ttsky-ic102-d`,
-   choose **Public**, and leave **Include all branches** unticked. (The labs use that name in
+   choose **Public**, and leave **Include all branches** off. (The labs use that name in
    their commands; another name works if you change it there too.)
    It must be public: GitHub's runners are free on public repositories, and Pages, which the last
    job needs, is available on a free account only for public ones.
@@ -165,19 +165,19 @@ anything?
    ```bash
    git log --oneline
    ls .github/workflows
-   grep -rn "uses: TinyTapeout" .github/workflows
+   grep -n "uses: TinyTapeout" .github/workflows/*.yaml
    ```
 
    You should see one commit, `Initial commit`, the four workflow files
    `docs.yaml fpga.yaml gds.yaml test.yaml`, and six lines ending in the same tag:
 
    ```
+   .github/workflows/docs.yaml:17:        uses: TinyTapeout/tt-gds-action/docs@ttsky26d
    .github/workflows/fpga.yaml:19:        uses: TinyTapeout/tt-gds-action/fpga/ice40up5k@ttsky26d
    .github/workflows/gds.yaml:17:        uses: TinyTapeout/tt-gds-action@ttsky26d
    .github/workflows/gds.yaml:26:        uses: TinyTapeout/tt-gds-action/precheck@ttsky26d
    .github/workflows/gds.yaml:38:        uses: TinyTapeout/tt-gds-action/gl_test@ttsky26d
    .github/workflows/gds.yaml:47:      - uses: TinyTapeout/tt-gds-action/viewer@ttsky26d
-   .github/workflows/docs.yaml:17:        uses: TinyTapeout/tt-gds-action/docs@ttsky26d
    ```
 
    `ttsky26d` names the version of Tiny Tapeout's actions your repository uses. Your repository
@@ -205,6 +205,9 @@ anything?
      gl_test   skipped
      viewer    skipped
    ```
+
+   The course's practice repository, made from the template on Nov 16, 2026, got the same six
+   results on its first commit, with `docs` red after 25 s and `gds` red after 48 s.
 
    </details>
 
@@ -234,8 +237,8 @@ Which of the six jobs pass once `info.yaml` and `docs/info.md` are filled in?
    ```
 
 4. Predict the result of each job before you look: `docs`, `test`, and the four jobs of `gds`.
-   `gds` builds the layout this time, which took 3 to 4 minutes for `sentry`, a 2x2 design, and
-   the three jobs after it take another few minutes.
+   `gds` builds the layout this time, which took 2 min 50 s in the course's practice repository,
+   and the three jobs after it, which run side by side, took another 2 min 26 s.
 
    <details>
    <summary>Answer</summary>
@@ -243,18 +246,19 @@ Which of the six jobs pass once `info.yaml` and `docs/info.md` are filled in?
    Five pass and `viewer` fails. `viewer` publishes your layout with GitHub Pages, and Pages is off
    in a repository made from a template. It's what kept `protocol-emulator`'s `gds` runs red: in
    the two of its runs we checked, the layout built, precheck passed, and only `viewer` failed.
+   The practice repository got the same: five green, and `viewer` red after 16 s.
 
    </details>
 
-5. Open the `viewer` job's log (signed in) and find the line that says what to do. In
-   `protocol-emulator`'s run [43757724629](https://github.com/uoftasic/protocol-emulator/actions/runs/43757724629)
+5. Open the `viewer` job's log (signed in) and find the line that says what to do. In the
+   practice repository's run [43826443768](https://github.com/vproHacks/ic102-test-d/actions/runs/43826443768)
    it was:
 
    ```
-   ##[error]Error: Failed to create deployment (status: 404) with build version 1cfc24b86f90762ad72f47f340634ccdaaa96d5f. Request ID 5018:223A0C:13B2E1A:3F3E2A0:6AFA17C5 Ensure GitHub Pages has been enabled: https://github.com/uoftasic/protocol-emulator/settings/pages
+   ##[error]Error: Failed to create deployment (status: 404) with build version 1e5f04aba0db818605ad318fb00c018d94be6d98. Request ID 9BB4:34D4D8:189992:27A7DC:6AFAB621 Ensure GitHub Pages has been enabled: https://github.com/vproHacks/ic102-test-d/settings/pages
    ```
 
-   Yours names your repository's own settings page.
+   Yours names your own commit and your repository's own settings page.
 
    ![A protocol-emulator gds run where only the viewer job failed.](../assets/img/ic102-run-viewer-only-red.png){width=760}
 
@@ -274,8 +278,7 @@ How do you fix a failure that isn't in any file?
    workflows, then **Run workflow** on the right, and run it on `main`. (Pushing a new commit
    would start a new run too.)
 
-   <!-- SCREENSHOT-TODO: the Actions tab of a student's repository, signed in, with the gds workflow selected and the "Run workflow" menu open, showing "Use workflow from Branch: main" and the green "Run workflow" button. -->
-   ![Starting a new run of the gds workflow by hand.](../assets/img/ic102-d-run-workflow.png){width=640}
+   ![Starting a new run of the gds workflow by hand: the menu under Run workflow, with the branch set to main. The run starts only when you press the green Run workflow button inside the menu.](../assets/img/ic102-d-run-workflow.png){width=640}
 
    Why a new run and not **Re-run failed jobs**? A re-run keeps the first attempt's Pages
    artifact, and the `viewer` action at the `ttsky26d` tag uploads one with the same name every
@@ -283,7 +286,8 @@ How do you fix a failure that isn't in any file?
    exactly that; [Reading a workflow file](../guide/reading-a-workflow-file.md#re-running-a-run)
    has the log. A new run starts with no artifacts.
 
-3. When the run finishes, every job should be green, as in this run of `sentry`'s:
+3. When the run finishes, every job should be green. The practice repository's new run took
+   4 min 5 s, and looked like this run of `sentry`'s:
 
    ![A fully green sentry gds run and its six artifacts.](../assets/img/ic102-run-all-green.png){width=760}
 
@@ -297,24 +301,25 @@ How do you fix a failure that isn't in any file?
    ```
 
    It checks your files and your history, then reads your commit's jobs from GitHub's public API.
-   For a commit with all six green, the table looks like this one, which the course's
-   `check-runs.py` printed for `sentry`'s commit `544696e` (whose extra `lint` job comes from a
-   workflow `sentry` added):
+   On the course's practice repository, `ic102-test-d`, cloned into the folder these steps use,
+   it printed:
 
    ```
-   uoftasic/sentry at 544696e
+   Checking /foss/designs/projects/ttsky-ic102-d
+
+   GitHub: vproHacks/ic102-test-d at 1e5f04a
      docs      success
      test      success
      gds       success
      precheck  success
      gl_test   success
      viewer    success
-     lint      success
 
-   All six jobs passed.
+   VERDICT: PASS
    ```
 
-   <!-- RUN-TODO: lab-01 check.py's full output on a practice repository with every job green on the student's commit (VERDICT: PASS). -->
+   `gds` and the three jobs after it show the new run's results, because when a job has run more
+   than once on the same commit, the check reads the latest.
 
 You should see: six green jobs on your commit, and `VERDICT: PASS`.
 

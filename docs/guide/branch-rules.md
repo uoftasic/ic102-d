@@ -100,8 +100,7 @@ repository's workflows have to run on `pull_request` as well, or the required ch
 A bypass "For pull requests only" keeps a way for a project lead to merge an urgent fix without an
 approval, while still putting that fix through a pull request where everyone can see it.
 
-<!-- SCREENSHOT-TODO: The ruleset editor (Settings > Rules > Rulesets > New branch ruleset) of a repository you own, signed in, scrolled to "Bypass list" with a role added and its menu open, showing "Always allow" and "For pull requests only". -->
-![A ruleset's bypass list, where each entry is either "Always allow" or "For pull requests only".](../assets/img/ic102-ruleset-bypass-list.png){width=640}
+![A ruleset's bypass list with its entry's menu open, offering "Always", "Exempt" and "For pull requests only". This entry is set to "For pull requests only", which the list shows as "Allow for pull requests only".](../assets/img/ic102-ruleset-bypass-list.png){width=640}
 
 In [Lab 04](../labs/lab-04-a-change-through-review-overview.md) you'll put rules like these on a
 repository of your own, with yourself on the bypass list "For pull requests only", and you'll see

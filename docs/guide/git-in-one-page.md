@@ -56,8 +56,7 @@ and setting `user.email` to it before your first commit keeps your personal addr
 repository you work in. That's the first thing you'll do in
 [Lab 01](../labs/lab-01-your-repo-from-the-template-overview.md).
 
-<!-- SCREENSHOT-TODO: GitHub Settings > Emails, signed in, with "Keep my email addresses private" ticked and the line showing the no-reply address visible. Blur the numeric ID and the username in the address. -->
-![GitHub's email settings, where "Keep my email addresses private" shows your no-reply address.](../assets/img/ic102-email-settings.png){width=640}
+![GitHub's email settings, where "Keep my email addresses private" shows your no-reply address. The ID and username in it are blurred here.](../assets/img/ic102-email-settings.png){width=640}
 
 ## Commit messages
 

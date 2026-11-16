@@ -28,16 +28,17 @@ has.
 | `gds` | LibreLane | 3.0.14, in LibreLane's Docker image | not installed | 3.1.0.dev3 |
 | `precheck` | Magic, KLayout | 8.3.568, 0.30.8, PDK commit `0536d02d` | not installed | 8.3.681, 0.30.11 |
 
-The Python versions match on 3.11, which is all the workflow asks for (`python-version: '3.11'`),
-because the newest 3.11 the workbench's installer offers is 3.11.16; cocotb's package is built
-for 3.11 either way. Three different commits of the sky130 PDK are in play: the one LibreLane used
+The course's Python is 3.11.16 rather than the runner's 3.11.18, because 3.11.16 is the newest 3.11
+that the workbench's installer offers. Both are 3.11, which is all the workflow asks for
+(`python-version: '3.11'`), and cocotb's package is built for 3.11 either way. Three different commits of the sky130 PDK are in play: the one LibreLane used
 to build your netlist, which `gl_test` uses too, the one precheck pins, and the workbench's. For a
 digital design only the first matters to you.
 
 ## What `make test` reproduces
 
-`make test PROJECT=/foss/designs/projects/ttsky-ic102-d` runs the lines of the `test` job's "Run tests" step in your
-`test/` folder (`make clean`, `make`, and `python -m cocotb_tools.check_results results.xml`),
+`make test PROJECT=/foss/designs/projects/ttsky-ic102-d` runs the lines of the `test` job's
+"Run tests" step in your `test/` folder (`make clean`, `make`, and
+`python -m cocotb_tools.check_results results.xml`),
 with the runner's Python, cocotb and Icarus 12.0 ahead of the workbench's on the `PATH`. It prints
 the same two lines the runner's log starts the simulation with. On the runner, in `hart-1`'s test
 run of Nov 15:
@@ -48,16 +49,16 @@ Running on Icarus Verilog version 12.0 (stable)
 ```
 
 and with `make test`, the second line is identical and the first names the course's folder
-instead. The simulated times in the summary table are exact in both: the template's test reports
+instead. The simulated times in the summary table are the same in both: the template's test reports
 `100000.00` ns on the runner and with `make test`. The real-time column measures whichever
 computer ran it.
 
 With cocotb 2.x, `make` fails by itself when a test fails, because cocotb runs `check_results` at
 the end of every simulation (in the `results.xml` recipe of its `Makefile.icarus`). The workflow's
 comment that `make` "will return success even if the tests fail" dates from cocotb 1.x. You'll see
-cocotb's `Error 1` and the course's `Error 2` in Lab 03, and in Lab 05 the fact that `make` fails
-the same way for a failing test and for a design that doesn't compile is what your bisect script
-has to work around.
+cocotb's `Error 1` and the course's `Error 2` in Lab 03. In Lab 05 your bisect script has to work
+around the fact that `make` fails the same way for a failing test and for a design that doesn't
+compile.
 
 ## Where Icarus 12.0 differs
 
@@ -83,8 +84,8 @@ with `sorry: Assignment to an entire array or to an array slice is not yet suppo
 one the runner's `test` job will print too.
 
 This is the main reason `make test` uses 12.0 rather than the workbench's 14.0: the runner's
-`test` job will compile your code with 12.0, and only 12.0 can tell you in advance whether it
-will. The course's `make test-icarus13` and `make test-workbench` run the same test with the other
+`test` job will compile your code with 12.0, and only 12.0 can tell you in advance whether that
+compile will succeed. The course's `make test-icarus13` and `make test-workbench` run the same test with the other
 two versions, when you want to compare.
 
 ## Your `requirements.txt`

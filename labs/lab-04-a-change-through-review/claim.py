@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Lab 04: put a ready-made block into one slot of your clone of the cohort sandbox.
+"""Lab 04: put a ready-made block into one slot of a clone of a review sandbox.
 
     python3 claim.py --list
     python3 claim.py BLOCK PIN [REPO_DIR] [--by YOUR_GITHUB_USERNAME]
@@ -158,7 +158,7 @@ def main(argv):
                            "--show-toplevel"], capture_output=True, text=True).stdout.strip()
     src = os.path.join(repo, "src", f"slot_{slot}.v")
     if not repo or not os.path.exists(src):
-        die("run this in your clone of the cohort sandbox, or give its folder")
+        die("run this in a clone of a review sandbox, or give its folder")
     if not any(l.startswith("// Slot") and "unclaimed" in l for l in open(src).read().splitlines()[:12]):
         die(f"src/slot_{slot}.v isn't unclaimed in your branch; pick another pin")
     if by is None:

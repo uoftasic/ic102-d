@@ -5,7 +5,7 @@
 
 `default_nettype none
 
-// The IC102-D cohort sandbox. Each output pin, uo[0] to uo[7] and uio[0] to uio[7],
+// The IC102-D review sandbox. Each output pin, uo[0] to uo[7] and uio[0] to uio[7],
 // is driven by its own slot module in src/slot_<pin>.v, and every slot can read all
 // eight ui_in pins. The slots are claimed one pull request at a time; see CONTRIBUTING.md.
 module tt_um_uoftasic_ic102_sandbox (

@@ -64,12 +64,11 @@ runs the "Run tests" step:
           python -m cocotb_tools.check_results results.xml
 ```
 
-The comment was true of cocotb 1.x. With cocotb 2.x, `make` reads `results.xml` itself at the end
-of every simulation, through the same `check_results` module, and stops with an error if a test
-failed; you can see the line that does it in cocotb's `Makefile.icarus`, in the recipe for
-`results.xml`. So with the template's cocotb 2.1.0 a failing test stops the step at `make`, and
-the last line is a second check that only runs when `make` has passed. Either way the step goes
-red when a test fails, which is what matters.
+As [Reading a workflow file](reading-a-workflow-file.md#the-parts-of-a-workflow-file) says, the
+comment was true of cocotb 1.x. With cocotb 2.x, `make` reads `results.xml` itself at the end of
+every simulation, through the same `check_results` module; you can see the line that does it in
+cocotb's `Makefile.icarus`, in the recipe for `results.xml`. So with the template's cocotb 2.1.0 a
+failing test stops the step at `make`, and the last line only runs when `make` has passed.
 
 After "Run tests", two steps run even when it failed: "Test Summary" turns `results.xml` into a
 table on the run's summary page, and the last step uploads `tb.fst` and `results.xml` as the

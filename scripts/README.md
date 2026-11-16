@@ -7,14 +7,12 @@ Utilities for IC102-D — Working in Tiny Tapeout Repos (Digital) under the UofT
 | Script | Purpose |
 |--------|---------|
 | `check_site.py` | Check that every local link and `#anchor` in the rendered site resolves; `.github/workflows/site.yml` runs it on `docs/_site` |
-| `hello.py` | Smoke-check that Python runs in this clone |
 | `init-template.py` | Fill `ic102-d` / title / description after using the template |
 
 ## Usage
 
 ```bash
 # From repo root
-python3 scripts/hello.py
 
 python3 scripts/init-template.py \
   --id dd103 \

@@ -68,7 +68,7 @@ Tiny Tapeout workflows:
 A standard Linux runner for a public repository has 4 CPUs, 16 GB of RAM and a 14 GB SSD. For a
 private repository it has 2 CPUs and 8 GB, with the same 14 GB of disk
 ([runner reference](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)).
-That's comparable to a decent laptop, so the jobs take about as long as they would on yours.
+That's about what a decent laptop has.
 
 These are the times recorded in the team's own runs:
 

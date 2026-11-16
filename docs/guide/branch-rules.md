@@ -7,8 +7,8 @@ little?*
 [Pull requests and review](pull-requests-and-review.md) describes the habit. A **branch rule** is
 how a repository enforces it: GitHub refuses a push or a merge that breaks the rule, whoever makes
 it. Rules are easy to get subtly wrong, though, and the three sets of rules in the team's
-repositories each look protective and leave `main` open in a different way. Seeing how is the
-quickest way to learn what each setting does.
+repositories each look protective and leave `main` open in a different way. This page goes through
+all three, because between them they show what each setting does.
 
 ## What a ruleset is
 
@@ -40,10 +40,10 @@ signing in.
 
 ## Three rulesets in the team's repositories
 
-**`hart-1`, "Don't Push to Main"** (created Nov 15, 2026). Its name says what it's for, and GitHub
-says plainly that it does nothing:
+**`hart-1`, "Don't Push to Main"** (created Nov 15, 2026). Its name says what it's for, and
+GitHub's own page for the ruleset says that it does nothing:
 
-![hart-1's ruleset "Don't Push to Main", marked Active, with a yellow banner reading "This ruleset does not target any resources and will not be applied." Under Target branches it says "Branch targeting has not been configured", and the rules are Restrict deletions and Block force pushes.](../assets/img/ic102-ruleset-targets-nothing.png){width=640}
+![hart-1's ruleset "Don't Push to Main", seen without signing in.](../assets/img/ic102-ruleset-targets-nothing.png){width=640 fig-alt="The ruleset page for Don't Push to Main, marked Active, with a yellow banner: This ruleset does not target any resources and will not be applied. Under Target branches it says Branch targeting has not been configured. The branch rules are Restrict deletions and Block force pushes, and there are no restrictions."}
 
 The ruleset is active, but its list of target branches is empty, so it applies to no branch.
 Suppose it did target `main`, though. Its two rules stop anyone deleting `main` or force-pushing to
@@ -68,7 +68,7 @@ nobody else is available to review it. The same repository has a second ruleset,
 (L*) Ruleset", for branches named `L1/*`, `L2/*` and `L3/*`, which is disabled.
 
 Rules like these are easy to end up with, because a ruleset with a reassuring name and a few rules
-looks as if it's doing its job. The only way to know is to read each part, as above.
+looks as if it's doing its job. Reading each of its five parts, as above, is how you check one.
 
 ## What your organization membership allows
 

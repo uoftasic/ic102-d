@@ -30,9 +30,10 @@ connects it to the template's.
 The template itself has a much longer past. This is Tiny Tapeout's digital template on Nov 15,
 2026, seen without signing in:
 
-![TinyTapeout/ttsky-verilog-template, marked "Public template", with 1 branch, 0 tags and 62 commits. The maintainer's name is replaced with a role.](../assets/img/ic102-template-repo.png){width=760}
+![Tiny Tapeout's digital template on Nov 15, 2026. The maintainer's name is replaced with a role.](../assets/img/ic102-template-repo.png){width=760 fig-alt="The repository page for TinyTapeout/ttsky-verilog-template, labelled Public template, with 538 forks and 69 stars. It shows the main branch, 1 branch, 0 tags and 62 commits. The latest commit is a42e666, fix(devcontainer): bump docker-in-docker feature to v4."}
 
-Its 62 commits stay behind when you use it. Your repository starts at one.
+None of its 62 commits come with it when you use it; your repository starts with one commit of its
+own.
 
 A **fork** is a copy that stays linked to the original. It keeps the history, and because GitHub
 remembers the link, you can open a pull request from your fork back to the original repository.
@@ -75,7 +76,8 @@ What the template doesn't give you is its settings. Every `gds` workflow ends wi
 it, and Pages is switched off in a new repository. When we checked on Nov 15, 2026, Pages was off in `protocol-emulator`,
 `hart-1`, `crosswalk` and `asic-zoo-template`, all of them made from a template, and the viewer job
 had failed in every `gds` run they'd made. (Pages has since been turned on in all four.) GitHub's
-documentation doesn't say which settings a template passes on, and this is how you find out.
+documentation doesn't say which settings a template passes on, but these four repositories show
+that Pages isn't one of them.
 [Reading a workflow file](reading-a-workflow-file.md#github-pages-and-the-viewer) shows what the
 failure looks like and how it's fixed.
 
@@ -114,15 +116,15 @@ Nov 15, 2026 ([run 43752267314](https://github.com/uoftasic/hart-1/actions/runs/
 
 Both sections exist in that file; they're reported as missing because they still hold the
 template's sentence. The `docs` and `gds` workflows in `hart-1` have failed on every push since its
-first commit on Oct 18, 2026, while `test` has passed every time. That's less reassuring than it
-sounds, because the test it runs is still the template's test of the template's adder.
+first commit on Oct 18, 2026, while `test` has passed every time, because its test is still the
+template's own test of the template's adder.
 
 Everything you put in `info.yaml` ends up in public: in the repository, and in the datasheet that
 the docs workflow builds. The `author` field and the optional `discord` field are yours to choose,
 and [How open-source projects work](how-open-source-projects-work.md#working-in-public) says more
 about what that means.
 
-## Your copy doesn't follow the template
+## Template updates
 
 Tiny Tapeout updates its templates for every shuttle. The digital template's history has a commit
 called "chore: update tags for …" for each one: TTSKY25a (Jun 27, 2025), TTSKY25b (Sep 18, 2025),

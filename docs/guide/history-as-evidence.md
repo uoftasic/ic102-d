@@ -52,7 +52,8 @@ another name.)
 
 ## Reading a history
 
-Three questions come up again and again, and git answers each one with a single command.
+Three questions come up again and again. Git answers the first two with a single command each, and
+for the third you can start with the Actions tab.
 
 *Which commit last changed this line?* `git blame` prints each line of a file with the commit that
 last changed it. Here are lines 38 and 39 of `test/test.py` on `protocol-emulator`'s `main`, run in
@@ -86,7 +87,8 @@ with this table:
 ```
 
 *When did it start failing?* Here the Actions tab is a history of its own, because every push has
-a run. `protocol-emulator`'s `test` workflow, one run per pushed commit, oldest first:
+a run. Here are the runs of `protocol-emulator`'s `test` workflow, one per pushed commit, oldest
+first:
 
 | Commit | Pushed | `test` |
 |---|---|---|

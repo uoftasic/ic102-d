@@ -151,8 +151,8 @@ That's why the course uses public repositories.
 
 </details>
 
-3. A classmate made a classic token with the `public_repo` scope instead. It works for every lab,
-   so what's the harm?
+3. A classmate made a classic token with the `public_repo` scope instead, and it works for every
+   lab. What else can it push to, and why does that matter?
 
 <details>
 <summary>Answer</summary>

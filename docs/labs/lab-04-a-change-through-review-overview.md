@@ -69,7 +69,8 @@ What does it take to turn the course's folder into a repository with rules on it
 3. The push starts the sandbox's three workflows, and `viewer` fails with the 404 from Lab 01,
    because Pages is off in a new repository. Turn Pages on as in
    [Lab 01, Part 5](lab-01-your-repo-from-the-template-overview.md#part-5-turn-on-pages), then
-   start a new run of `gds` with **Run workflow** on `main`, not a re-run.
+   start a new run of `gds` with **Run workflow** on `main`. (A re-run would fail, for the reason
+   that part gives.)
 
 4. Add the rules. On GitHub, open **Settings › Rules › Rulesets**, choose **New ruleset ›
    Import a ruleset**, and pick `ruleset.json` from your clone. On your laptop it's in the
@@ -197,7 +198,8 @@ What does a pull request need for your partner to review it in five minutes?
    <!-- SCREENSHOT-TODO: a pull request from a fork into PARTNER/ttsky-ic102-d-review, signed in as its author (the fork's owner), scrolled to the merge box: workflows awaiting approval or checks running, "Review required", and no merge button for the author. Needs two accounts. -->
    ![The merge box of a pull request from a fork, seen by its author.](../assets/img/ic102-d-pr-merge-blocked.png){width=640}
 
-You should see: your pull request open on your partner's repository, waiting for them.
+You should see: your pull request open on your partner's repository, with its checks waiting
+for your partner to approve them.
 
 ## Part 3: A neighbouring claim
 
@@ -290,7 +292,7 @@ What can you find in your partner's change that no check can?
 
 You should see: your review on your partner's pull request, marked "requested changes".
 
-## Part 5: Answer the review, and resolve the conflict
+## Part 5: Answer the review and resolve the conflict
 
 What happens to an approval when you push again?
 

@@ -35,9 +35,9 @@ or `git switch` brings them into your working tree. `git pull` does the fetch an
 step.
 
 The push is the step that matters most in a Tiny Tapeout repository, because GitHub runs the
-template's workflows on every push. Until you push, nothing has been checked by anyone but you.
+template's workflows on every push, and a commit that hasn't been pushed hasn't been checked.
 
-## Who a commit says you are
+## Commit identity
 
 Every commit records an author name and an email address, taken from your git settings
 (`user.name` and `user.email`) at the moment you commit. Both are part of the commit itself, so
@@ -59,11 +59,12 @@ repository you work in. That's the first thing you'll do in
 <!-- SCREENSHOT-TODO: GitHub Settings > Emails, signed in, with "Keep my email addresses private" ticked and the line showing the no-reply address visible. Blur the numeric ID and the username in the address. -->
 ![GitHub's email settings, where "Keep my email addresses private" shows your no-reply address.](../assets/img/ic102-email-settings.png){width=640}
 
-## Commits that explain themselves
+## Commit messages
 
 A good commit does one thing, and its message says what that thing is and, when it isn't obvious,
 why. The reason this matters is that the history is the only record most projects keep. Six weeks
-from now, nobody will remember why a line changed, and the message is all that's left to ask.
+from now nobody will remember why a line changed, and the message will be the only place to find
+out.
 
 Here are three real commits from `protocol-emulator`, all made while getting its workflows to pass:
 
@@ -86,7 +87,7 @@ That's the standard to aim for. If a message needs more than a line, write a sho
 a blank line, and then the explanation underneath; git and GitHub both show the first line on its
 own in lists.
 
-## What stays out of git
+## Files that stay out of git
 
 A repository should hold the files you wrote and nothing that a tool can regenerate from them.
 Generated files change on every run, they're often large, and they make every diff noisy, so a
@@ -121,8 +122,8 @@ Once a file has been committed, ignoring it later doesn't remove it from the his
 keeps two trace files in its top folder, `ata_read.csv` (1.6 MB) and `ata_write.csv` (393 KB).
 They were added in a commit called "first test case", reverted the same day, and added again the
 next day. Whether those traces belong in the repository is the project's call, and there can be
-good reasons to keep test data with the code. The point is that the decision is permanent: even
-after a revert, every clone of the repository downloads them.
+good reasons to keep test data with the code. Either way the decision is permanent, because even
+after a revert every clone of the repository downloads them.
 
 Two exceptions matter in this course. In IC102-A you commit GDS and LEF files on purpose, because
 the analog workflow reads your layout from the repository instead of building it. And nothing
@@ -132,7 +133,7 @@ secret ever goes in a repository, ignored or not, because a single mistaken `git
 
 Work on a branch, and git can bring two lines of work back together with a merge. Most merges need
 no help, because the two branches changed different files or different lines. When both branches
-changed the same lines, git stops and asks you to decide. That's a **merge conflict**.
+changed the same lines, git stops and asks you to decide, and that's called a **merge conflict**.
 
 In a Tiny Tapeout repository the most likely place for one is the pinout in `info.yaml`, because
 everyone who adds a block also claims pins there. Here is a real run, on a copy of the template's

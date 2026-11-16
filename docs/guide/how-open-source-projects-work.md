@@ -95,14 +95,14 @@ reviewer on your own team.
 
 Upstream moves on without you. Tiny Tapeout updates its templates and actions for every shuttle,
 and your repository stays on the tag it started with until you change it, as
-[Templates, forks and clones](templates-forks-and-clones.md#your-copy-doesnt-follow-the-template)
+[Templates, forks and clones](templates-forks-and-clones.md#template-updates)
 explains. When you report a problem, the tag and the commit it resolved to (both in your log) are
 what tell upstream which version you mean.
 
 ## Working in public {#working-in-public}
 
 Everything in a public repository is public: the code, the whole history, the commit addresses
-described in [Git in one page](git-in-one-page.md#who-a-commit-says-you-are), the issues, the
+described in [Git in one page](git-in-one-page.md#commit-identity), the issues, the
 pull request discussions, and the workflow runs. Run summaries can be read by anyone, and the full
 logs by anyone with a GitHub account. That has a few practical consequences:
 

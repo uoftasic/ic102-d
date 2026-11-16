@@ -42,15 +42,18 @@ of the team's repositories on Nov 15, 2026:
 | `sentry` | 10 | 2 | 2 |
 
 Seventeen of the twenty were merged without anyone else reading them. That's common in small teams
-moving quickly, and the workflows did catch some problems along the way. What the workflows can't do
-is judge the design, and that's the part a reviewer adds. `sentry`'s pull request #33 had thirteen
+moving quickly, and the workflows did catch some problems along the way. The workflows can't judge
+whether the design is right, though, and that judgment is what a reviewer adds. `sentry`'s pull request #33 had thirteen
 reviews, and an early round shows what they were for:
 
-![Part of the conversation on sentry's pull request #33. The reviewer requested changes and asked for three things: make it use the bidirectional pins as well (make data_in 16 bits); have timestamp_delta measure the time between events, not the time it takes to read an event; and don't make data_valid a dedicated input, but a special byte on the inputs during the opcode stage. The author then added three commits, the first titled "Updated to 16 bit input", and requested another review. Names are replaced with roles, and avatars with grey discs.](../assets/img/ic102-pr-review-cycle.png){width=760}
+![One round of review on sentry's pull request #33. Names are replaced with roles, and avatars with grey discs.](../assets/img/ic102-pr-review-cycle.png){width=760 fig-alt="A pull request timeline. The reviewer requested changes, with two resolved comment threads on src/input_receiver.sv, then commented: make it use the bidirectional pins as well (make the data_in 16 bits); the timestamp_delta should get the time between events, not the time it takes to read in an event; don't make data_valid a dedicated input, make it a special byte on the inputs during opcode stage. The author then added three commits, Updated to 16 bit input, fix formatting and Update input_receiver.sv, and requested a review from the reviewer."}
 
-None of those three requests could come from a workflow. Each is a decision about what the design
-should do, made by someone who knew what it was for, and each was cheap to make before the merge
-and would have been expensive to make after other blocks depended on it.
+The reviewer asked for three changes: use the bidirectional pins as well, which makes `data_in` 16
+bits wide; have `timestamp_delta` measure the time between events, not the time it takes to read
+one; and signal `data_valid` with a special byte on the inputs during the opcode stage, instead of
+a dedicated input. None of those three requests could come from a workflow. Each is a decision about what the design
+should do, made by someone who knew what it was for, and each is easier to settle before a merge
+than after other blocks depend on it.
 
 ## Writing a pull request someone can review
 
@@ -68,7 +71,7 @@ fails:
 > external driver. One fix: move TX to `uio_out[2]` with `uio_oe = 8'b0000_0100` and update
 > `info.yaml`. This is left for review because it changes the pinout.
 
-That's a pull request asking for a decision, and saying exactly which one.
+When we looked on Nov 15, the pull request was still waiting for that decision, with no reviews.
 
 **The size** should be small enough to read in one sitting. `hart-1`'s pull request #5 added 7,408
 lines in 47 files, and it was merged on Nov 15, three weeks after it was opened, without a review.
@@ -106,7 +109,7 @@ without changing the design at all. Here is the commit in `protocol-emulator` th
 cross and `3 / 6` at the top are GitHub's summary of the checks on that commit: three of the six
 jobs passed, and `test`, `gl_test` and `viewer` failed.
 
-![The protocol-emulator commit a5f1475, "chore: temporarily remove assertion from test.py". The diff replaces the line "assert dut.uo_out.value == 50" with a comment, "Temporarily comment out this assert", and the same assertion commented out. The author's name is replaced with a role.](../assets/img/ic102-commit-assert-commented-out.png){width=760}
+![The commit that commented out protocol-emulator's only assertion. The author's name is replaced with a role.](../assets/img/ic102-commit-assert-commented-out.png){width=760 fig-alt="The GitHub page for commit a5f1475, chore: temporarily remove assertion from test.py, on main, with a red cross and 3 / 6 next to it. The diff of test/test.py removes the line assert dut.uo_out.value == 50 and adds a blank line, the comment Temporarily comment out this assert, and the same assertion commented out."}
 
 `ttsky-verilog-tinyCGRA` has a run of the same kind of commit from May 2026, titled "comment
 assert input in load_input()", "comment all user_project asserts" and "commented asserts, no

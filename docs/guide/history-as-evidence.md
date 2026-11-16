@@ -38,17 +38,17 @@ f42764b updated testbench (config mode mismatch)
 ```
 
 followed, two days later, by the fix that was merged, which includes `b1896da` "removed
-config_done assert (unreliable in GLS)". These messages are useful because they say plainly what
-each commit did, including that the tests had been switched off. If you take one habit from this
-page, make it this: when a run fails and the failure matters, copy the first error line into the
-issue or pull request where you discuss it, because that text will outlive the log.
+config_done assert (unreliable in GLS)". These messages are useful because they say what each
+commit did, including that the tests had been switched off. So when a run fails and the failure
+matters, copy the first error line into the issue or pull request where you discuss it, because that
+text will outlive the log.
 
 The history also only covers what was pushed to that repository. `simproc`'s description is
 "SimpleProcessor, taped out on TTSky25b", but the repository was created on Nov 10, 2025, all eight
 of its commits are from Nov 9 and 10, and GitHub has no workflow runs on record for it. The work
 that led to the taped-out design happened somewhere else, and this history doesn't show it. (Its
 merge messages also name the organization `ieeeuoft-asic`, because the team's organization has had
-another name.) Evidence is only as complete as the place it was kept.
+another name.)
 
 ## Reading a history
 
@@ -112,8 +112,7 @@ one is good or bad, and each answer halves the number of commits that could be t
 ![git bisect on 16 commits, where commit 1 is known to be good and commit 16 bad. Test 1 checks commit 8, which passes; test 2 checks 12, which fails; test 3 checks 10, which passes; test 4 checks 11, which fails. The suspects shrink from 15 to 8, 4, 2 and finally 1, commit 11, the first bad commit.](../assets/img/ic102-bisect-halving.svg){width=760 fig-alt="A row of 16 commits, oldest on the left. Commit 1 is an open circle labelled good, commit 16 a filled circle labelled bad. Commits 8 and 10 are open circles labelled 1 and 3, commits 12 and 11 are filled circles labelled 2 and 4, and commit 11 is also labelled first bad commit. The other commits are small dots, never tested. Below, five bars show the suspects shrinking: before, 15 suspects spanning commits 2 to 16; after test 1 (good), 8; after test 2 (bad), 4; after test 3 (good), 2; after test 4 (bad), 1, commit 11. A legend explains open circles as tested and passed, filled circles as tested and failed, and small dots as never tested."}
 
 The number of tests grows only with the logarithm of the number of commits: 16 commits take 4
-tests, and a history of 40 commits takes 6, because $2^6 = 64 \ge 40$. That's why bisecting is
-worth learning even for short histories.
+tests, and a history of 40 commits takes 6, because $2^6 = 64 \ge 40$.
 
 You don't have to answer git's questions by hand. `git bisect run` takes a script, runs it at each
 commit, and reads the answer from the script's exit status. The git manual sets the rules: the
@@ -167,8 +166,9 @@ bisect found first bad commit
 
 Two tests were enough for five suspects. The answer agrees with the Actions history, and it shows
 something the commit message doesn't: a commit described as `docs: update info.yaml` also changed
-`src/project.v`, where it renamed the top module, and that's what broke the testbench. Bisecting
-doesn't read messages; it tests code, which is why it finds commits whose messages give no hint.
+`src/project.v`, where it renamed the top module, and that's what broke the testbench. Bisect never
+looks at commit messages, only at whether the test passes, so a misleading message can't send it
+the wrong way.
 
 The script above treats "the simulation didn't run" as bad, which is right for this history,
 because a simulation that can't start is exactly the failure being hunted. In a longer history
@@ -187,7 +187,7 @@ check.
 
 A tag in a repository you control is as fixed as you keep it. A tag in someone else's repository
 may move: Tiny Tapeout moves its action tags with a force push when it updates a release, as
-[Reading a workflow file](reading-a-workflow-file.md#one-line-in-your-file-eighteen-steps-in-theirs)
+[Reading a workflow file](reading-a-workflow-file.md#composite-actions)
 describes. When you need to name an exact version as evidence, give the commit hash, which can't
 change.
 

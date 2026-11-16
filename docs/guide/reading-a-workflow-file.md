@@ -10,7 +10,7 @@ something failed. The workflow file tells you what was supposed to happen, and t
 you where it stopped. With both, most failures take a minute to explain. You'll practise this on
 five broken commits in [Lab 02](../labs/lab-02-read-the-red-x-overview.md).
 
-## One push, several workflows
+## What a push starts
 
 Each YAML file in `.github/workflows/` is one **workflow**. When you push, GitHub starts every
 workflow whose trigger includes a push, and each one becomes a separate **run** with its own entry
@@ -128,7 +128,7 @@ Without that line the `test` workflow would be green whatever your tests found. 
 same idea in [Lab 05](../labs/lab-05-find-the-commit-that-broke-it-overview.md), where a script has
 to tell git whether a commit passed.
 
-## One line in your file, eighteen steps in theirs
+## Composite actions
 
 The `gds` job above has two steps, and the second is one line:
 `uses: TinyTapeout/tt-gds-action@ttsky26d`. That line runs a **composite action**, a file called
@@ -152,7 +152,7 @@ Download action repository 'TinyTapeout/tt-gds-action@ttsky26d' (SHA:395eedb3eee
 
 If a run that passed last month fails today with no change on your side, compare that hash between
 the two logs. (The action also fetches Tiny Tapeout's support tools from their `main` branch by
-default, so those can change between runs even when the tag doesn't.)
+default, so those can change between runs even when the tag stays where it was.)
 
 ## Reading a failed run
 
@@ -165,7 +165,7 @@ Start with the run's summary page. Anyone can see it for a public repository, ev
 signing in. Here's the `gds` run that `hart-1` made when pull request #5 was merged on Nov 15,
 2026 ([run 43752267356](https://github.com/uoftasic/hart-1/actions/runs/43752267356)):
 
-![A hart-1 gds run: the gds job failed after 54 s, and precheck, gl_test and viewer show a grey "skipped" icon. The annotations are two lines of "Process completed with exit code 1." The person who pushed is shown as "a team member".](../assets/img/ic102-run-gds-stopped-early.png){width=760}
+![A hart-1 gds run that stopped in its first job. The person who pushed is shown as a team member.](../assets/img/ic102-run-gds-stopped-early.png){width=760 fig-alt="A workflow run summary for gds.yaml. The gds job has a red cross and took 54 s. The precheck, gl_test and viewer jobs have grey skipped icons. The Annotations box lists 2 errors, both on gds and both reading Process completed with exit code 1. One artifact, GDS_logs, 56.2 KB, was uploaded."}
 
 The graph tells you two things at once. The `gds` job failed after 54 seconds, which is far too
 short for a layout build, and the other three jobs never ran: their grey icons mean "skipped",
@@ -244,7 +244,7 @@ Here is a fully green `gds` run from `sentry` on Nov 15, 2026
 ([run 43796948508](https://github.com/uoftasic/sentry/actions/runs/43796948508)), with its six
 artifacts:
 
-![A sentry gds run with all four jobs green (gds 3 m 50 s, precheck 2 m 4 s, gl_test 56 s, viewer 17 s) and six artifacts: GDS_logs 17.2 MB, gatelevel_test_results 77.2 KB, gds_render 306 KB, github-pages 809 KB, precheck_reports 7.08 KB and tt_submission 921 KB.](../assets/img/ic102-run-all-green.png){width=760}
+![A fully green sentry gds run and its six artifacts. The person who pushed is shown as a team member.](../assets/img/ic102-run-all-green.png){width=760 fig-alt="A workflow run summary for gds.yaml with status Success and total duration 5m 59s. gds took 3m 50s, precheck 2m 4s, gl_test 56s and viewer 17s, all green. The Artifacts table lists GDS_logs 17.2 MB, gatelevel_test_results 77.2 KB, gds_render 306 KB, github-pages 809 KB, precheck_reports 7.08 KB and tt_submission 921 KB."}
 
 `GDS_logs` holds your `src` folder and LibreLane's whole run folder, which is where the summary
 numbers come from.
@@ -282,7 +282,7 @@ new reason, with a count that went up by one each time:
 ##[error]Error: Multiple artifacts named "github-pages" were unexpectedly found for this workflow run. Artifact count is 2.
 ```
 
-![The same sentry run after its fourth attempt. gds, precheck and gl_test are green and viewer is red, with the annotation "Error: Multiple artifacts named "github-pages" were unexpectedly found for this workflow run. Artifact count is 4."](../assets/img/ic102-run-rerun-annotations.png){width=760}
+![The sentry run after its fourth attempt at the viewer job. The person who re-ran it is shown as a team member.](../assets/img/ic102-run-rerun-annotations.png){width=760 fig-alt="A workflow run summary, Re-run triggered, status Failure. gds, precheck and gl_test are green and viewer is red. The Annotations box lists 4 errors on viewer: Process completed with exit code 1; twice, Error: Multiple artifacts named github-pages were unexpectedly found for this workflow run. Artifact count is 4; and Fetching artifact metadata failed. Is githubstatus.com reporting issues with API requests, Pages, or Actions?"}
 
 Every attempt uploads a Pages artifact called `github-pages`, and a re-run keeps the artifacts of
 the attempts before it, so from the second attempt on there were two or more with the same name,
@@ -312,7 +312,7 @@ so the first `gds` run in a new repository can build and check a layout perfectl
 red. That was the state of `protocol-emulator`'s run on Nov 15, 2026
 ([run 43757724629](https://github.com/uoftasic/protocol-emulator/actions/runs/43757724629)):
 
-![A protocol-emulator gds run: gds (13 m 33 s), precheck (3 m 38 s) and gl_test (1 m 2 s) are green, viewer (9 s) is red, and the run's status is Failure. The annotations include "Error: Failed to create deployment (status: 404)".](../assets/img/ic102-run-viewer-only-red.png){width=760}
+![A protocol-emulator gds run where only the viewer job failed. The person who pushed is shown as a team member.](../assets/img/ic102-run-viewer-only-red.png){width=760 fig-alt="A workflow run summary for gds.yaml, status Failure, total duration 17m 17s. gds took 13m 33s, precheck 3m 38s and gl_test 1m 2s, all green; viewer took 9s and is red. The Annotations box lists 4 errors on viewer, among them Error: Failed to create deployment (status: 404) and Creating Pages deployment failed. Six artifacts were uploaded."}
 
 The `viewer` log says what's wrong in plain words, at the end of its third error line:
 

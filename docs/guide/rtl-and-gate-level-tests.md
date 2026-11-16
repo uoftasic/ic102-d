@@ -27,8 +27,8 @@ It also defines a few macros for the compile:
 | `FUNCTIONAL` | Uses the cells' logic-only models, without the detailed timing of the real cells |
 | `UNIT_DELAY=#1` | Gives every cell a delay of 1 ns, so a change ripples through the logic in steps rather than all at once |
 
-The testbench in `tb.v` stays the same, and so does `test.py`. That's why the test has to work
-on both, and it puts two limits on how you write it.
+The testbench in `tb.v` stays the same, and so does `test.py`, so one test has to work on both
+designs, and that puts two limits on how you write it.
 
 **Use only the pins.** In RTL simulation, cocotb can reach inside your design and read, say,
 `dut.user_project.count`. In the netlist, synthesis has flattened the design into cells and
@@ -46,7 +46,8 @@ both simulations. Lab 03's starter test does that, and so does the review sandbo
 Tiny Tapeout's documentation warns that on a real chip "flops will have a random initial value at
 power on", and therefore that "Initial statements are not allowed, so you must use an explicit
 reset." An `initial` statement in your Verilog sets a register when the simulation starts, so in
-RTL simulation it works perfectly. Synthesis can't build it into a flip-flop, though, so in the
+RTL simulation the register starts at the value you gave it. Synthesis can't build that into a
+flip-flop, though, so in the
 netlist the register starts with no defined value, which a simulator shows as `X`, and anything
 computed from an `X` stays `X`.
 
@@ -63,13 +64,13 @@ AssertionError: after 10 cycles with EN high uo_out is XXXXXXXX, expected 10
 The third test, of `LOAD`, still passed, because loading a value sets every bit at once. A
 failure that shows up in some tests and not others, only at gate level, is often this.
 
-There's a second, subtler difference. In RTL simulation, an `if` whose condition is `X` takes the
-`else` branch, so a design can behave as if an unknown signal were 0 without any sign of it in
-the results. Gates don't do
-that; an `X` on a gate's input usually gives `X` on its output. RTL simulation is the optimistic
+The two simulations also treat an unknown value differently, which is harder to spot. In RTL
+simulation, an `if` whose condition is `X` takes the `else` branch, so a design can behave as if
+an unknown signal were 0 without any sign of it in the results. Gates don't do that; an `X` on a
+gate's input usually gives `X` on its output. RTL simulation is the optimistic
 one, so a design that only works because of that optimism passes `test` and fails `gl_test`.
 
-What `gl_test` doesn't do is check timing. Every cell has the same made-up delay, and nothing
+`gl_test` doesn't check timing, though. Every cell has the same made-up delay, and nothing
 compares the delays with the clock period. LibreLane's timing analysis in the `gds` job does that,
 against the clock period in `src/config.json`.
 
@@ -82,8 +83,8 @@ load_input()", "comment all user_project asserts", "commented asserts, no functi
 The gate-level failures went away because the test stopped checking anything. The pull request
 that was finally merged includes a commit with a reason, "removed config_done assert (unreliable
 in GLS)", which at least says what was removed and why. When `gl_test` fails and `test` passes,
-the useful question is what's different about the netlist, and the answer is usually in the
-design: a missing reset, a signal read before it's defined, or a test that reaches inside.
+ask what's different about the netlist. The answer is usually in the design: a missing reset, a
+signal read before it's defined, or a test that reaches inside.
 
 ## Running each one yourself
 

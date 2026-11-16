@@ -21,8 +21,8 @@ else. GitHub's documentation puts it this way: the new repository gets "the same
 structure, branches, and files", by default only the default branch, and "a repository created
 from a template starts with a single commit", with a history unrelated to the template's
 ([creating a repository from a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)).
-That single commit is the whole of your project's past, and nothing in your repository's history
-connects it to the template's.
+Your project's history starts at that commit, and nothing in it links back to the template's
+history.
 
 ![Creating a repository from the template. "Include all branches" is off by default, and the course uses a public repository.](../assets/img/ic102-create-from-template.png){width=640}
 
@@ -37,8 +37,8 @@ own.
 A **fork** is a copy that stays linked to the original. It keeps the history, and because GitHub
 remembers the link, you can open a pull request from your fork back to the original repository.
 That's how you contribute to a project you can't push to, such as Tiny Tapeout's own template,
-or, in Lab 04, your partner's repository.
-Forks have one surprise for this course: "Workflows don't run in forked repositories by default"
+or, in Lab 04, your partner's repository. A fork doesn't run workflows straight away, though.
+GitHub's documentation says that "Workflows don't run in forked repositories by default"
 ([events that trigger workflows](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)),
 so a fork of a Tiny Tapeout repository won't check anything until you turn Actions on in it.
 
@@ -71,10 +71,10 @@ draw, and the `gds` workflow expects to find it already in the repository. If yo
 team's ASIC Zoo, you'll start from `asic-zoo-template`, which was itself made from Tiny Tapeout's
 analog template and is marked as a template in its own right.
 
-What the template doesn't give you is its settings. Every `gds` workflow ends with a job called
-`viewer`, which publishes your layout through GitHub Pages so that Tiny Tapeout's 3D viewer can show
-it, and Pages is switched off in a new repository. When we checked on Nov 15, 2026, Pages was off in `protocol-emulator`,
-`hart-1`, `crosswalk` and `asic-zoo-template`, all of them made from a template, and the viewer job
+The template doesn't give you its settings, though. Every `gds` workflow ends with a job called
+`viewer`, which publishes your layout through GitHub Pages so that Tiny Tapeout's 3D viewer can
+show it, and Pages is switched off in a new repository. When we checked on Nov 15, 2026, Pages was
+off in `protocol-emulator`, `hart-1`, `crosswalk` and `asic-zoo-template`, all of them made from a template, and the viewer job
 had failed in every `gds` run they'd made. (Pages has since been turned on in all four.) GitHub's
 documentation doesn't say which settings a template passes on, but these four repositories show
 that Pages isn't one of them.
@@ -83,7 +83,8 @@ failure looks like and how it's fixed.
 
 ## The placeholders you have to replace
 
-The template is meant to be filled in, and its checks fail until you do. Two files matter most.
+The template is meant to be filled in, and its checks fail until you do. The two files that matter
+most are `info.yaml` and `docs/info.md`.
 
 `info.yaml` arrives with its title, author and description empty, its pinout blank and its top
 module set to `tt_um_example`. Tiny Tapeout's validator, `project_info.py` in `tt-support-tools`,

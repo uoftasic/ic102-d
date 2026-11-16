@@ -498,12 +498,16 @@ pattern:
 git log --oneline -G "phase <" -- src/pwm.v
 ```
 
+On the `revert-pwm-compare` branch of the course's practice repository it printed:
+
 ```
+840c251 Revert "pwm: tidy up the comparator and its comments"
 d18e316 pwm: tidy up the comparator and its comments
 c6218cc Add an 8-bit PWM
 ```
 
-That's the commit that wrote the comparison and the commit that changed it. `git bisect` is for
-the more common case, where you know only that the test fails.
+From the bottom up, those are the commit that wrote the comparison, the commit that changed it,
+and the revert that changed it back, which has a hash of its own in your clone. `git bisect` is
+for the more common case, where you know only that the test fails.
 
 This is the last row of the [Course path](../index.md#course-path).

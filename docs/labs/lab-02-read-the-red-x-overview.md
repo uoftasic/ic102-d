@@ -28,8 +28,8 @@ To read a job's log you have to be signed in to GitHub, even for your own public
 run's summary page is public, and GitHub shows the logs behind it only to people who are signed in.
 
 This lab takes about 1 hour 15 minutes, most of it waiting for runs. A `docs` or `test` run
-finishes in under a minute. A `gds` run takes about 5 minutes, and you can read the next page of
-this lab while it works.
+finishes in about a minute. A `gds` run takes about 5 minutes (4 min 30 s to 5 min 30 s in the
+course's practice repository), and you can read the next page of this lab while it works.
 
 ## Part 1: The diagnosis file
 
@@ -110,8 +110,15 @@ Every breakage follows the same eight steps. This part walks through them once.
    the **Fix** in a sentence.
 
 7. Commit the fix together with your updated `DIAGNOSIS.md`, push, and wait until every job is
-   green again. Then fill in **Fix commit** with the fix's hash (`git log --oneline -1`), commit
-   that small change too, and push.
+   green again. Then fill in **Fix commit** with the fix's hash (`git log --oneline -1`) and
+   commit that small change too, but don't push it on its own: it goes up with the next breakage,
+   in one push, and GitHub runs the workflows only on the newest commit of a push. Two pushes a
+   minute apart start two `gds` runs whose `viewer` jobs deploy to Pages at about the same time,
+   and the second one fails. In the course's practice repository it failed with:
+
+   ```
+   ##[error]HttpError: Deployment request failed for eda299edadf9f73ed66d97f537dae4a0840d10d6 due to in progress deployment. Please cancel c70f08ac35a93511ba610109124c852b4108bc57 first or wait for it to complete.
+   ```
 
 8. Check your entry so far, without asking GitHub yet:
 
@@ -127,8 +134,9 @@ What should breakage 1's entry say? Write yours before you open this.
 <summary>Answer</summary>
 
 Two workflows go red, `docs` and `gds`, and `docs` usually finishes first: in `hart-1`'s runs
-with the same mistake, the `docs` job took 30 s and the `gds` job 54 s. `test` stays green,
-because the testbench never reads `info.yaml`.
+with the same mistake, the `docs` job took 30 s and the `gds` job 54 s, and in the course's
+practice repository 38 s and 43 s. `test` stays green, because the testbench never reads
+`info.yaml`.
 
 In `docs`, the step is "Build docs", section "Check info.yaml and docs/info.md", and the error is
 the line under the heading:
@@ -138,10 +146,10 @@ the line under the heading:
 - Project title cannot be empty
 ```
 
-That's the text tt-support-tools' docs check (the commit the runner used on Nov 16, `9d13ff3`)
-printed when we ran it on a broken copy of the template in the course image.
-<!-- RUN-TODO: the docs job's log for breakage 1 pushed to a practice repository, to confirm the two lines above. -->
-`hart-1`'s docs log ([run 43752267314](https://github.com/uoftasic/hart-1/actions/runs/43752267314))
+That's what the practice repository's `docs` job printed for this breakage on Nov 16, and the
+same text tt-support-tools' docs check (the commit the runner used that day, `9d13ff3`) printed
+when we ran it on a broken copy of the template in the course image. `hart-1`'s docs log
+([run 43752267314](https://github.com/uoftasic/hart-1/actions/runs/43752267314))
 has the same line in a longer list, because its title, author, description and pinout were all
 empty.
 
@@ -216,14 +224,15 @@ What does a test do when the design it tests has a new name?
    ```
 
    Yours names your repository and says `tb.v:31`, the line of the current template's `tb.v`
-   that names the module. Our run of the breakage with the course's `make test` and Icarus 12.0
-   printed `/foss/designs/projects/ttsky-ic102-d/test/tb.v:31: error: Unknown module type: tt_um_example`.
-   Then `gds` goes red too, but
-   only in `gl_test`, which runs the same testbench on the netlist: in `protocol-emulator`'s run
-   [41345900293](https://github.com/uoftasic/protocol-emulator/actions/runs/41345900293) the
-   `gds` and `precheck` jobs passed and `gl_test` stopped at the same `Unknown module type`
-   line. The `results.xml` and `tb.fst` messages after it, and in the annotations, are
-   consequences: the simulation never started.
+   that names the module. In the course's practice repository the `test` job printed
+   `/home/runner/work/ic102-test-d/ic102-test-d/test/tb.v:31: error: Unknown module type: tt_um_example`
+   after 20 s, and the course's `make test` printed the same line for
+   `/foss/designs/projects/ttsky-ic102-d/test/tb.v`. Then `gds` goes red too, but only in
+   `gl_test`, which runs the same testbench on the netlist: in `protocol-emulator`'s run
+   [41345900293](https://github.com/uoftasic/protocol-emulator/actions/runs/41345900293), and in
+   the practice repository's, the `gds` and `precheck` jobs passed and `gl_test` stopped at the
+   same `Unknown module type` line. The `results.xml` and `tb.fst` messages after it, and in the
+   annotations, are consequences: the simulation never started.
 
    The fix is the one line in `test/tb.v` that names the module, not undoing the rename: the
    template asks for a top module with your username in it.
@@ -242,14 +251,14 @@ When a test fails because the design changed on purpose, what's the right fix?
    <details>
    <summary>Answer: the error</summary>
 
-   `test` fails in "Run tests", and later `gl_test` fails in the same way. With the course's
-   `make test` the failure reads:
+   `test` fails in "Run tests", and later `gl_test` fails in the same way. The failure reads:
 
    ```
    AssertionError: assert LogicArray('11110110', Range(7, 'downto', 0)) == 50
    ```
 
-   <!-- RUN-TODO: the test job's and gl_test's logs for breakage 4 pushed to a practice repository, to confirm the AssertionError line on the runner. -->
+   The practice repository's `test` and `gl_test` jobs printed that line, and so did the
+   course's `make test`.
 
    The template's test drives 20 and 30 and expects their sum, 50. The design now subtracts,
    and $20 - 30 = -10$, which is `11110110`, or 246, in eight bits.
@@ -296,10 +305,15 @@ What does Tiny Tapeout's validator accept for `clock_hz`?
    - Invalid value for 'clock_hz' in 'project' section, must be an integer
    ```
 
-   That's from our run of tt-support-tools `9d13ff3` on the same `info.yaml`, in the course image.
-   <!-- RUN-TODO: the docs and gds logs for breakage 5 pushed to a practice repository, to confirm the line above and the gds job's "Error loading ...info.yaml: Invalid value for 'clock_hz'..." line. -->
-   `50MHz` reads as text in YAML, and the field wants a whole number of hertz. The fix is
-   `clock_hz: 50000000`, or the number your design really runs at.
+   and the `gds` job's "Fetch verilog and build config" section, in the practice repository:
+
+   ```
+   2026-11-16 09:09:02,783 - project    - ERROR    - Error loading /home/runner/work/ic102-test-d/ic102-test-d/info.yaml: Invalid value for 'clock_hz' in 'project' section, must be an integer
+   ```
+
+   There both jobs took 24 s and finished in the same second, so either can be the one that
+   failed first. `50MHz` reads as text in YAML, and the field wants a whole number of hertz. The
+   fix is `clock_hz: 50000000`, or the number your design really runs at.
 
    </details>
 
@@ -317,15 +331,44 @@ What does Tiny Tapeout's validator accept for `clock_hz`?
 
    </details>
 
+3. There's no next breakage to carry your last `DIAGNOSIS.md` changes, so commit them and push
+   them on their own.
+
 You should see: five entries, each followed by a green fix, and the extra section filled in.
 
 ## Finishing
 
 You're done when `python3 $L/check.py` prints `5 of 5 breakages diagnosed and fixed` and
 `VERDICT: PASS`: every entry in `DIAGNOSIS.md` is filled in, each fix commit comes after its
-breakage, and GitHub ran all six jobs green on every fix.
+breakage, and GitHub ran all six jobs green on every fix. On the course's practice repository it
+printed:
 
-<!-- RUN-TODO: check.py's output (without --offline) on a practice repository with all five breakages fixed. -->
+```
+Breakage 1
+  entry filled in; fix bf7a3fc comes after breakage b8352cc
+  GitHub: all six jobs passed on the fix
+
+Breakage 2
+  entry filled in; fix 42c5311 comes after breakage eda299e
+  GitHub: all six jobs passed on the fix
+
+Breakage 3
+  entry filled in; fix c81b926 comes after breakage d5a5a36
+  GitHub: all six jobs passed on the fix
+
+Breakage 4
+  entry filled in; fix 9126c83 comes after breakage 757853c
+  GitHub: all six jobs passed on the fix
+
+Breakage 5
+  entry filled in; fix e9f320e comes after breakage 0e0b02d
+  GitHub: all six jobs passed on the fix
+
+A value no workflow catches: filled in
+
+5 of 5 breakages diagnosed and fixed
+VERDICT: PASS
+```
 
 Questions:
 

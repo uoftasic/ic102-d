@@ -63,8 +63,6 @@ What does it take to turn the course's folder into a repository with rules on it
    You should see `50 files changed, 1497 insertions(+)` from the commit, and the push end with
    `* [new branch]      main -> main` and `branch 'main' set up to track 'origin/main'.`
 
-   <!-- RUN-TODO: GitHub's message when the token has no Workflows permission (the push of .github/workflows/ refused), to quote here. Still open on Nov 16, 2026, because no fine-grained token was made: the live test wasn't allowed to, a second attempt stopped at GitHub's sudo prompt on the new-token page, and a third filled the form but the agent session's permission system refused the command that would have pressed Generate token. The push itself, with gh's OAuth token (scope workflow), ended as quoted above. -->
-
 3. The push starts the sandbox's three workflows, and `viewer` fails with the 404 from Lab 01,
    because Pages is off in a new repository. Turn Pages on as in
    [Lab 01, Part 5](lab-01-your-repo-from-the-template-overview.md#part-5-turn-on-pages), then

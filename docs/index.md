@@ -1,9 +1,9 @@
 # IC102-D — Working in Tiny Tapeout Repos (Digital)
 
-In this course you take a digital Tiny Tapeout project the whole way from Tiny Tapeout's
-template to a repository in which every workflow is green, and you learn to work on a shared one:
-reading what GitHub's runners say, reviewing and being reviewed, and using the project's history
-when something breaks.
+In this course you make a digital Tiny Tapeout project on your own GitHub account from Tiny
+Tapeout's Verilog template, and push to it until every workflow passes. In Lab 02 you break it in
+five ways and find the cause of each failure in the run's log. Later labs have you review a
+partner's pull request and use `git bisect` to find the commit that broke an LED dimmer's test.
 
 IC102-D is part of the UofT ASIC Team education materials, published at
 <https://uoftasic.com/ic102-d/>. Its labs run in the workbench, the IIC-OSIC-TOOLS container you
@@ -16,10 +16,10 @@ walks you through it.
 
 Take it after IC101 and before you push to any of the team's Tiny Tapeout projects, whether
 that's joining Sentry, HART-1 or the protocol emulator, or starting a project of your own. It
-assumes nothing beyond IC101: no Verilog and no layout. Each lab ships the design it needs (the
-template's adder, then an 8-bit counter, a sandbox of small blocks you share with a partner, and
-an LED dimmer's history), so the skills you practise are the ones around the design: git,
-GitHub's workflows, pull requests and review. Writing the designs themselves is what the DD courses teach.
+assumes nothing beyond IC101: no Verilog and no layout. Each lab ships the design it needs: the
+template's adder, an 8-bit counter, a review sandbox that you and a partner each copy, and an LED
+dimmer's history. You practise git, GitHub's workflows, pull requests and review on them. Writing
+the designs themselves is what the DD courses teach.
 
 There are two versions of IC102. Take this one, IC102-D, if your project is written in Verilog
 or SystemVerilog and Tiny Tapeout's `gds` workflow builds its layout. Take

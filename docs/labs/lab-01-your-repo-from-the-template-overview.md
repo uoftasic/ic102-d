@@ -120,9 +120,12 @@ What will your commits say about you, and how will git prove to GitHub that it's
    - **All repositories** under **Repository access**, because the repositories for Labs 04 and
      05 don't exist yet. The form starts on "Public repositories", so you have to change it.
    - two repository permissions, **Contents** and **Workflows**, both "Read and write". Contents
-     is the permission every push needs. You need Workflows as well, because GitHub rejects a
-     push that adds or changes a file under `.github/workflows/` unless the token has it, and two
-     of your pushes, in Labs 04 and 05, do that. To add them, press **Add permissions** under
+     is the permission every push needs. You need Workflows as well, because it's the permission
+     that lets a token add or change files under `.github/workflows/`, and two of your pushes, in
+     Labs 04 and 05, do that. GitHub's documentation gives the same two permissions, for the same
+     reasons, to a GitHub App that uses git
+     ([choosing permissions for Git access](https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app#choosing-permissions-for-git-access)).
+     To add them, press **Add permissions** under
      **Permissions** and tick both in the list it opens. Three rows appear, because GitHub adds
      Metadata ("Required", "Read-only") by itself. Workflows comes in as "Read and write", the
      only choice its menu has, but Contents comes in as "Read-only", so change it to "Read and

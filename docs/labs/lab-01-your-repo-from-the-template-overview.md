@@ -137,8 +137,6 @@ What will your commits say about you, and how will git prove to GitHub that it's
    [Getting started](../guide/getting-started.md#where-you-run-git) says why the course uses this
    kind of token and not a classic one.
 
-   <!-- RUN-TODO: test the token from the workbench: a push to the student's own repository, the first push of the Lab 04 sandbox copy (workflow files) to a new empty repository, a branch push to the student's fork; and quote GitHub's refusal when Workflows is left out. Still open on Nov 16, 2026, after three attempts. The live test couldn't make a fine-grained token (an account setting), and the second attempt stopped at GitHub's sudo prompt on the new-token page. The third, that evening, got the form with no prompt and filled it (the screenshot above), but the agent session's permission system refused the command that would have pressed Generate token, so no token was made and nothing was pushed with one. Its test tokens were to be limited to the four practice repositories, with a one-day expiry, where the students' token covers all of their repositories. The day's pushes used gh's OAuth token (scopes repo and workflow), and with it these worked: to the template repository, the sandbox's first push with .github/workflows/ to an empty repository, a branch with a pull request, a branch pushed to a fork (of an organization repository standing in for the partner's), and the Lab 05 history (pushed with --force over the practice repository's main, because only two test repositories were allowed). Not tested: a fine-grained token, and the refusal without Workflows. -->
-
 You should see: a no-reply address and a token, both copied somewhere safe.
 
 ## Part 3: Make the repository

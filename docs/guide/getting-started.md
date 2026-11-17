@@ -68,10 +68,12 @@ The token is a fine-grained personal access token for your own account, with acc
 your repositories and two permissions, both "Read and write":
 
 - **Contents**, which is what pushing commits needs.
-- **Workflows**, because GitHub rejects a push that adds or changes a file under
-  `.github/workflows/` from a token without it. You won't edit a workflow in this course, but two
-  of your pushes carry workflow files: the first push of your Lab 04 review repository, and the
-  first push of Lab 05's history.
+- **Workflows**, which lets a token add or change files under `.github/workflows/`. You won't
+  edit a workflow in this course, but two of your pushes carry workflow files: the first push of
+  your Lab 04 review repository, and the first push of Lab 05's history.
+
+GitHub's documentation gives the same two permissions, for the same reasons, to a GitHub App that
+uses git ([choosing permissions for Git access](https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app#choosing-permissions-for-git-access)).
 
 It needs all of your repositories, rather than a list, because the ones for Labs 04 and 05 don't
 exist yet when you make it in Lab 01. Every push in the course goes to a repository you own,

@@ -32,7 +32,7 @@ If you haven't set up the workbench yet, do
 2. Load the environment and get the course files:
 
    ```bash
-   . /foss/designs/common/.designinit   # in every new terminal
+   . /foss/designs/common/.designinit   # a new terminal loads this by itself; safe to rerun
    mod add ic102-d                      # first time only: clones github.com/uoftasic/ic102-d
    mod ic102-d                          # every time, including the first
    ```

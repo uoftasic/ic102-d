@@ -250,7 +250,7 @@ Does the runner's test job see what your workbench saw?
    the gate-level netlist. `docs`, `gds`, `precheck` and `viewer` pass, because the design still
    builds; it just does the wrong thing. The runner's message and `SIM TIME` match yours exactly,
    because the runner used the same cocotb 2.1.0 and Icarus 12.0. In the course's practice
-   repository ([run 43841055248](https://github.com/vproHacks/ic102-test-d/actions/runs/43841055248))
+   repository (run 43841055248)
    "Run tests" printed `Initialized cocotb v2.1.0 from /opt/hostedtoolcache/Python/3.11.18/...`,
    `Running on Icarus Verilog version 12.0 (stable)`, and:
 
@@ -341,7 +341,7 @@ Where do the numbers on the run's summary page come from?
    ```
 
    In the course's practice repository, whose counter's summary is the one in the picture above
-   ([run 43839710228](https://github.com/vproHacks/ic102-test-d/actions/runs/43839710228)), they
+   (run 43839710228), they
    read:
 
    ```
@@ -393,7 +393,7 @@ reset." Find out what happens if you ignore that.
    `test_reset` and `test_count_up`. Synthesis can't build an `initial` statement into a
    flip-flop, so in the netlist the count starts unknown, and counting up from unknown stays
    unknown. `test_load` passes, because loading sets every bit. In the course's practice
-   repository ([run 43843559172](https://github.com/vproHacks/ic102-test-d/actions/runs/43843559172)),
+   repository (run 43843559172),
    `gl_test` ran the three tests on the runner's netlist with Icarus 13.0 and printed:
 
    ```

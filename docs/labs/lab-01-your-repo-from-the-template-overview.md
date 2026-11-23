@@ -269,7 +269,7 @@ Which of the six jobs pass once `info.yaml` and `docs/info.md` are filled in?
    </details>
 
 5. Open the `viewer` job's log (you have to be signed in to GitHub to see it) and find the line
-   that says what to do. In the practice repository's run [43826443768](https://github.com/vproHacks/ic102-test-d/actions/runs/43826443768)
+   that says what to do. In the practice repository's run 43826443768
    it was:
 
    ```

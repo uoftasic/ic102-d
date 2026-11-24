@@ -57,3 +57,11 @@ mjx-container:not([display="true"]) {
     max-width: none;
   }
 }
+
+/* Navbar items stay on one line. Between 992 and about 1040 px wide they don't
+   all fit beside this course's long title; without this, "← All courses" and
+   "Course PDF" wrap onto two lines and the navbar grows taller. With it, Quarto
+   cuts the title shorter with "…" instead. */
+.navbar .nav-link {
+  white-space: nowrap;
+}
